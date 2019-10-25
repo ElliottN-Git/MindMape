@@ -4,6 +4,8 @@
  * required.
  */
 
+ --Amber was here
+
 CREATE TABLE IF NOT EXISTS users (
 	userId INTEGER NOT NULL PRIMARY KEY,
 	username VARCHAR(20),
@@ -11,6 +13,7 @@ CREATE TABLE IF NOT EXISTS users (
 	fname VARCHAR(30),
 	lname VARCHAR(50),
 	age INTEGER,
+    gender VARCHAR (12),
 	email VARCHAR(50),
 	ph_Num INTEGER,
 	avatarId INTEGER,
