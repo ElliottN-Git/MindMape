@@ -30,7 +30,7 @@ router.get("/signup", function(req, res) {
     //     };
     // }
 
-    res.render("signUp", context);
+    res.render("signUp"); //context object commented out for testing
 });
 
 router.post("/signup", upload.single("imageFile"), function(req, res) {

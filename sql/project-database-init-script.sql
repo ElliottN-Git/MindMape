@@ -21,7 +21,7 @@ CREATE TABLE IF NOT EXISTS users (
 	email VARCHAR(50) UNIQUE,
 	ph_Num INTEGER,
 	avatarId INTEGER,
-	country VARCHAR(3)
+	country VARCHAR(20)
 );
 
 CREATE TABLE IF NOT EXISTS socialMedia (
