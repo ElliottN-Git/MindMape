@@ -2,6 +2,10 @@
 const express = require("express");
 const router = express.Router();
 
+//Setup multer-upload and fs
+const upload = require("upload");
+const fs = require("fs");
+
 // Route handlers
 // -------------------------------------------------------------------------
 
