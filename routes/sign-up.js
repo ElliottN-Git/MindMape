@@ -3,7 +3,7 @@ const express = require("express");
 const router = express.Router();
 
 //Setup multer-upload and fs
-const upload = require("upload");
+const upload = require("../modules/multer-uploader");
 const fs = require("fs");
 
 // Route handlers
@@ -55,7 +55,7 @@ router.post("/signup", upload.single("imageFile"), function(req, res) {
     // Redirect to the admin page
     res.redirect("/userProfile");
 
-    
+
     // let detailsCookie = {
     //     name: req.body.name,
     //     address: req.body.address,
