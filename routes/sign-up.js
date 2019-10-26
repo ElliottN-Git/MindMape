@@ -6,6 +6,9 @@ const router = express.Router();
 const upload = require("../modules/multer-uploader");
 const fs = require("fs");
 
+//Setup userDao
+const userDao = require("../modules/userDao");
+
 // Route handlers
 // -------------------------------------------------------------------------
 
@@ -39,8 +42,9 @@ router.post("/signup", upload.single("imageFile"), function(req, res) {
     const newFileName = `./public/images/${fileInfo.originalname}`;
     fs.renameSync(oldFileName, newFileName);
 
-    // Store the new pokemon to the data file
+    // Store the new user to the data file
     const newUser = {
+        username: userInfo.username,
         fname: userInfo.fname,
         lname: userInfo.lname,
         dob: userInfo.DOB,
@@ -50,7 +54,7 @@ router.post("/signup", upload.single("imageFile"), function(req, res) {
         country: userInfo.country,
         imageUrl: fileInfo.originalname
     };
-    pokemonDb.addPokemon(newUser);
+    userDao.createUser(newUser);
 
     // Redirect to the admin page
     res.redirect("/userProfile");
