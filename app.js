@@ -41,6 +41,12 @@ app.use(express.static(path.join(__dirname, "public")));
 const appRouter = require("./routes/application-routes.js");
 app.use(appRouter);
 
+const loginRouter = require("./routes/login-routes.js");
+app.use(loginRouter);
+
+const signUpRouter = require("./routes/sign-up.js");
+app.use(signUpRouter);
+
 // Start the server running.
 app.listen(port, function () {
     console.log(`App listening on port ${port}!`);
