@@ -15,7 +15,7 @@ CREATE TABLE IF NOT EXISTS users (
     gender VARCHAR (12),
 	email VARCHAR(50),
 	ph_Num INTEGER,
-	avatarId INTEGER,
+	avatarId INTEGER PRIMARY KEY,
 	country VARCHAR(3),
     UNIQUE (username, email)
 );
