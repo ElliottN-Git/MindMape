@@ -32,6 +32,9 @@ app.use(session({
    secret: "CS719"
 }));
 
+// Setup SQLite
+const sqlite = require("sqlite3");
+
 // Make the "public" folder available statically
 const path = require("path");
 app.use(express.static(path.join(__dirname, "public")));
