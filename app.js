@@ -33,7 +33,8 @@ app.use(session({
 }));
 
 // Setup SQLite
-const sqlite = require("sqlite3");
+const sqlite3 = require("sqlite3");
+const sqlite = require("sqlite");
 
 // Make the "public" folder available statically
 const path = require("path");
