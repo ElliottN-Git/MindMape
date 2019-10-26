@@ -24,6 +24,7 @@ app.use(bodyParser.urlencoded({extended: false}));
 const cookieParser = require("cookie-parser");
 app.use(cookieParser());
 
+
 // Setup express-session
 const session = require("express-session");
 app.use(session({

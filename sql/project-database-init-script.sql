@@ -4,12 +4,11 @@
  * required.
  */
 
- --Amber was here
-
 CREATE TABLE IF NOT EXISTS users (
 	userId INTEGER NOT NULL PRIMARY KEY,
 	username VARCHAR(20),
-	pword VARCHAR(16),
+	pwordSalt VARCHAR(100),
+    pwordHash VARCHAR(100),
 	fname VARCHAR(30),
 	lname VARCHAR(50),
 	age INTEGER,
