@@ -10,8 +10,8 @@ DROP TABLE IF EXISTS articles;
 DROP TABLE IF EXISTS comments;
 
 CREATE TABLE IF NOT EXISTS users (
-	userId INTEGER NOT NULL PRIMARY KEY,
-	username VARCHAR(20) UNIQUE,
+	userId INTEGER NOT NULL,
+	username VARCHAR(20),
 	pwordSalt VARCHAR(100),
     pwordHash VARCHAR(100),
 	fname VARCHAR(30),
@@ -21,7 +21,9 @@ CREATE TABLE IF NOT EXISTS users (
 	email VARCHAR(50) UNIQUE,
 	ph_Num INTEGER,
 	avatarId INTEGER,
-	country VARCHAR(20)
+	country VARCHAR(20),
+    PRIMARY KEY (userId, avatarId),
+    UNIQUE (username, email)
 );
 
 CREATE TABLE IF NOT EXISTS socialMedia (
