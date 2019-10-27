@@ -5,7 +5,7 @@
  */
 
 CREATE TABLE IF NOT EXISTS users (
-	userId INTEGER NOT NULL PRIMARY KEY,
+	userId INTEGER NOT NULL,
 	username VARCHAR(20),
 	pwordSalt VARCHAR(100),
     pwordHash VARCHAR(100),
@@ -15,8 +15,9 @@ CREATE TABLE IF NOT EXISTS users (
     gender VARCHAR (12),
 	email VARCHAR(50),
 	ph_Num INTEGER,
-	avatarId INTEGER PRIMARY KEY,
+	avatarId INTEGER,
 	country VARCHAR(3),
+    PRIMARY KEY (userId, avatarId),
     UNIQUE (username, email)
 );
 

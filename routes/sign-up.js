@@ -1,10 +1,9 @@
 // Setup express router
 const express = require("express");
 const router = express.Router();
-
-//Setup multer-upload and fs
 const upload = require("../modules/multer-uploader");
 const fs = require("fs");
+const userProcess = require("../modules/user-process");
 
 // Route handlers
 // -------------------------------------------------------------------------
@@ -50,12 +49,12 @@ router.post("/signup", upload.single("imageFile"), function(req, res) {
         country: userInfo.country,
         imageUrl: fileInfo.originalname
     };
-    pokemonDb.addPokemon(newUser);
+    userProcess.validateUserData(newUser);
 
     // Redirect to the admin page
     res.redirect("/userProfile");
 
-
+    
     // let detailsCookie = {
     //     name: req.body.name,
     //     address: req.body.address,
@@ -74,14 +73,14 @@ router.post("/signup", upload.single("imageFile"), function(req, res) {
 // Show the details stored in the cookie
 router.get("/userProfile", function(req, res) {
 
-    const userCookie = req.cookies["details"];
-    const context = {
-        name: userCookie.name,
-        address: userCookie.address,
-        phoneNum: userCookie.phoneNum
-    };
+    // const userCookie = req.cookies["details"];
+    // const context = {
+    //     name: userCookie.name,
+    //     address: userCookie.address,
+    //     phoneNum: userCookie.phoneNum
+    // };
     
-    res.render("userProfile", context);
+    res.render("userProfile");
 });
 
 // -------------------------------------------------------------------------
