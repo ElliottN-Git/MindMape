@@ -1,5 +1,6 @@
 const SQL = require("sql-template-strings");
 const dbPromise = require("./database.js");
+const crypto = require("./crypto");
 
 async function createTestData(testData) {
     const db = await dbPromise;
@@ -10,46 +11,74 @@ async function createTestData(testData) {
     testData.id = result.lastID;
 }
 
-async function retrieveTestDataById(id) {
+async function retrieveUserDataById(id) {
     const db = await dbPromise;
 
     const testData = await db.get(SQL`
-        select * from test
-        where id = ${id}`);
+        select * from users
+        where userId = ${id}`);
 
     return testData;
 }
 
-async function retrieveAllTestData() {
+async function retrieveAllUserData() {
     const db = await dbPromise;
 
-    const allTestData = await db.all(SQL`select * from test`);
+    const allTestData = await db.all(SQL`select * from users`);
 
     return allTestData;
 }
 
-async function updateTestData(testData) {
+async function createUser(newUserData) {
     const db = await dbPromise;
 
+    //Salt and hash password
+    //Store only salt and hashed password
+    //TODO two password input fields with string comparison on passwords
+    const saltedHashedPword = crypto.saltHashPassword(newUserData.password);
+    console.log(`Salt is: ${saltedHashedPword.salt}`);
+    console.log(`Hashed pword is: ${saltedHashedPword.passwordHash}`);
+
+
     await db.run(SQL`
-        update test
-        set stuff = ${testData.stuff}
-        where id = ${testData.id}`);
+        INSERT INTO users (username, pwordSalt, pwordHash, fname, lname, dob, gender, email, phoneNum, avatarId, country) VALUES (
+            ${newUserData.username}, 
+            ${saltedHashedPword.salt},
+            ${saltedHashedPword.passwordHash},
+            ${newUserData.fname},
+            ${newUserData.lname},
+            ${newUserData.dob},
+            ${newUserData.gender},
+            ${newUserData.email},
+            ${newUserData.phoneNum},
+            ${newUserData.country},
+            ${newUserData.imageUrl}
+        )`)
 }
 
-async function deleteTestData(id) {
+async function updateUserData(userData) {
     const db = await dbPromise;
 
     await db.run(SQL`
-        delete from test
+        update users
+        set stuff = ${userData.stuff}
+        where id = ${userData.id}`);
+}
+
+async function deleteUserData(id) {
+    const db = await dbPromise;
+
+    await db.run(SQL`
+        delete from users
         where id = ${id}`);
 }
 
 // Export functions.
 module.exports = {
     createTestData,
-    retrieveTestDataById,
-    retrieveAllTestData,
-    updateTestData,
-    deleteTestData
+    retrieveUserDataById,
+    retrieveAllUserData,
+    createUser,
+    updateUserData,
+    deleteUserData
 };

@@ -1,3 +1,3 @@
 const sqlite = require("sqlite");
-const dbPromise = sqlite.open("./project-database.db");
+const dbPromise = sqlite.open("./mindMAPE-db.db");
 module.exports = dbPromise;

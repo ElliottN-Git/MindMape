@@ -4,6 +4,11 @@
  * required.
  */
 
+DROP TABLE IF EXISTS users;
+DROP TABLE IF EXISTS socialMedia;
+DROP TABLE IF EXISTS articles;
+DROP TABLE IF EXISTS comments;
+
 CREATE TABLE IF NOT EXISTS users (
 	userId INTEGER NOT NULL,
 	username VARCHAR(20),
@@ -11,12 +16,12 @@ CREATE TABLE IF NOT EXISTS users (
     pwordHash VARCHAR(100),
 	fname VARCHAR(30),
 	lname VARCHAR(50),
-	age INTEGER,
+	dob DATE,
     gender VARCHAR (12),
-	email VARCHAR(50),
-	ph_Num INTEGER,
+	email VARCHAR(50) UNIQUE,
+	phoneNum INTEGER,
 	avatarId INTEGER,
-	country VARCHAR(3),
+	country VARCHAR(20),
     PRIMARY KEY (userId, avatarId),
     UNIQUE (username, email)
 );

@@ -5,6 +5,9 @@ const upload = require("../modules/multer-uploader");
 const fs = require("fs");
 const userProcess = require("../modules/user-process");
 
+//Setup userDao
+const userDao = require("../modules/userDao");
+
 // Route handlers
 // -------------------------------------------------------------------------
 
@@ -26,7 +29,7 @@ router.get("/signup", function(req, res) {
     //     };
     // }
 
-    res.render("signUp", context);
+    res.render("signUp"); //context object commented out for testing
 });
 
 router.post("/signup", upload.single("imageFile"), function(req, res) {
@@ -38,20 +41,26 @@ router.post("/signup", upload.single("imageFile"), function(req, res) {
     const newFileName = `./public/images/${fileInfo.originalname}`;
     fs.renameSync(oldFileName, newFileName);
 
-    // Store the new pokemon to the data file
+    // Store the new user to the data file
     const newUser = {
+        username: userInfo.userName,
+        password: "testpword",
         fname: userInfo.fname,
         lname: userInfo.lname,
         dob: userInfo.DOB,
         gender: userInfo.gender,
         email: userInfo.email,
-        phNum: userInfo.phoneNum,
+        phoneNum: userInfo.phoneNum,
         country: userInfo.country,
         imageUrl: fileInfo.originalname
     };
+    console.log(newUser);
     userProcess.validateUserData(newUser);
+    
+    userDao.createUser(newUser);
+    
 
-    // Redirect to the admin page
+    // Redirect to the userProfile page
     res.redirect("/userProfile");
 
     

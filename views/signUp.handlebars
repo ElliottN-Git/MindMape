@@ -16,7 +16,7 @@
             </h5>
             <div class="card-body">
                 <p class="card-text">Please fill out your details here.</p>
-                <form action="./submit" method="POST">
+                <form action="./signup" method="POST" enctype="multipart/form-data">
                     <div class="form-group">
                         <label for="txtFName">First Name:</label>
                         <input type="text" class="form-control" id="txtFName" name="fname" value="{{fname}}">
@@ -26,6 +26,11 @@
                         <label for="txtLName">Last Name:</label>
                         <input type="text" class="form-control" id="txtLName" name="lname" value="{{lname}}">
                     </div>
+
+                    <div class="form-group">
+                        <label for="txtUName">Username:</label>
+                        <input type="text" class="form-control" id="txtUName" name="userName" value="{{userName}}">
+                    </div
 
                     <div class="form-group">
                         <label for="bday">Date of Birth:</label>
@@ -261,7 +266,7 @@
                             <option value="Spain">Spain</option>
                             <option value="Sri Lanka">Sri Lanka</option>
                             <option value="Sudan">Sudan</option>
-                            <option value="Suriname">Sur name</option>
+                            <option value="Suriname">Suriname</option>
                             <option value="Svalbard and Jan Mayen">Svalbard and Jan Mayen</option>
                             <option value="Swaziland">Swaziland</option>
                             <option value="Sweden">Sweden</option>
