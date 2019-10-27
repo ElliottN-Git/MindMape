@@ -36,20 +36,21 @@ async function createUser(newUserData) {
     //Store only salt and hashed password
     //TODO two password input fields with string comparison on passwords
     const saltedHashedPword = crypto.saltHashPassword(newUserData.password);
-    console.log(saltedHashedPword.passwordData.salt);
-    console.log(saltedHashedPword.passwordData.passwordHash);
+    console.log(`Salt is: ${saltedHashedPword.salt}`);
+    console.log(`Hashed pword is: ${saltedHashedPword.passwordHash}`);
+
 
     await db.run(SQL`
         INSERT INTO users (username, pwordSalt, pwordHash, fname, lname, dob, gender, email, ph_Num, avatarId, country) VALUES (
             ${newUserData.username}, 
-            ${saltedHashedPword.passwordData.salt},
-            ${saltedHashedPword.passwordData.passwordHash},
+            ${saltedHashedPword.salt},
+            ${saltedHashedPword.passwordHash},
             ${newUserData.fname},
             ${newUserData.lname},
             ${newUserData.dob},
             ${newUserData.gender},
             ${newUserData.email},
-            ${newUserData.phNum},
+            ${newUserData.phoneNum},
             ${newUserData.country},
             ${newUserData.imageUrl}
         )`)

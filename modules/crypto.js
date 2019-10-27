@@ -34,8 +34,13 @@ function saltHashPassword(userpassword) {
 
     //TODO remove -- testing only!
     console.log('UserPassword = '+userpassword);
-    console.log('Passwordhash = '+passwordData.passwordHash);
     console.log('nSalt = '+passwordData.salt);
+    console.log('Passwordhash = '+passwordData.passwordHash);
+
+    return {
+        salt: passwordData.salt,
+        passwordHash: passwordData.passwordHash
+    };
 }
 
 //Test to show that the hashed and salted password is different each time even for the same password

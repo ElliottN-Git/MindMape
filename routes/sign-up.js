@@ -43,19 +43,20 @@ router.post("/signup", upload.single("imageFile"), function(req, res) {
 
     // Store the new user to the data file
     const newUser = {
-        username: userInfo.username,
+        username: userInfo.userName,
+        password: "testpword",
         fname: userInfo.fname,
         lname: userInfo.lname,
         dob: userInfo.DOB,
         gender: userInfo.gender,
         email: userInfo.email,
-        phNum: userInfo.phoneNum,
+        phoneNum: userInfo.phoneNum,
         country: userInfo.country,
         imageUrl: fileInfo.originalname
     };
-
+    console.log(newUser);
     userProcess.validateUserData(newUser);
-    console.log(userProcess.validateUserData(newUser));
+    
     userDao.createUser(newUser);
     
 

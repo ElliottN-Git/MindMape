@@ -10,23 +10,24 @@ function validateUserData(user) {
     if (!user.username) {
         throw "no username!";
     }
-    if (!user.password) {
-        throw "no password!";
-    }
-    if (!user.DOB) {
-        throw "no date of birth!";
+    //Commented out for testing signup details to database
+    // if (!user.password) {
+    //     throw "no password!";
+    // }
+    if (!user.dob) {
+        throw "No date of birth!";
     }
     if (!user.imageUrl) {
-        throw "no imageUrl!";
+        throw "No imageUrl!";
     }
     if (!user.email) {
-        throw "no email!";
+        throw "No email!";
     }
     if (user.gender === undefined) {
-        throw "undefined gender!";
+        throw "Undefined gender!";
     }
     if (user.country === undefined) {
-        throw "undefined country!";
+        throw "Undefined country!";
     }
     if (isNaN(user.phoneNum)) {
         throw "Supplied phone number is not a number!";
