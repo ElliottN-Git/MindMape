@@ -19,7 +19,7 @@ CREATE TABLE IF NOT EXISTS users (
 	dob DATE,
     gender VARCHAR (12),
 	email VARCHAR(50) UNIQUE,
-	ph_Num INTEGER,
+	phoneNum INTEGER,
 	avatarId INTEGER,
 	country VARCHAR(20),
     PRIMARY KEY (userId, avatarId),

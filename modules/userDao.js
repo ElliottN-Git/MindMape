@@ -41,7 +41,7 @@ async function createUser(newUserData) {
 
 
     await db.run(SQL`
-        INSERT INTO users (username, pwordSalt, pwordHash, fname, lname, dob, gender, email, ph_Num, avatarId, country) VALUES (
+        INSERT INTO users (username, pwordSalt, pwordHash, fname, lname, dob, gender, email, phoneNum, avatarId, country) VALUES (
             ${newUserData.username}, 
             ${saltedHashedPword.salt},
             ${saltedHashedPword.passwordHash},
