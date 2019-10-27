@@ -39,8 +39,8 @@ function saltHashPassword(userpassword) {
 }
 
 //Test to show that the hashed and salted password is different each time even for the same password
-saltHashPassword('MYPASSWORD');
-saltHashPassword('MYPASSWORD');
+//saltHashPassword('MYPASSWORD');
+//saltHashPassword('MYPASSWORD');
 
 // sha512(userPasswordInput, saltFromDB) compared to storedHashedPword.
 
