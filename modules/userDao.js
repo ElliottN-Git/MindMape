@@ -2,31 +2,35 @@ const SQL = require("sql-template-strings");
 const dbPromise = require("./database.js");
 const crypto = require("./crypto");
 
-async function createTestData(testData) {
-    const db = await dbPromise;
-
-    const result = await db.run(SQL`
-        insert into test (stuff) values(${testData.stuff})`);
-
-    testData.id = result.lastID;
-}
-
 async function retrieveUserDataById(id) {
     const db = await dbPromise;
 
-    const testData = await db.get(SQL`
+    const userData = await db.get(SQL`
         select * from users
         where userId = ${id}`);
 
-    return testData;
+    return userData;
 }
 
 async function retrieveAllUserData() {
     const db = await dbPromise;
 
-    const allTestData = await db.all(SQL`select * from users`);
+    const allUserData = await db.all(SQL`select * from users`);
 
-    return allTestData;
+    return allUserData;
+}
+
+async function checkUserName(userName) {
+    const db = await dbPromise;
+    const getUsername = await db.get(SQL`
+    SELECT username FROM users
+    WHERE username = ${userName}`);
+    return getUsername;
+    // if(getUsername == undefined) {
+    //     return false;
+    // } else {
+    //     return true;
+    // }
 }
 
 async function createUser(newUserData) {
@@ -75,10 +79,10 @@ async function deleteUserData(id) {
 
 // Export functions.
 module.exports = {
-    createTestData,
     retrieveUserDataById,
     retrieveAllUserData,
     createUser,
     updateUserData,
-    deleteUserData
+    deleteUserData,
+    checkUserName
 };

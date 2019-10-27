@@ -54,14 +54,17 @@ router.post("/signup", upload.single("imageFile"), function(req, res) {
         country: userInfo.country,
         imageUrl: fileInfo.originalname
     };
+    //output to console for testing
     console.log(newUser);
+    //confirms all fields are properly filled out and the input is valid
+    //If username is taken will throw error - need to improve error handling so it's not just
+    //blank page with the message
     userProcess.validateUserData(newUser);
-    
+   
+    //sends to the user data access object to create new user in db
     userDao.createUser(newUser);
-    
-
     // Redirect to the userProfile page
-    res.redirect("/userProfile");
+    res.redirect("/userProfile", message);
 
     
     // let detailsCookie = {

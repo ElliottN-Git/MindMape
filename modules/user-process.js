@@ -1,4 +1,5 @@
 const fs = require("fs");
+const userDao = require("../modules/userDao");
 
 function validateUserData(user) {
     if (!user.fname) {
@@ -31,6 +32,10 @@ function validateUserData(user) {
     }
     if (isNaN(user.phoneNum)) {
         throw "Supplied phone number is not a number!";
+    }
+
+    if(userDao.checkUserName(user.username) != undefined) {
+        throw message = "Username already taken!";
     }
 
     return {
