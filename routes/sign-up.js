@@ -55,10 +55,11 @@ router.post("/signup", upload.single("imageFile"), function(req, res) {
     };
 
     userProcess.validateUserData(newUser);
+    console.log(userProcess.validateUserData(newUser));
     userDao.createUser(newUser);
     
 
-    // Redirect to the admin page
+    // Redirect to the userProfile page
     res.redirect("/userProfile");
 
     

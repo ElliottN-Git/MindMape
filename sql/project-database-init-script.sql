@@ -16,7 +16,7 @@ CREATE TABLE IF NOT EXISTS users (
     pwordHash VARCHAR(100),
 	fname VARCHAR(30),
 	lname VARCHAR(50),
-	age INTEGER,
+	dob DATE,
     gender VARCHAR (12),
 	email VARCHAR(50) UNIQUE,
 	ph_Num INTEGER,
