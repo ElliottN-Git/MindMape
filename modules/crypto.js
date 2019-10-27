@@ -31,6 +31,8 @@ const sha512 = function(password, salt){
 function saltHashPassword(userpassword) {
     const salt = genRandomString(16); /** Gives us salt of length 16 */
     const passwordData = sha512(userpassword, salt);
+
+    //TODO remove -- testing only!
     console.log('UserPassword = '+userpassword);
     console.log('Passwordhash = '+passwordData.passwordHash);
     console.log('nSalt = '+passwordData.salt);
@@ -41,3 +43,8 @@ saltHashPassword('MYPASSWORD');
 saltHashPassword('MYPASSWORD');
 
 // sha512(userPasswordInput, saltFromDB) compared to storedHashedPword.
+
+module.exports = {
+    saltHashPassword,
+    sha512
+};
