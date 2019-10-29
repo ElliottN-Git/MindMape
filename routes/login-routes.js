@@ -29,12 +29,17 @@ router.post("/login", function(req, res) {
     const user = userDao.authenticateLogin(username, password);
 
     if (user) {
-        // Auth success - add the user to the session, and redirect to the homepage.
+        // Auth success - add the user to the session, and render to the homepage.
         req.session.user = user;
-        res.redirect("/userProfile?message=Login successful");
+        const context = {
+            loggedIn: true,
+            message: "Successfully logged in!"
+        };
+        res.render("home", context);
+        // res.redirect("/userProfile?message=Login successful");
     }
     else {
-        // Auth fail
+        // Auth fail - redirect user to the login page with a message.
         res.redirect("./login?message=Authentication failed!");
     }
 });
@@ -43,7 +48,11 @@ router.get("/logout", function(req, res) {
     if (req.session.user) {
         delete req.session.user;
     }
-    res.redirect("./login?message=Successfully logged out!");
+    const context = {
+        loggedIn: false,
+        message: "Successfully logged out!"
+    }
+    res.render("home", context);
 });
 
 module.exports = router;

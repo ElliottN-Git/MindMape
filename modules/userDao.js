@@ -60,7 +60,6 @@ async function createUser(newUserData) {
     console.log(`Salt is: ${saltedHashedPword.salt}`);
     console.log(`Hashed pword is: ${saltedHashedPword.passwordHash}`);
 
-
     await db.run(SQL`
         INSERT INTO users (username, pwordSalt, pwordHash, fname, lname, dob, gender, email, phoneNum, avatarId, country) VALUES (
             ${newUserData.username}, 

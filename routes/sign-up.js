@@ -33,6 +33,9 @@ router.get("/signup", function(req, res) {
 });
 
 router.post("/signup", upload.single("imageFile"), function(req, res) {
+    if(!userDao.checkUserName(req.body.userName)) {
+
+    }
     const fileInfo = req.file;
     const userInfo = req.body;
 
@@ -41,7 +44,7 @@ router.post("/signup", upload.single("imageFile"), function(req, res) {
     const newFileName = `./public/images/${fileInfo.originalname}`;
     fs.renameSync(oldFileName, newFileName);
 
-//TODO convert uploaded image to thumbnail-size.
+    //TODO convert uploaded image to thumbnail-size.
 
     // Store the new user to the data file
     const newUser = {
@@ -62,12 +65,14 @@ router.post("/signup", upload.single("imageFile"), function(req, res) {
     //confirms all fields are properly filled out and the input is valid
     //If username is taken will throw error - need to improve error handling so it's not just
     //blank page with the message
-    userProcess.validateUserData(newUser);
+    if(userProcess.validateUserData(newUser)) {
+        //sends to the user data access object to create new user in db
+        userDao.createUser(newUser);
+        // Redirect to the userProfile page
+        res.redirect("/userProfile?message=Successfully created your account!");
+    }
    
-    //sends to the user data access object to create new user in db
-    userDao.createUser(newUser);
-    // Redirect to the userProfile page
-    res.redirect("/userProfile?message=Successfully created your account!");
+    
 
     
     // let detailsCookie = {
