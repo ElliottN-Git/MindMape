@@ -6,7 +6,7 @@ function verifyAuthenticated(req, res, next) {
         next();
     }
     else {
-        res.redirect("/login?message=Please login to continue.");
+        res.render("home");
     }
 }
 
