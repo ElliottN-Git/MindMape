@@ -7,8 +7,6 @@ const verifyAuthenticated = require("../modules/verify-auth.js");
 
 router.get("/", verifyAuthenticated, async function(req, res) {
 
-    res.locals.title = "TEAM MAPE";
-
     res.render("home");
 });
 
