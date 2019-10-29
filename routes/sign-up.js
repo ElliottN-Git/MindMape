@@ -41,6 +41,8 @@ router.post("/signup", upload.single("imageFile"), function(req, res) {
     const newFileName = `./public/images/${fileInfo.originalname}`;
     fs.renameSync(oldFileName, newFileName);
 
+//TODO convert uploaded image to thumbnail-size.
+
     // Store the new user to the data file
     const newUser = {
         username: userInfo.userName,
@@ -65,7 +67,7 @@ router.post("/signup", upload.single("imageFile"), function(req, res) {
     //sends to the user data access object to create new user in db
     userDao.createUser(newUser);
     // Redirect to the userProfile page
-    res.redirect("/userProfile", message);
+    res.redirect("/userProfile?message=Successfully created your account!");
 
     
     // let detailsCookie = {

@@ -1,3 +1,5 @@
+//NOT USING THIS - USING DAOs INSTEAD
+
 const users = [
     {
         username: "user1",

@@ -33,6 +33,23 @@ async function checkUserName(userName) {
     // }
 }
 
+async function authenticateLogin(username, password) {
+    const db = await dbPromise;
+    const getUser = await db.get(SQL`
+    SELECT * FROM users WHERE username = "${username}"`);
+
+    console.log(getUser);
+
+    const dbHashedPassWord = getUser.pwordHash;
+    console.log(dbHashedPassWord);
+    const enteredHashedPassWord = crypto.sha512(password, getUser.pwordSalt);
+    console.log(enteredHashedPassWord);
+
+    if(dbHashedPassWord === enteredHashedPassWord) {
+        return getUser;
+    }
+}
+
 async function createUser(newUserData) {
     const db = await dbPromise;
 
@@ -82,6 +99,7 @@ async function deleteUserData(id) {
 module.exports = {
     retrieveUserDataById,
     retrieveAllUserData,
+    authenticateLogin,
     createUser,
     updateUserData,
     deleteUserData,
