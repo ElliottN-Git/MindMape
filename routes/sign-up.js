@@ -33,9 +33,6 @@ router.get("/signup", function(req, res) {
 });
 
 router.post("/signup", upload.single("imageFile"), function(req, res) {
-    if(!userDao.checkUserName(req.body.userName)) {
-
-    }
     const fileInfo = req.file;
     const userInfo = req.body;
 
