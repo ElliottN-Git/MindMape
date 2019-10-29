@@ -54,7 +54,6 @@ router.post("/signup", upload.single("imageFile"), function(req, res) {
         email: userInfo.email,
         phoneNum: userInfo.phoneNum,
         country: userInfo.country,
-        personalDescription: userInfo.personalDescription,
         imageUrl: fileInfo.originalname
     };
     //output to console for testing
