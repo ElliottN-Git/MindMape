@@ -55,8 +55,12 @@
                         </li>
                         <li class="{{#if homePage}} active{{/if}}"><a href="./">About</a></li>
                         
+                        {{#if loggedIn}}
+                        <li class="active"><a href="./logout">logout</a></li>
+                        {{else}}
                         <li class="{{#if homePage}} active{{/if}}"><a href="./login">Login!</a></li>
                         <li class="active"><a href="./signup">Create account</a></li>
+                        {{/if}}
                     </ul>
                 </div>
             </div>
