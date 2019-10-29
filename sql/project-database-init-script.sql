@@ -10,7 +10,7 @@ DROP TABLE IF EXISTS articles;
 DROP TABLE IF EXISTS comments;
 
 CREATE TABLE IF NOT EXISTS users (
-	userId INTEGER NOT NULL,
+	userId INTEGER NOT NULL PRIMARY KEY,
 	username VARCHAR(20),
 	pwordSalt VARCHAR(100),
     pwordHash VARCHAR(100),
@@ -22,7 +22,7 @@ CREATE TABLE IF NOT EXISTS users (
 	phoneNum INTEGER,
 	avatarId INTEGER,
 	country VARCHAR(20),
-    PRIMARY KEY (userId, avatarId),
+    personalDescription VARCHAR,
     UNIQUE (username, email)
 );
 
@@ -54,4 +54,8 @@ CREATE TABLE IF NOT EXISTS comments (
     FOREIGN KEY (userId) REFERENCES users (userId),
     FOREIGN KEY (articleId) REFERENCES articles (articleId),
     FOREIGN KEY (replyTo_Id) REFERENCES comments (commentId)
+);
+
+INSERT INTO users (username, pwordsalt, pwordHash, fname, lname, dob, gender, email, phoneNum, avatarId, country, personalDescription) VALUES (
+    ('testAccount1', 'abe7a99ea2ca7d0a', '28a1ddb613a86194df75f038b1efac1043b889752d2b4e75f6975974eff233e52b1745dacd7f8a428cd15e0cc921a4a39c4340e221c386775a991f3de765dce9', 'John', 'Doe', 1969-08-18, 'male', 'john.doe69@gmail.com', 02123456789, 'test.jpg', 'Austria', 'I am John. I am just your average guy.')
 );
