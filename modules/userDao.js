@@ -56,6 +56,7 @@ async function createUser(newUserData) {
             ${newUserData.email},
             ${newUserData.phoneNum},
             ${newUserData.country},
+            ${newUserData.personalDescription},
             ${newUserData.imageUrl}
         )`)
 }
