@@ -33,6 +33,7 @@ router.post("/login", function(req, res) {
         req.session.user = user;
         const context = {
             loggedIn: true,
+            name: username,
             message: "Successfully logged in!"
         };
         res.render("home", context);
