@@ -16,25 +16,25 @@ router.get("/login", function(req, res) {
 
 });
 
-router.post("/login", function(req, res) {
-
+router.post("/login", async function(req, res) {
+ 
     const username = req.body.username;
     const password = req.body.password;
 
-    console.log(`Username entered: ${username}`);
-    console.log(`Password entered: ${password}`);
-    
-    //const user = userDb.getUserWithCredentials(username, password);
-
-    const user = userDao.authenticateLogin(username, password);
-
-    if (user) {
-        // Auth success - add the user to the session, and redirect to the homepage.
-        req.session.user = user;
-        res.redirect("/userProfile?message=Login successful");
+    let userdata = userDao.authenticateLogin(username, password);
+    let user = await userdata;
+    if (user[0]) {
+        // Auth success - add the user to the session, and render to the homepage.
+        req.session.user = user[0];
+        context = {
+            loggedIn: true,
+            user: req.session.user,
+            message: "Successfully logged in!"
+        };
+        res.render("home", context);
     }
     else {
-        // Auth fail
+        // Auth fail - redirect user to the login page with a message.
         res.redirect("./login?message=Authentication failed!");
     }
 });
@@ -43,7 +43,11 @@ router.get("/logout", function(req, res) {
     if (req.session.user) {
         delete req.session.user;
     }
-    res.redirect("./login?message=Successfully logged out!");
+    const context = {
+        loggedIn: false,
+        message: "Successfully logged out!"
+    }
+    res.render("home", context);
 });
 
 module.exports = router;

@@ -1,24 +1,24 @@
 const express = require("express");
 const router = express.Router();
 
-const testDao = require("../modules/test-dao.js");
-
 const verifyAuthenticated = require("../modules/verify-auth.js");
 
-router.get("/", async function(req, res) {
-
-    res.locals.title = "TEAM MAPE";
-    //res.locals.allTestData = await testDao.retrieveAllTestData();
-
-    res.render("home");
+router.get("/", verifyAuthenticated, function(req, res) {
+    console.log(req.session.user);
+    if(req.session.user) {
+        context = {
+            homePage: true,
+            user: req.session.user
+        }
+    } else {
+        context = {
+            homePage: true,
+            notLogged: true,
+            message: "please log in"
+        }
+    }
+    
+    res.render("home", context);
 });
-
-// router.get("/", async function(req, res) {
-
-//     res.locals.title = "TEAM MAPE";
-//     res.locals.allTestData = await testDao.retrieveAllTestData();
-
-//     res.render("home");
-// });
 
 module.exports = router;

@@ -1,9 +1,6 @@
 <div class="row">
-    {{#if message}}
-        <p>{{message}}</p>
-    {{/if}}
     <div class="page-header">
-        <h1>{{fname}}'s Profile</h1>
+        <h1>{{user.fname}}'s Profile</h1>
     </div>
 
     <table class="table table-striped">
@@ -11,27 +8,27 @@
         <tbody>
             <tr>
                 <th>First Name</th>
-                <td>{{fname}}</td>
+                <td>{{user.fname}}</td>
             </tr>
             <tr>
                 <th>Last Name</th>
-                <td>{{lname}}</td>
+                <td>{{user.lname}}</td>
             </tr>
             <tr>
                 <th>Email</th>
-                <td>{{email}}</td>
+                <td>{{user.email}}</td>
             </tr>
             <tr>
                 <th>Gender</th>
-                <td>{{gender}}</td>
+                <td>{{user.gender}}</td>
             </tr>
             <tr>
                 <th>Country</th>
-                <td>{{country}}</td>
+                <td>{{user.country}}</td>
             </tr>
             <tr>
                 <th>Phone number</th>
-                <td>{{phoneNum}}</td>
+                <td>{{user.phoneNum}}</td>
             </tr>
         </tbody>
     </table>

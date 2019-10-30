@@ -1,11 +1,15 @@
 // Setup express router
 const express = require("express");
 const router = express.Router();
-const upload = require("../modules/multer-uploader");
-const fs = require("fs");
-const userProcess = require("../modules/user-process");
 
-//Setup userDao
+// Setup multer-uploader
+const upload = require("../modules/multer-uploader");
+
+// Setup fs
+const fs = require("fs");
+
+// Setup required modules
+const userProcess = require("../modules/user-process");
 const userDao = require("../modules/userDao");
 
 // Route handlers
@@ -41,12 +45,12 @@ router.post("/signup", upload.single("imageFile"), function(req, res) {
     const newFileName = `./public/images/${fileInfo.originalname}`;
     fs.renameSync(oldFileName, newFileName);
 
-//TODO convert uploaded image to thumbnail-size.
+    //TODO convert uploaded image to thumbnail-size.
 
     // Store the new user to the data file
     const newUser = {
         username: userInfo.userName,
-        password: "testpword",
+        password: userInfo.password,
         fname: userInfo.fname,
         lname: userInfo.lname,
         dob: userInfo.DOB,
@@ -54,49 +58,23 @@ router.post("/signup", upload.single("imageFile"), function(req, res) {
         email: userInfo.email,
         phoneNum: userInfo.phoneNum,
         country: userInfo.country,
-        personalDescription: userInfo.personalDescription,
-        imageUrl: fileInfo.originalname
+        avatarId: fileInfo.originalname,
+        personalDescription: userInfo.personal
     };
     //output to console for testing
     console.log(newUser);
     //confirms all fields are properly filled out and the input is valid
     //If username is taken will throw error - need to improve error handling so it's not just
     //blank page with the message
-    userProcess.validateUserData(newUser);
-   
-    //sends to the user data access object to create new user in db
-    userDao.createUser(newUser);
-    // Redirect to the userProfile page
-    res.redirect("/userProfile?message=Successfully created your account!");
-
-    
-    // let detailsCookie = {
-    //     name: req.body.name,
-    //     address: req.body.address,
-    //     phoneNum: req.body.phoneNum
-    // };
-
-    // res.cookie("details", detailsCookie);
-
-    // if(detailsCookie.name == "" || detailsCookie.address == "" || detailsCookie.phoneNum =="") {
-    //     res.redirect(`/login?message=Details saved for later`);
-    // } else {
-    //     res.redirect(`/userProfile`);
-    // }
+    if(userProcess.validateUserData(newUser)) {
+        //sends to the user data access object to create new user in db
+        userDao.createUser(newUser);
+        // Redirect to the userProfile page
+        res.redirect("/userProfile?message=Successfully created your account!");
+    }
 });
 
-// Show the details stored in the cookie
-router.get("/userProfile", function(req, res) {
 
-    // const userCookie = req.cookies["details"];
-    // const context = {
-    //     name: userCookie.name,
-    //     address: userCookie.address,
-    //     phoneNum: userCookie.phoneNum
-    // };
-    
-    res.render("userProfile");
-});
 
 // -------------------------------------------------------------------------
 

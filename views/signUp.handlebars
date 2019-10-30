@@ -30,7 +30,12 @@
 
                     <div class="form-group">
                         <label for="txtUName">Username:</label>
-                        <input type="text" class="form-control" id="txtUName" name="userName" value="{{userName}}" onkeyup="checkUniqueUserName()">
+                        <input type="text" class="form-control" id="txtUName" name="userName" value="{{userName}}" onkeyup="">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password">Password:</label>
+                        <input type="text" class="form-control" id="password" name="password" value="{{password}}">
                     </div>
 
                     <div class="form-group">
@@ -61,6 +66,7 @@
                     <div class="form-group">
                         <label for="country">Country</label>      
                         <select id="country" name="country" class="form-control">
+                            <option value="Empty">  </option>
                             <option value="Afghanistan">Afghanistan</option>
                             <option value="Åland Islands">Åland Islands</option>
                             <option value="Albania">Albania</option>
@@ -307,6 +313,12 @@
                             <option value="Zimbabwe">Zimbabwe</option>
                         </select>
                     </div>
+
+                    <div class="form-group">
+                        <label for="personal">Personal Description:</label>
+                        <input type="text" class="form-control" id="personal" name="personal" value="{{personal}}">
+                    </div>
+
                     <div class="form-group">
                         <label for="inpFile">Upload an Avatar:</label>
                         <input id="inpFile" type="file" name="imageFile" accept=".png,.jpg,.jpeg,.bmp,.gif" required>
