@@ -31,13 +31,25 @@ const sha512 = function(password, salt){
 function saltHashPassword(userpassword) {
     const salt = genRandomString(16); /** Gives us salt of length 16 */
     const passwordData = sha512(userpassword, salt);
+
+    //TODO remove -- testing only!
     console.log('UserPassword = '+userpassword);
-    console.log('Passwordhash = '+passwordData.passwordHash);
     console.log('nSalt = '+passwordData.salt);
+    console.log('Passwordhash = '+passwordData.passwordHash);
+
+    return {
+        salt: passwordData.salt,
+        passwordHash: passwordData.passwordHash
+    };
 }
 
 //Test to show that the hashed and salted password is different each time even for the same password
-saltHashPassword('MYPASSWORD');
-saltHashPassword('MYPASSWORD');
+//saltHashPassword('MYPASSWORD');
+//saltHashPassword('MYPASSWORD');
 
 // sha512(userPasswordInput, saltFromDB) compared to storedHashedPword.
+
+module.exports = {
+    saltHashPassword,
+    sha512
+};

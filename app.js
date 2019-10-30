@@ -24,7 +24,6 @@ app.use(bodyParser.urlencoded({extended: false}));
 const cookieParser = require("cookie-parser");
 app.use(cookieParser());
 
-
 // Setup express-session
 const session = require("express-session");
 app.use(session({
@@ -33,6 +32,7 @@ app.use(session({
    secret: "CS719"
 }));
 
+
 // Make the "public" folder available statically
 const path = require("path");
 app.use(express.static(path.join(__dirname, "public")));
@@ -40,6 +40,12 @@ app.use(express.static(path.join(__dirname, "public")));
 // Setup routes
 const appRouter = require("./routes/application-routes.js");
 app.use(appRouter);
+
+const loginRouter = require("./routes/login-routes.js");
+app.use(loginRouter);
+
+const signUpRouter = require("./routes/sign-up.js");
+app.use(signUpRouter);
 
 // Start the server running.
 app.listen(port, function () {
