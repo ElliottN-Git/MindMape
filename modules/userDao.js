@@ -34,9 +34,13 @@ async function checkUserName(userName) {
 }
 
 async function authenticateLogin(username, password) {
+    const testPwordHash = crypto.sha512("testpword", "abe7a99ea2ca7d0a");
+    console.log(testPwordHash);
+
+
     const db = await dbPromise;
     const getUser = await db.get(SQL`
-    SELECT * FROM users WHERE username = "${username}"`);
+    SELECT * FROM users WHERE @username = "${username}"`);
 
     console.log(getUser);
 
@@ -45,7 +49,7 @@ async function authenticateLogin(username, password) {
     const enteredHashedPassWord = crypto.sha512(password, getUser.pwordSalt);
     console.log(enteredHashedPassWord);
 
-    if(dbHashedPassWord === enteredHashedPassWord) {
+    if(dbHashedPassWord === enteredHashedPassWord.passwordHash) {
         return getUser;
     }
 }
