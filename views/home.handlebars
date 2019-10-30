@@ -1,6 +1,8 @@
 <div class="container">
+
+    <p>{{message}}</p>
     
-    <h1>Hello, {{#if loggedIn}} {{name}}!{{else}} Stranger!{{/if}}</h1>
+    <h1>Hello, {{#if user}} {{user.username}}!{{else}} Stranger!{{/if}}</h1>
     <p>This is your homepage!</p>
     <p>[Contents here]</p>
     <p>Click <a href="./logout">here</a> to log out.</p>

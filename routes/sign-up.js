@@ -1,11 +1,15 @@
 // Setup express router
 const express = require("express");
 const router = express.Router();
-const upload = require("../modules/multer-uploader");
-const fs = require("fs");
-const userProcess = require("../modules/user-process");
 
-//Setup userDao
+// Setup multer-uploader
+const upload = require("../modules/multer-uploader");
+
+// Setup fs
+const fs = require("fs");
+
+// Setup required modules
+const userProcess = require("../modules/user-process");
 const userDao = require("../modules/userDao");
 
 // Route handlers
@@ -46,7 +50,7 @@ router.post("/signup", upload.single("imageFile"), function(req, res) {
     // Store the new user to the data file
     const newUser = {
         username: userInfo.userName,
-        password: "testpword",
+        password: userInfo.password,
         fname: userInfo.fname,
         lname: userInfo.lname,
         dob: userInfo.DOB,
@@ -54,7 +58,8 @@ router.post("/signup", upload.single("imageFile"), function(req, res) {
         email: userInfo.email,
         phoneNum: userInfo.phoneNum,
         country: userInfo.country,
-        imageUrl: fileInfo.originalname
+        avatarId: fileInfo.originalname,
+        personalDescription: userInfo.personal
     };
     //output to console for testing
     console.log(newUser);
@@ -67,37 +72,9 @@ router.post("/signup", upload.single("imageFile"), function(req, res) {
         // Redirect to the userProfile page
         res.redirect("/userProfile?message=Successfully created your account!");
     }
-   
-    
-
-    
-    // let detailsCookie = {
-    //     name: req.body.name,
-    //     address: req.body.address,
-    //     phoneNum: req.body.phoneNum
-    // };
-
-    // res.cookie("details", detailsCookie);
-
-    // if(detailsCookie.name == "" || detailsCookie.address == "" || detailsCookie.phoneNum =="") {
-    //     res.redirect(`/login?message=Details saved for later`);
-    // } else {
-    //     res.redirect(`/userProfile`);
-    // }
 });
 
-// Show the details stored in the cookie
-router.get("/userProfile", function(req, res) {
 
-    // const userCookie = req.cookies["details"];
-    // const context = {
-    //     name: userCookie.name,
-    //     address: userCookie.address,
-    //     phoneNum: userCookie.phoneNum
-    // };
-    
-    res.render("userProfile");
-});
 
 // -------------------------------------------------------------------------
 

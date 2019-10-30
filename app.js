@@ -47,6 +47,9 @@ app.use(loginRouter);
 const signUpRouter = require("./routes/sign-up.js");
 app.use(signUpRouter);
 
+const userProfileRouter = require("./routes/user-profile-page");
+app.use(userProfileRouter);
+
 // Start the server running.
 app.listen(port, function () {
     console.log(`App listening on port ${port}!`);

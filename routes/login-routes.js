@@ -16,28 +16,22 @@ router.get("/login", function(req, res) {
 
 });
 
-router.post("/login", function(req, res) {
-
+router.post("/login", async function(req, res) {
+ 
     const username = req.body.username;
     const password = req.body.password;
 
-    console.log(`Username entered: ${username}`);
-    console.log(`Password entered: ${password}`);
-    
-    //const user = userDb.getUserWithCredentials(username, password);
-
-    const user = userDao.authenticateLogin(username, password);
-
-    if (user) {
+    let userdata = userDao.authenticateLogin(username, password);
+    let user = await userdata;
+    if (user[0]) {
         // Auth success - add the user to the session, and render to the homepage.
-        req.session.user = user;
-        const context = {
+        req.session.user = user[0];
+        context = {
             loggedIn: true,
-            name: username,
+            user: req.session.user,
             message: "Successfully logged in!"
         };
         res.render("home", context);
-        // res.redirect("/userProfile?message=Login successful");
     }
     else {
         // Auth fail - redirect user to the login page with a message.
