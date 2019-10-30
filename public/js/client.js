@@ -1,3 +1,4 @@
+//Client-side js for event handling
 const enteredUserName = document.querySelector("#txtUName");
 console.log(enteredUserName);
 enteredUserName.addEventListener("keyup", checkUniqueUserName());
@@ -8,4 +9,5 @@ async function checkUniqueUserName() {
     let signUpJSON = await response.json();
     console.log(signUpJSON);
     console.log(signUpJSON.userName);
+    return signUpJSON;
 }
