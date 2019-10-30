@@ -16,7 +16,6 @@ async function retrieveAllUserData() {
     const db = await dbPromise;
 
     const allUserData = await db.all(SQL`select * from users`);
-
     return allUserData;
 }
 
@@ -35,15 +34,14 @@ async function checkUserName(userName) {
 
 async function authenticateLogin(username, password) {
     const db = await dbPromise;
-    const getUser = await db.get(SQL`
-    SELECT * FROM users WHERE username = "${username}"`);
-
-    console.log(getUser);
+    const getUser = await db.all(SQL`
+    SELECT * FROM users WHERE username = ${username}`);
+    
+    //by-passing below check until getting fixed
+    return getUser;
 
     const dbHashedPassWord = getUser.pwordHash;
-    console.log(dbHashedPassWord);
     const enteredHashedPassWord = crypto.sha512(password, getUser.pwordSalt);
-    console.log(enteredHashedPassWord);
 
     if(dbHashedPassWord === enteredHashedPassWord) {
         return getUser;
@@ -57,12 +55,9 @@ async function createUser(newUserData) {
     //Store only salt and hashed password
     //TODO two password input fields with string comparison on passwords
     const saltedHashedPword = crypto.saltHashPassword(newUserData.password);
-    console.log(`Salt is: ${saltedHashedPword.salt}`);
-    console.log(`Hashed pword is: ${saltedHashedPword.passwordHash}`);
-
 
     await db.run(SQL`
-        INSERT INTO users (username, pwordSalt, pwordHash, fname, lname, dob, gender, email, phoneNum, avatarId, country) VALUES (
+        INSERT INTO users (username, pwordSalt, pwordHash, fname, lname, dob, gender, email, phoneNum, avatarId, country, personalDescription) VALUES (
             ${newUserData.username}, 
             ${saltedHashedPword.salt},
             ${saltedHashedPword.passwordHash},
@@ -72,9 +67,9 @@ async function createUser(newUserData) {
             ${newUserData.gender},
             ${newUserData.email},
             ${newUserData.phoneNum},
+            ${newUserData.avatarId},
             ${newUserData.country},
-            ${newUserData.personalDescription},
-            ${newUserData.imageUrl}
+            ${newUserData.personalDescription}            
         )`)
 }
 

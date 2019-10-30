@@ -34,7 +34,7 @@ function validateUserData(user) {
         throw "Supplied phone number is not a number!";
     }
 
-    if(userDao.checkUserName(user.username) != undefined) {
+    if(userDao.checkUserName(user.username) == user.username) {
         throw message = "Username already taken!";
     }
 
