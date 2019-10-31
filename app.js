@@ -9,6 +9,7 @@ const express = require("express");
 const app = express();
 const port = 3000;
 
+
 // Setup Handlebars
 const handlebars = require("express-handlebars");
 app.engine("handlebars", handlebars({
@@ -35,7 +36,7 @@ app.use(session({
 
 // Make the "public" folder available statically
 const path = require("path");
-app.use(express.static(path.join(__dirname, "public")));
+app.use(express.static(path.join(__dirname, "/public")));
 
 // Setup routes
 const appRouter = require("./routes/application-routes.js");
