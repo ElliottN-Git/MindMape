@@ -19,17 +19,18 @@ async function retrieveAllUserData() {
     return allUserData;
 }
 
-async function checkUserName(userName) {
+//Check if a username is already taken in the database
+async function checkUserName(username) {
     const db = await dbPromise;
     const getUsername = await db.get(SQL`
     SELECT username FROM users
-    WHERE username = ${userName}`);
-    return getUsername;
-    // if(getUsername == undefined) {
-    //     return false;
-    // } else {
-    //     return true;
-    // }
+    WHERE username = ${username}`);
+
+    if(getUsername != undefined) {
+        return true;
+    } else {
+        return false;
+    }
 }
 
 //Function called by login-routes when user enters their username and password

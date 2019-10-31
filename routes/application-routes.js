@@ -21,4 +21,9 @@ router.get("/", verifyAuthenticated, function(req, res) {
     res.render("home", context);
 });
 
+router.get("/writeArticle", function(req, res) {
+
+    res.render("writeArticle");
+});
+
 module.exports = router;

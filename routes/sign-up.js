@@ -36,6 +36,17 @@ router.get("/signup", function(req, res) {
     res.render("signUp"); //context object commented out for testing
 });
 
+//route handler for querying the database from client.js via fetch
+router.get("/checkusernametaken", async function(req, res) {
+    const username = req.query.username;
+    const dbCheckIsTaken = await userDao.checkUserName(username);
+
+    res.json(dbCheckIsTaken);
+});
+
+
+//Submission of signup page 
+//calls userDao.createUser() to save details in mindMAPE-db
 router.post("/signup", upload.single("imageFile"), function(req, res) {
     const fileInfo = req.file;
     const userInfo = req.body;
@@ -59,7 +70,8 @@ router.post("/signup", upload.single("imageFile"), function(req, res) {
         phoneNum: userInfo.phoneNum,
         country: userInfo.country,
         avatarId: fileInfo.originalname,
-        personalDescription: userInfo.personal
+        personalDescription: userInfo.personal,
+        imageUrl: newFileName
     };
     //output to console for testing
     console.log(newUser);
@@ -69,8 +81,10 @@ router.post("/signup", upload.single("imageFile"), function(req, res) {
     if(userProcess.validateUserData(newUser)) {
         //sends to the user data access object to create new user in db
         userDao.createUser(newUser);
+        req.session.user = req.body;
+        const user = req.session.user;
         // Redirect to the userProfile page
-        res.redirect("/userProfile?message=Successfully created your account!");
+        res.render("userProfile", user);
     }
 });
 
