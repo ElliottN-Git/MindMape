@@ -1,3 +1,4 @@
+
 //Client-side js for event handling
 const enteredUserName = document.querySelector("#txtUName");
 console.log(enteredUserName.value);
