@@ -29,7 +29,8 @@
 
                     <div class="form-group">
                         <label for="txtUName">Username:</label>
-                        <input type="text" class="form-control" id="txtUName" name="userName" value="{{userName}}" onkeyup="checkUniqueUsername()">
+                        <span id="usernameTaken" style="display: none;">Username is taken. Please try something different:</span>
+                        <input type="text" class="form-control" id="txtUName" name="userName" value="{{userName}}">
                     </div>
 
                     <div class="form-group">

@@ -36,6 +36,17 @@ router.get("/signup", function(req, res) {
     res.render("signUp"); //context object commented out for testing
 });
 
+//route handler for querying the database from client.js via fetch
+router.get("/checkusernametaken", async function(req, res) {
+    const username = req.query.username;
+    const dbCheckIsTaken = await userDao.checkUserName(username);
+
+    res.json(dbCheckIsTaken);
+});
+
+
+//Submission of signup page 
+//calls userDao.createUser() to save details in mindMAPE-db
 router.post("/signup", upload.single("imageFile"), function(req, res) {
     const fileInfo = req.file;
     const userInfo = req.body;
