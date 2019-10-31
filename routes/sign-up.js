@@ -59,7 +59,8 @@ router.post("/signup", upload.single("imageFile"), function(req, res) {
         phoneNum: userInfo.phoneNum,
         country: userInfo.country,
         avatarId: fileInfo.originalname,
-        personalDescription: userInfo.personal
+        personalDescription: userInfo.personal,
+        imageUrl: newFileName
     };
     //output to console for testing
     console.log(newUser);
@@ -69,8 +70,10 @@ router.post("/signup", upload.single("imageFile"), function(req, res) {
     if(userProcess.validateUserData(newUser)) {
         //sends to the user data access object to create new user in db
         userDao.createUser(newUser);
+        req.session.user = req.body;
+        const user = req.session.user[0];
         // Redirect to the userProfile page
-        res.redirect("/userProfile?message=Successfully created your account!");
+        res.render("userProfile", user);
     }
 });
 
