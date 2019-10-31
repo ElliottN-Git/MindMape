@@ -32,23 +32,26 @@ async function checkUserName(userName) {
     // }
 }
 
-async function authenticateLogin(username, password) {
-    const testPwordHash = crypto.sha512("testpword", "abe7a99ea2ca7d0a");
-    console.log(testPwordHash);
+//Function called by login-routes when user enters their username and password
+//TODO validate that the username exists first - call to checkuserName() above
+//TODO testing to ensure the hashing is working properly
 
+async function authenticateLogin(username, password) {
 
     const db = await dbPromise;
     const getUser = await db.all(SQL`
     SELECT * FROM users WHERE username = ${username}`);
-    
-    //by-passing below check until getting fixed
-    return getUser;
 
-    const dbHashedPassWord = getUser.pwordHash;
-    const enteredHashedPassWord = crypto.sha512(password, getUser.pwordSalt);
+    const dbHashedPassWord = getUser[0].pwordHash;
+
+    const enteredHashedPassWord = crypto.sha512(password, getUser[0].pwordSalt);
 
     if(dbHashedPassWord === enteredHashedPassWord.passwordHash) {
+        console.log("passwords match!");
         return getUser;
+    } else {
+        console.log("passwords DON'T match");
+        return false;
     }
 }
 
