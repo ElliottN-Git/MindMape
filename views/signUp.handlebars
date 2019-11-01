@@ -319,27 +319,76 @@
                         <input type="text" class="form-control" id="personal" name="personal" value="{{personal}}">
                     </div>
 
+
                     <div class="form-group">
                         <label for="inpFile">Upload an Avatar:</label>
+                        <p>Upload avatar image from your computer.</p>
                         <input id="inpFile" type="file" name="imageFile" accept=".png,.jpg,.jpeg,.bmp,.gif" required>
                     </div>
+                    <p>or</p>
                     </div>
                     <div class="form-group">
                         <label for="inpFile">Select an Avatar:</label>
                         <p>Select a predefined image that you would like to use for your avatar.</p>
                     </div>
                     <div>
-                    <img src="./images/AV1.jpg" width="119">
-                    <img src="./images/AV2.jpg" width="125">
-                    <img src="./images/AV3.jpg" width="130">
-                    <img src="./images/AV4.jpg" width="140">
-                    </div>
+                        <li class="imageli"><img src="./images/avatar_1.png"></li>
+                        <li class="imageli"><img src="./images/avatar_2.png"></li>
+                        <li class="imageli"><img src="./images/avatar_3.png"></li>
+                        <li class="imageli"><img src="./images/avatar_4.png"></li>
+                        <li class="imageli"><img src="./images/avatar_5.png"></li>
+                        <li class="imageli"><img src="./images/avatar_6.png"></li>
+                        <li class="imageli"><img src="./images/avatar_7.png"></li>
+                        <li class="imageli"><img src="./images/avatar_8.png"></li>
+                        <li class="imageli"><img src="./images/avatar_9.png"></li>
+                        <li class="imageli"><img src="./images/avatar_10.png"></li>
+                        <li class="imageli"><img src="./images/avatar_11.png"></li>
+                    </div> 
+        </div>
+    </div>
+</div>
+
+<script>// item selection
+    $('li').click(function () {
+        $(this).toggleClass('selected');
+        if ($('li.selected').length == 0)
+            $('.select').removeClass('selected');
+        else
+            $('.select').addClass('selected');
+        counter();
+    });
+
+    // all item selection
+    $('.select').click(function () {
+        if ($('li.selected').length == 0) {
+            $('li').addClass('selected');
+            $('.select').addClass('selected');
+        }
+        else {
+            $('li').removeClass('selected');
+            $('.select').removeClass('selected');
+        }
+        counter();
+    });
+
+    // number of selected items
+    function counter() {
+        if ($('li.selected').length > 0)
+            $('.send').addClass('selected');
+        else
+            $('.send').removeClass('selected');
+        $('.send').attr('data-counter', $('li.selected').length);
+    }
+
+//# sourceURL=pen.js
+</script>
 
                     <div class="form-group">
                         <button type="submit" class="btn btn-primary">Submit!</button>
                     </div>
-                </form>
-            </div>
+            </form>
         </div>
+
+        
     </div>
 </div>
