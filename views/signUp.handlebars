@@ -326,10 +326,10 @@
                         <input id="inpFile" type="file" name="imageFile" accept=".png,.jpg,.jpeg,.bmp,.gif" required>
                     </div>
                     <p>or</p>
-                    </div>
+                    
                     <div class="form-group">
                         <label for="inpFile">Select an Avatar:</label>
-                        <p>Select a predefined image that you would like to use for your avatar.</p>
+                        <p>Select an image below that you would like to use for your avatar.</p>
                     </div>
                     <div>
                         <li class="imageli"><img class="imgAvatar" src="./images/avatar_1.png"></li>
@@ -343,52 +343,12 @@
                         <li class="imageli"><img class="imgAvatar" src="./images/avatar_9.png"></li>
                         <li class="imageli"><img class="imgAvatar" src="./images/avatar_10.png"></li>
                         <li class="imageli"><img class="imgAvatar" src="./images/avatar_11.png"></li>
-                    </div> 
-        </div>
-    </div>
-</div>
-
-<script>// item selection
-    $('li').click(function () {
-        $(this).toggleClass('selected');
-        if ($('li.selected').length == 0)
-            $('.select').removeClass('selected');
-        else
-            $('.select').addClass('selected');
-        counter();
-    });
-
-    // all item selection
-    $('.select').click(function () {
-        if ($('li.selected').length == 0) {
-            $('li').addClass('selected');
-            $('.select').addClass('selected');
-        }
-        else {
-            $('li').removeClass('selected');
-            $('.select').removeClass('selected');
-        }
-        counter();
-    });
-
-    // number of selected items
-    function counter() {
-        if ($('li.selected').length > 0)
-            $('.send').addClass('selected');
-        else
-            $('.send').removeClass('selected');
-        $('.send').attr('data-counter', $('li.selected').length);
-    }
-
-//# sourceURL=pen.js
-</script>
-
+                    </div>
                     <div class="form-group">
                         <button type="submit" class="btn btn-primary">Submit!</button>
                     </div>
-            </form>
+                </form>
+            </div>     
         </div>
-
-        
     </div>
 </div>
