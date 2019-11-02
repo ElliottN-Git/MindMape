@@ -321,9 +321,9 @@
 
 
                     <div class="form-group">
-                        <label for="inpFile">Upload an Avatar:</label>
+                        <label for="inpFile">Choose an Avatar:</label>
                         <p>Upload avatar image from your computer.</p>
-                        <input id="inpFile" type="file" name="imageFile" accept=".png,.jpg,.jpeg,.bmp,.gif" required>
+                        <input id="inpFile" type="file" name="imageFile" accept=".png,.jpg,.jpeg,.bmp,.gif">
                     </div>
                     <p>or</p>
                     
@@ -332,6 +332,7 @@
                         <p>Select an image below that you would like to use for your avatar.</p>
                     </div>
                     <div>
+                        <ul id="avatarOptions">
                         <li class="imageli"><img class="imgAvatar" src="./images/avatar_1.png"></li>
                         <li class="imageli"><img class="imgAvatar" src="./images/avatar_2.png"></li>
                         <li class="imageli"><img class="imgAvatar" src="./images/avatar_3.png"></li>
@@ -343,6 +344,7 @@
                         <li class="imageli"><img class="imgAvatar" src="./images/avatar_9.png"></li>
                         <li class="imageli"><img class="imgAvatar" src="./images/avatar_10.png"></li>
                         <li class="imageli"><img class="imgAvatar" src="./images/avatar_11.png"></li>
+                        </ul>
                     </div>
                     <div class="form-group">
                         <button type="submit" class="btn btn-primary">Submit!</button>

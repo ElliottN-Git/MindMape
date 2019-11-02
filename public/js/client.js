@@ -23,34 +23,51 @@ async function checkUniqueUsername(username) {
 }
 
 
-// item selection
-    $('li').click(function () {
-        $(this).toggleClass('selected');
-        if ($('li.selected').length == 0)
-            $('.select').removeClass('selected');
-        else
-            $('.select').addClass('selected');
-        counter();
-    });
+//Determine selected avatar image
+const avatarList = document.querySelector("#avatarOptions");
 
-    // all item selection
-    $('.select').click(function () {
-        if ($('li.selected').length == 0) {
-            $('li').addClass('selected');
-            $('.select').addClass('selected');
-        }
-        else {
-            $('li').removeClass('selected');
-            $('.select').removeClass('selected');
-        }
-        counter();
-    });
+avatarList.addEventListener("click", function(e) {
+    const alreadySelected = document.querySelector(".imageli.selected");
+    const selectedLIImg = e.target;
+    if(alreadySelected && alreadySelected != selectedLIImg.parentElement) {
+        return;
+    } else {
 
-    // number of selected items
-    function counter() {
-        if ($('li.selected').length > 0)
-            $('.send').addClass('selected');
-        else
-            $('.send').removeClass('selected');
-        $('.send').attr('data-counter', $('li.selected').length);
+        const parentLI = selectedLIImg.parentElement;
+        parentLI.classList.toggle("selected");
     }
+});
+
+
+
+// // item selection
+//     $('li').click(function () {
+//         $(this).toggleClass('selected');
+//         if ($('li.selected').length == 0)
+//             $('.select').removeClass('selected');
+//         else
+//             $('.select').addClass('selected');
+//         counter();
+//     });
+
+//     // all item selection
+//     $('.select').click(function () {
+//         if ($('li.selected').length == 0) {
+//             $('li').addClass('selected');
+//             $('.select').addClass('selected');
+//         }
+//         else {
+//             $('li').removeClass('selected');
+//             $('.select').removeClass('selected');
+//         }
+//         counter();
+//     });
+
+//     // number of selected items
+//     function counter() {
+//         if ($('li.selected').length > 0)
+//             $('.send').addClass('selected');
+//         else
+//             $('.send').removeClass('selected');
+//         $('.send').attr('data-counter', $('li.selected').length);
+//     }
