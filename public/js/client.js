@@ -25,16 +25,21 @@ async function checkUniqueUsername(username) {
 
 //Determine selected avatar image
 const avatarList = document.querySelector("#avatarOptions");
+const imgUploadDiv = document.querySelector("#imageUpload");
 
 avatarList.addEventListener("click", function(e) {
+    console.log(imgUploadDiv);
+
     const alreadySelected = document.querySelector(".imageli.selected");
     const selectedLIImg = e.target;
-    if(alreadySelected && alreadySelected != selectedLIImg.parentElement) {
-        return;
-    } else {
+    const parentLI = selectedLIImg.parentElement;
 
-        const parentLI = selectedLIImg.parentElement;
+    if(alreadySelected && alreadySelected != parentLI) {
+        alreadySelected.classList.toggle("selected");
         parentLI.classList.toggle("selected");
+    } else {
+        parentLI.classList.toggle("selected");
+        imgUploadDiv.classList.toggle("d-none");
     }
 });
 
