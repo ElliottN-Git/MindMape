@@ -13,7 +13,6 @@ const port = 3000;
 const handlebars = require("express-handlebars");
 app.engine("handlebars", handlebars({
     helpers: {
-        sayHello: function () { return "Hello"; },
         summary: function (str) {
             const htmlString= str;
             // if we only want the plain text for the Summary
