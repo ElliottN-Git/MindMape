@@ -1,3 +1,8 @@
+#avatarDiv {
+  display: flex;
+  flex-wrap: wrap;
+}
+
 .imgAvatar {
     position: absolute;
     margin: auto;
