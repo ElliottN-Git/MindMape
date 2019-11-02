@@ -1,5 +1,14 @@
-{{#if body}}
-    {{#each body}}
-        <div>{{{this.content}}}</div>
+{{#if articles}}
+    {{#each articles}}
+    <div class="card mb-4">
+        <img class="img-responsive" src="http://lorempixel.com/640/480/sports" alt="Card image cap">
+        <div class="card-body">
+            <h2 class="card-title">{{this.title}}</h2>
+            <span>by {{this.username}}</span>
+            <span>{{{this.content}}}</span>
+            <a href="./fullArticleView" class="btn btn-primary">Read Full Article &rarr;</a>
+        </div>
+    </div>
+    <hr>
     {{/each}}
 {{/if}}

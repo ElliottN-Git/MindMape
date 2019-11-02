@@ -23,22 +23,12 @@ router.get("/writeArticle", verifyAuthenticated, async function(req, res) {
 
 
 
-router.post("/writeArticle", upload.single("imageFile"), async function(req, res) {
-
+router.post("/writeArticle", upload.single("wysiwyg"), async function(req, res) {
+    const title = req.body.title;
     const body = req.body.wysiwyg;
     const user = req.session.user;
-    const writeArticle = await userDao.createArticle(user.userId, body);
+    const writeArticle = await userDao.createArticle(user.userId, title, body, user.username);
     res.render("home");
-});
-
-router.get("/article", verifyAuthenticated, async function (req, res) {
-    const user = req.session.user;
-    const bodyContext = await userDao.loadArticlesById(user.userId);
-    const context={
-        body: bodyContext
-    }
-   
-    res.render("article", context);
 });
 
 

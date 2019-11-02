@@ -32,7 +32,8 @@
 		 	</div>
 
 		</div> --}}
-    {{#if text}}
+    {{#if comments}}
+    {{#each comments}}
     <div class="media mb-4">
       <img class="d-flex mr-3 rounded-circle" src="https://s3.amazonaws.com/uifaces/faces/twitter/BillSKenney/73.jpg" alt="user's Avatar in src">
       <div class="media-body">
@@ -53,6 +54,7 @@
         </div>
       </div>
     </div>
+    {{/each}}
     {{/if}}
 
     <div class="card my-4">

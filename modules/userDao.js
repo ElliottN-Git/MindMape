@@ -99,13 +99,15 @@ async function deleteUserData(id) {
         where id = ${id}`);
 }
 
-async function createArticle(userId, contents) {
+async function createArticle(userId, title, contents, username) {
     const db = await dbPromise;
-    
+    console.log(title);
     await db.run(SQL`
-        INSERT INTO articles (content, userId, created_At) VALUES (
+        INSERT INTO articles (title, content, userId, username, created_At) VALUES (
+            ${title},
             ${contents},
             ${userId},
+            ${username},
             datetime('now')                 
         )`);
 }
@@ -113,16 +115,24 @@ async function createArticle(userId, contents) {
 async function loadArticlesById(userId) {
     const db = await dbPromise;
 
-    const body = await db.all(SQL`
-    SELECT * FROM articles WHERE userId = ${userId}`);
-    return body;
+    const userArticle = await db.all(SQL`
+    SELECT * FROM articles WHERE userId = ${userId} ORDER BY created_At DESC`);
+    return userArticle;
+}
+
+async function loadAllArticles() {
+    const db = await dbPromise;
+
+    const articles = await db.all(SQL`
+    SELECT * FROM articles ORDER BY created_At DESC`);
+    return articles;
 }
 
 // testing
 async function getComments(articleId) {
     const db = await dbPromise;
     const getComments = await db.all(SQL`
-    SELECT * FROM comments WHERE articleId = ${articleId} ORDER By date DESC`);
+    SELECT * FROM comments WHERE articleId = ${articleId} ORDER By created_At DESC`);
     const commentsArray = makeArray(getComments);
     return commentsArray;
 }
@@ -161,5 +171,8 @@ module.exports = {
     deleteUserData,
     checkUserName,
     createArticle,
-    loadArticlesById
+    loadArticlesById,
+    loadAllArticles,
+    createComment,
+    getComments
 };
