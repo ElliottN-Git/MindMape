@@ -54,3 +54,11 @@ async function checkUniqueUsername(username) {
             $('.send').removeClass('selected');
         $('.send').attr('data-counter', $('li.selected').length);
     }
+
+    //check password re-enter box on sign-up page
+    $('#password, #confirm-password').on('keyup', function () {
+        if ($('#password').val() == $('#confirm-password').val()) {
+            $('#message').html('Matching').css('color', 'green');
+        } else 
+            $('#message').html('Not Matching').css('color', 'red');
+    });
