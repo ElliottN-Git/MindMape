@@ -1,9 +1,10 @@
-
-
 //Client-side js for event handling
+
+//select username entry and error message elements
 const enteredUserName = document.querySelector("#txtUName");
 const usernameTakenElement = document.querySelector("#usernameTaken");
 
+//event handler for username entry input
 enteredUserName.addEventListener("keyup", function() {
     checkUniqueUsername(enteredUserName.value);
 });
@@ -22,16 +23,26 @@ async function checkUniqueUsername(username) {
     }
 }
 
-//Check email is unique
-async function checkUniqueUsername(email) {
+//select email entry and error message elements
+const enteredEmail = document.querySelector("#txtEmail");
+const emailTakenElement = document.querySelector("#emailTaken");
 
-    let response = await fetch(`http://localhost:3000/checkemailtaken?username=${email}`);
+//event handler for email entry input
+enteredEmail.addEventListener("keyup", function() {
+    checkUniqueEmail(enteredEmail.value);
+});
+
+
+//Check email is unique
+async function checkUniqueEmail(email) {
+
+    let response = await fetch(`http://localhost:3000/checkemailtaken?email=${email}`);
     let isTaken = await response.json();
 
     if(isTaken == true) {
-        usernameTakenElement.style.display = "block";
+        emailTakenElement.style.display = "block";
     } else {
-        usernameTakenElement.style.display = "none";
+        emailTakenElement.style.display = "none";
     }
 }
 

@@ -34,6 +34,20 @@ async function checkUserName(username) {
     }
 }
 
+//Check if an email is already taken in the database
+async function checkEmail(email) {
+    const db = await dbPromise;
+    const getEmail = await db.get(SQL`
+    SELECT email FROM users
+    WHERE email = ${email}`);
+
+    if(getEmail != undefined) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
 //Function called by login-routes when user enters their username and password
 async function authenticateLogin(username, password) {
 
@@ -166,6 +180,7 @@ module.exports = {
     updateUserData,
     deleteUserData,
     checkUserName,
+    checkEmail,
     createArticle,
     loadArticlesById,
     loadAllArticles,
