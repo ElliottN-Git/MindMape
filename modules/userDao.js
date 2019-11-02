@@ -1,6 +1,7 @@
 const SQL = require("sql-template-strings");
 const dbPromise = require("./database.js");
 const crypto = require("./crypto");
+const makeArray = require("./make-array");
 
 async function retrieveUserDataById(id) {
     const db = await dbPromise;
@@ -118,15 +119,35 @@ async function loadArticlesById(userId) {
 }
 
 // testing
-async function updateComment(userId, content, articleId) {
+async function getComments(articleId) {
     const db = await dbPromise;
-    await db.run(SQL`
+    const getComments = await db.all(SQL`
+    SELECT * FROM comments WHERE articleId = ${articleId} ORDER By date DESC`);
+    const commentsArray = makeArray(getComments);
+    return commentsArray;
+}
+
+async function createComment(userId, content, articleId, parentCommentId) {
+    const db = await dbPromise;
+    if(parentCommentId) {
+        await db.run(SQL`
+        INSERT INTO comments (userId, articleId, replyTo_Id content, created_At) VALUES (
+            ${userId},
+            ${articleId},
+            ${parentCommentId},
+            ${content},
+            datetime('now')
+        )`);
+    } else {
+        await db.run(SQL`
         INSERT INTO comments (userId, articleId, content, created_At) VALUES (
             ${userId},
             ${articleId},
             ${content},
             datetime('now')
         )`);
+    }
+    
     
 }
 
