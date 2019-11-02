@@ -18,10 +18,10 @@
 
 
 <!-- comments container -->
-	<div class="comment_block">
+	<div class="comment_block" id="comment_cocntainer">
 
 		 <!-- used by #{user} to create a new comment -->
-		 <div class="create_new_comment">
+		 {{!-- <div class="create_new_comment">
             <H2> Comments </H2>
 
 			<!-- current #{user} avatar -->
@@ -31,7 +31,29 @@
 		 		<input type="text" placeholder="Your comment..">
 		 	</div>
 
-		 </div>
+		</div> --}}
+    {{#if text}}
+    <div class="card">
+      <div class="card-header"></div>
+      <div class="card-body">
+          <p class="card-text">{{text}}</p>
+      </div>
+    </div>
+    {{/if}}
+
+    <div class="card my-4">
+      <h5 class="card-header">Leave a Comment:</h5>
+      <div class="card-body">
+        <form action="./fullArticleView" method="POST" enctype="multipart/form-data">
+          <div class="form-group">
+            <textarea class="form-control" rows="3" name = "comment" id="commentMade"></textarea>
+          </div>
+          <div class="form-group">
+            <button type="submit" class="btn btn-primary bt-submit">Submit!</button>
+          </div>
+        </form>
+      </div>
+    </div>
   
 
 </div>

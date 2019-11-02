@@ -109,13 +109,25 @@ async function createArticle(userId, contents) {
         )`);
 }
 
-//testing
 async function loadArticlesById(userId) {
     const db = await dbPromise;
 
     const body = await db.all(SQL`
     SELECT * FROM articles WHERE userId = ${userId}`);
     return body;
+}
+
+// testing
+async function updateComment(userId, content, articleId) {
+    const db = await dbPromise;
+    await db.run(SQL`
+        INSERT INTO comments (userId, articleId, content, created_At) VALUES (
+            ${userId},
+            ${articleId},
+            ${content},
+            datetime('now')
+        )`);
+    
 }
 
 // Export functions.

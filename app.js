@@ -53,6 +53,9 @@ app.use(userProfileRouter);
 const writeArticle = require("./routes/write-article-routes")
 app.use(writeArticle);
 
+const fullArticle = require("./routes/fullArticleView")
+app.use(fullArticle);
+
 // Start the server running.
 app.listen(port, function () {
     console.log(`App listening on port ${port}!`);

@@ -1,29 +1,20 @@
 const express = require("express");
 const router = express.Router();
-
-const verifyAuthenticated = require("../modules/verify-auth.js");
-
-router.get("/", verifyAuthenticated, function(req, res) {
-    console.log(req.session.user);
-    if(req.session.user) {
-        context = {
-            homePage: true,
-            user: req.session.user
-        }
-    } else {
-        context = {
-            homePage: true,
-            notLogged: true,
-            message: "please log in"
-        }
-    }
-    
-    res.render("home", context);
-});
+// Setup multer-uploader
+const upload = require("../modules/multer-uploader");
 
 router.get("/fullArticleView", function(req, res) {
 
     res.render("fullArticleView");
+});
+
+router.post("/fullArticleView", upload.single("imageFile"), async function(req, res) {
+    const textBody = req.body;
+    console.log(textBody.comment);
+    const context = {
+        text: textBody.comment
+    };
+    res.render("fullArticleView", context);
 });
 
 module.exports = router;
