@@ -98,6 +98,26 @@ async function deleteUserData(id) {
         where id = ${id}`);
 }
 
+async function createArticle(userId, contents) {
+    const db = await dbPromise;
+    
+    await db.run(SQL`
+        INSERT INTO articles (content, userId, created_At) VALUES (
+            ${contents},
+            ${userId},
+            datetime('now')                 
+        )`);
+}
+
+//testing
+async function loadArticlesById(userId) {
+    const db = await dbPromise;
+
+    const body = await db.all(SQL`
+    SELECT * FROM articles WHERE userId = ${userId}`);
+    return body;
+}
+
 // Export functions.
 module.exports = {
     retrieveUserDataById,
@@ -106,5 +126,7 @@ module.exports = {
     createUser,
     updateUserData,
     deleteUserData,
-    checkUserName
+    checkUserName,
+    createArticle,
+    loadArticlesById
 };

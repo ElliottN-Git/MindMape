@@ -50,6 +50,9 @@ app.use(signUpRouter);
 const userProfileRouter = require("./routes/user-profile-page");
 app.use(userProfileRouter);
 
+const writeArticle = require("./routes/write-article-routes")
+app.use(writeArticle);
+
 // Start the server running.
 app.listen(port, function () {
     console.log(`App listening on port ${port}!`);
