@@ -5,8 +5,6 @@ const router = express.Router();
 // Setup multer-uploader
 const upload = require("../modules/multer-uploader");
 
-// Setup fs
-const fs = require("fs");
 
 // Setup required modules
 const userDao = require("../modules/userDao");

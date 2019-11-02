@@ -14,13 +14,25 @@ router.get("/article", async function (req, res) {
     res.render("article", context);
 });
 
+router.post("/article", function (req, res) {
+    const clickedArticleId = req.body.articleId;
+    // res.locals.query = clickedArticleId;
+    const context = {
+        articleId: clickedArticleId
+    };
+
+    res.render("fullArticleView", context);
+});
+
 router.get("/fullArticleView", function(req, res) {
-    userDao.getComments
+    console.log(req.query);
+    // userDao.getComments(articleId);
     res.render("fullArticleView");
 });
 
-router.post("/fullArticleView", upload.single("imageFile"), verifyAuthenticated, async function(req, res) {
+router.post("/fullArticleView", upload.single(), async function(req, res) {
     const textBody = req.body;
+    console.log(textBody.comment);
     const context = {
         comments: textBody.comment
     };

@@ -1,14 +1,18 @@
 {{#if articles}}
     {{#each articles}}
     <div class="card mb-4">
-        <img class="img-responsive" src="http://lorempixel.com/640/480/sports" alt="Card image cap">
-        <div class="card-body">
-            <h2 class="card-title">{{this.title}}</h2>
-            <span>by {{this.username}}</span>
-            <span>{{{this.content}}}</span>
-            <a href="./fullArticleView" class="btn btn-primary">Read Full Article &rarr;</a>
-        </div>
+        <form action="./article" method="POST"> 
+            <div class="card-body mt-4">
+                <h2 class="card-title">Article Title: {{this.title}}</h2>
+                <span>by {{this.username}}</span>
+                <span>{{#summary this.content}}{{/summary}}</span>
+            </div>
+            <div>
+                <button type="submit" class="btn btn-primary bt-submit" name="articleId" value="{{this.articleId}}">Read Full Article!</button>
+            </div>
+        </form>
+        
+        <hr>
     </div>
-    <hr>
     {{/each}}
 {{/if}}
