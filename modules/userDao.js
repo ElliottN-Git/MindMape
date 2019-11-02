@@ -34,9 +34,6 @@ async function checkUserName(username) {
 }
 
 //Function called by login-routes when user enters their username and password
-//TODO validate that the username exists first - call to checkuserName() above
-//TODO testing to ensure the hashing is working properly
-
 async function authenticateLogin(username, password) {
 
     const db = await dbPromise;
@@ -60,8 +57,7 @@ async function createUser(newUserData) {
     const db = await dbPromise;
 
     //Salt and hash password
-    //Store only salt and hashed password
-    //TODO two password input fields with string comparison on passwords
+    //Stores only salt and hashed password
     const saltedHashedPword = crypto.saltHashPassword(newUserData.password);
 
     await db.run(SQL`

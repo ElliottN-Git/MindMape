@@ -22,6 +22,19 @@ async function checkUniqueUsername(username) {
     }
 }
 
+//Check email is unique
+async function checkUniqueUsername(email) {
+
+    let response = await fetch(`http://localhost:3000/checkemailtaken?username=${email}`);
+    let isTaken = await response.json();
+
+    if(isTaken == true) {
+        usernameTakenElement.style.display = "block";
+    } else {
+        usernameTakenElement.style.display = "none";
+    }
+}
+
 
 //Determine selected avatar image
 const avatarList = document.querySelector("#avatarOptions");

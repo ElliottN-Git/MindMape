@@ -36,13 +36,22 @@ router.get("/signup", function(req, res) {
     res.render("signUp"); //context object commented out for testing
 });
 
-//route handler for querying the database from client.js via fetch
+//route handler for querying the database for username from client.js via fetch
 router.get("/checkusernametaken", async function(req, res) {
     const username = req.query.username;
     const dbCheckIsTaken = await userDao.checkUserName(username);
 
     res.json(dbCheckIsTaken);
 });
+
+//route handler for querying the database for email from client.js via fetch
+router.get("/checkemailtaken", async function(req, res) {
+    const email = req.query.email;
+    const dbCheckIsTaken = await userDao.checkEmail(email);
+
+    res.json(dbCheckIsTaken);
+});
+
 
 
 //Submission of signup page 
