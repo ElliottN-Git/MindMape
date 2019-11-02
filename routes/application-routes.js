@@ -4,7 +4,6 @@ const router = express.Router();
 const verifyAuthenticated = require("../modules/verify-auth.js");
 
 router.get("/", verifyAuthenticated, function(req, res) {
-    console.log(req.session.user);
     if(req.session.user) {
         context = {
             homePage: true,
@@ -19,11 +18,6 @@ router.get("/", verifyAuthenticated, function(req, res) {
     }
     
     res.render("home", context);
-});
-
-router.get("/writeArticle", function(req, res) {
-
-    res.render("writeArticle");
 });
 
 module.exports = router;

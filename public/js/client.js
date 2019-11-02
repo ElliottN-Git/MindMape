@@ -1,8 +1,8 @@
 
+
 //Client-side js for event handling
 const enteredUserName = document.querySelector("#txtUName");
 const usernameTakenElement = document.querySelector("#usernameTaken");
-console.log(enteredUserName);
 
 enteredUserName.addEventListener("keyup", function() {
     checkUniqueUsername(enteredUserName.value);

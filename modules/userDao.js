@@ -1,6 +1,7 @@
 const SQL = require("sql-template-strings");
 const dbPromise = require("./database.js");
 const crypto = require("./crypto");
+const makeArray = require("./make-array");
 
 async function retrieveUserDataById(id) {
     const db = await dbPromise;
@@ -94,6 +95,68 @@ async function deleteUserData(username) {
         where id = ${username}`);
 }
 
+async function createArticle(userId, title, contents, username) {
+    const db = await dbPromise;
+    console.log(title);
+    await db.run(SQL`
+        INSERT INTO articles (title, content, userId, username, created_At) VALUES (
+            ${title},
+            ${contents},
+            ${userId},
+            ${username},
+            datetime('now')                 
+        )`);
+}
+
+async function loadArticlesById(userId) {
+    const db = await dbPromise;
+
+    const userArticle = await db.all(SQL`
+    SELECT * FROM articles WHERE userId = ${userId} ORDER BY created_At DESC`);
+    return userArticle;
+}
+
+async function loadAllArticles() {
+    const db = await dbPromise;
+
+    const articles = await db.all(SQL`
+    SELECT * FROM articles ORDER BY created_At DESC`);
+    return articles;
+}
+
+// testing
+async function getComments(articleId) {
+    const db = await dbPromise;
+    const getComments = await db.all(SQL`
+    SELECT * FROM comments WHERE articleId = ${articleId} ORDER By created_At DESC`);
+    const commentsArray = makeArray(getComments);
+    return commentsArray;
+}
+
+async function createComment(userId, content, articleId, parentCommentId) {
+    const db = await dbPromise;
+    if(parentCommentId) {
+        await db.run(SQL`
+        INSERT INTO comments (userId, articleId, replyTo_Id content, created_At) VALUES (
+            ${userId},
+            ${articleId},
+            ${parentCommentId},
+            ${content},
+            datetime('now')
+        )`);
+    } else {
+        await db.run(SQL`
+        INSERT INTO comments (userId, articleId, content, created_At) VALUES (
+            ${userId},
+            ${articleId},
+            ${content},
+            datetime('now')
+        )`);
+    }
+    
+    
+}
+
 // Export functions.
 module.exports = {
     retrieveUserDataById,
@@ -102,5 +165,10 @@ module.exports = {
     createUser,
     updateUserData,
     deleteUserData,
-    checkUserName
+    checkUserName,
+    createArticle,
+    loadArticlesById,
+    loadAllArticles,
+    createComment,
+    getComments
 };

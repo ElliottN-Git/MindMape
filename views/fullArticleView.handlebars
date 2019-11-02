@@ -18,10 +18,10 @@
 
 
 <!-- comments container -->
-	<div class="comment_block">
+	<div class="comment_block" id="comment_cocntainer">
 
 		 <!-- used by #{user} to create a new comment -->
-		 <div class="create_new_comment">
+		 {{!-- <div class="create_new_comment">
             <H2> Comments </H2>
 
 			<!-- current #{user} avatar -->
@@ -31,7 +31,45 @@
 		 		<input type="text" placeholder="Your comment..">
 		 	</div>
 
-		 </div>
+		</div> --}}
+    {{#if comments}}
+    {{#each comments}}
+    <div class="media mb-4">
+      <img class="d-flex mr-3 rounded-circle" src="https://s3.amazonaws.com/uifaces/faces/twitter/BillSKenney/73.jpg" alt="user's Avatar in src">
+      <div class="media-body">
+        <h5 class="mt-0">Commenter Name here</h5>
+        {{comments}}
+        <div class="media mt-4">
+          <div class="media-body">
+            <h5 class="mt-0">Write a reply</h5>
+            <form action="./fullArticleView" method="POST" enctype="multipart/form-data">
+              <div class="form-group">
+                <textarea class="form-control" rows="3" name = "reply" id="replyMade"></textarea>
+              </div>
+              <div class="form-group">
+                <button type="submit" class="btn btn-primary bt-submit">Submit!</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    {{/each}}
+    {{/if}}
+
+    <div class="card my-4">
+      <h5 class="card-header">Leave a Comment:</h5>
+      <div class="card-body">
+        <form action="./fullArticleView" method="POST" enctype="multipart/form-data">
+          <div class="form-group">
+            <textarea class="form-control" rows="3" name = "comment" id="commentMade"></textarea>
+          </div>
+          <div class="form-group">
+            <button type="submit" class="btn btn-primary bt-submit">Submit!</button>
+          </div>
+        </form>
+      </div>
+    </div>
   
 
 </div>

@@ -12,9 +12,25 @@ const port = 3000;
 // Setup Handlebars
 const handlebars = require("express-handlebars");
 app.engine("handlebars", handlebars({
+    helpers: {
+        summary: function (str) {
+            const htmlString= str;
+            // if we only want the plain text for the Summary
+            // const stripedHtml = htmlString.replace(/<[^>]+>/g, '');
+            // if we only want to remove image
+            const stripedHtml = htmlString.replace(/<img[^>]*>/g,"");
+            // if we want to remove image and table
+            // we can go so on and I'm suggesting options but personally I think may be just remove image
+            // unless we figure out how to resize image from the WYSIWYG when uploaded (we can but might take a lot of time)
+            // let plusTable = htmlString.replace(/<img[^>]*>|<table[^>]+>/g,"");
+            const subString = stripedHtml.substring(0,500);
+            return subString;
+        }
+    },
     defaultLayout: "main"
 }));
 app.set("view engine", "handlebars");
+
 
 // Setup body-parser
 const bodyParser = require("body-parser");
@@ -49,6 +65,12 @@ app.use(signUpRouter);
 
 const userProfileRouter = require("./routes/user-profile-page");
 app.use(userProfileRouter);
+
+const writeArticle = require("./routes/write-article-routes")
+app.use(writeArticle);
+
+const fullArticle = require("./routes/fullArticleView")
+app.use(fullArticle);
 
 // Start the server running.
 app.listen(port, function () {

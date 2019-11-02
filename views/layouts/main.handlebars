@@ -61,12 +61,12 @@
         file_picker_callback: function (callback, value, meta) {
             /* Provide file and text for the link dialog */
             if (meta.filetype === 'file') {
-                callback('https://www.google.com/logos/google.jpg', { text: 'My text' });
+                callback('https://www.google.com/logos/google.jpg', { text: 'Example: My text' });
             }
 
             /* Provide image and alt text for the image dialog */
             if (meta.filetype === 'image') {
-                callback('https://www.google.com/logos/google.jpg', { alt: 'My alt text' });
+                callback('https://www.google.com/logos/google.jpg', { alt: 'Example: My alt text' });
             }
 
             /* Provide alternative source and posted for the media dialog */
@@ -135,8 +135,9 @@
                             </ul>
                         </li>
                         <li class="{{#if aboutPage}} active{{/if}}"><a href="./">About</a></li>
-                        
+                        <li class="active"><a href="./article">ArticleTest</a></li>
                         {{#if user}}
+                        
                         <li class="active"><a href="./logout">logout</a></li>
                         {{else}}
                         <li class="{{#if notLogged}} active{{/if}}"><a href="./login">Login!</a></li>
