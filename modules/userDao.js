@@ -90,12 +90,12 @@ async function updateUserData(userData) {
         where id = ${userData.id}`);
 }
 
-async function deleteUserData(id) {
+async function deleteUserData(username) {
     const db = await dbPromise;
 
     await db.run(SQL`
         delete from users
-        where id = ${id}`);
+        where id = ${username}`);
 }
 
 // Export functions.

@@ -49,6 +49,7 @@ router.get("/checkusernametaken", async function(req, res) {
 //calls userDao.createUser() to save details in mindMAPE-db
 router.post("/signup", upload.single("imageFile"), function(req, res) {
     const fileInfo = req.file;
+    console.log(fileInfo);
     const userInfo = req.body;
 
     // Move the image into the images folder
