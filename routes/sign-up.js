@@ -84,6 +84,9 @@ router.post("/signup", upload.single("imageFile"), async function(req, res) {
         image.resize(256, jimp.AUTO);
         await image.write(`./public/images/thumbnails/${fileInfo.originalname}`);
         avatarId = fileInfo.originalname;
+
+    //delete full-sized image
+        fs.unlinkSync(newFileName);
     }
 
     // Store the new user to the data file
