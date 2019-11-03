@@ -107,9 +107,11 @@ async function deleteUserData(username) {
         where id = ${username}`);
 }
 
+//articles from here.
+//maybe create another Dao js for tidying in the future.
+
 async function createArticle(userId, title, contents, username) {
     const db = await dbPromise;
-    console.log(title);
     await db.run(SQL`
         INSERT INTO articles (title, content, userId, username, created_At) VALUES (
             ${title},
@@ -118,6 +120,22 @@ async function createArticle(userId, title, contents, username) {
             ${username},
             datetime('now')                 
         )`);
+}
+
+async function deleteArticle(articleId) {
+    const db = await dbPromise;
+
+    await db.run(SQL`
+        delete from articles
+        where articleId = ${articleId}`);
+}
+
+async function loadArticleDetails(articleId) {
+    const db = await dbPromise;
+
+    const articleDetails = await db.all(SQL`
+    SELECT * FROM articles WHERE articleId = ${articleId}`);
+    return articleDetails[0];
 }
 
 async function loadArticlesById(userId) {
@@ -180,6 +198,8 @@ module.exports = {
     checkUserName,
     checkEmail,
     createArticle,
+    deleteArticle,
+    loadArticleDetails,
     loadArticlesById,
     loadAllArticles,
     createComment,
