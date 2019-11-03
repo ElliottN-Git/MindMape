@@ -77,17 +77,25 @@ avatarList.addEventListener("click", function(e) {
     const parentLI = selectedLIImg.parentElement;
 
     const selectedImgName = selectedLIImg.name;
-    console.log(selectedImgName);
-
     const radioButton = document.querySelector(`#${selectedImgName}`);
-    console.log(radioButton);
+
 
     if(alreadySelected && alreadySelected != parentLI) {
         alreadySelected.classList.toggle("selected");
         parentLI.classList.toggle("selected");
+        if(radioButton.checked == "true"){
+            radioButton.checked = "false";
+        } else {
+            radioButton.checked = "true";
+        }
     } else {
         parentLI.classList.toggle("selected");
         imgUploadDiv.classList.toggle("d-none");
+        if(radioButton.checked == "true"){
+            radioButton.checked = "false";
+        } else {
+            radioButton.checked = "true";
+        }
     }
 });
 

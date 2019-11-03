@@ -64,12 +64,8 @@ router.post("/signup", upload.single("imageFile"), async function(req, res) {
     console.log(userInfo);
     console.log(req.body.avatar);
     let avatarId = null;
-    // const selectedAvatar = document.querySelector(".imageli.selected");
-    // console.log(selectedAvatar);
     if(!req.file) {
-        // fullpath = selectedAvatar.src;
-        // avatarId = fullpath.replace(/^.*[\\\/]/, '');
-        // console.log(`selected avatar filename: ${avatarId}`);
+        console.log(req.body.avatar.value);
     } else {
         const fileInfo = req.file;
     
