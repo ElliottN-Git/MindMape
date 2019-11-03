@@ -1,0 +1,23 @@
+{{#if articles}}
+    {{#each articles}}
+    <div class="card mb-4">
+        <form method="POST"> 
+            <div class="card-body mt-4">
+                <h2 class="card-title">Article Title: {{this.title}}</h2>
+                <span>by {{this.username}}</span>
+                <span>{{#summary this.content}}{{/summary}}</span>
+            </div>
+            <div>
+                <button formaction="/fullArticleView" type="submit" class="btn btn-primary bt-submit" name="articleId" value="{{this.articleId}}">Read Full Article!</button>
+                <button formaction="/editArticle" type="submit" class="btn btn-primary bt-submit" name="articleId" value="{{this.articleId}}">Edit Article!</button>
+                <button formaction="/deleteArticle" type="submit" class="btn btn-primary bt-submit" name="articleId" value="{{this.articleId}}">Delete Article!</button>
+            </div>
+        </form>
+        
+        <hr>
+    </div>
+    {{/each}}
+{{#else}}
+    <h1>Article History Empty</h1>
+{{/else}}
+{{/if}}

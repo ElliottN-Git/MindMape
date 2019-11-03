@@ -24,6 +24,44 @@ router.post("/article", function (req, res) {
     res.render("fullArticleView", context);
 });
 
+router.get("/userArticleHistory", async function (req, res) {
+    const user = req.session.user;
+    const allArticles = await userDao.loadArticlesById(user.userId);
+    
+    const context={
+        articles: allArticles,
+        user: user
+    };
+   
+    res.render("userArticleHistory", context);
+});
+
+router.post("/editArticle", async function (req, res) {
+    const user = req.session.user;
+    const articleId = req.body.articleId;
+    const articleDetails = await userDao.loadArticleDetails(articleId);
+    const context={
+        user: user,
+        details: articleDetails
+    };
+   
+    res.render("writeArticle", context);
+});
+
+router.post("/deleteArticle", async function (req, res) {
+    const articleId = req.body.articleId;
+    const deleteArticle = await userDao.deleteArticle(articleId);
+    const user = req.session.user;
+    const allArticles = await userDao.loadArticlesById(user.userId);
+    
+    const context={
+        articles: allArticles,
+        user: user
+    };
+   
+    res.render("userArticleHistory", context);
+});
+
 router.get("/fullArticleView", function(req, res) {
     console.log(req.query);
     // userDao.getComments(articleId);
