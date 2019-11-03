@@ -34,10 +34,21 @@ async function checkUserName(username) {
     }
 }
 
-//Function called by login-routes when user enters their username and password
-//TODO validate that the username exists first - call to checkuserName() above
-//TODO testing to ensure the hashing is working properly
+//Check if an email is already taken in the database
+async function checkEmail(email) {
+    const db = await dbPromise;
+    const getEmail = await db.get(SQL`
+    SELECT email FROM users
+    WHERE email = ${email}`);
 
+    if(getEmail != undefined) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+//Function called by login-routes when user enters their username and password
 async function authenticateLogin(username, password) {
 
     const db = await dbPromise;
@@ -61,8 +72,7 @@ async function createUser(newUserData) {
     const db = await dbPromise;
 
     //Salt and hash password
-    //Store only salt and hashed password
-    //TODO two password input fields with string comparison on passwords
+    //Stores only salt and hashed password
     const saltedHashedPword = crypto.saltHashPassword(newUserData.password);
 
     await db.run(SQL`
@@ -91,12 +101,12 @@ async function updateUserData(userData) {
         where id = ${userData.id}`);
 }
 
-async function deleteUserData(id) {
+async function deleteUserData(username) {
     const db = await dbPromise;
 
     await db.run(SQL`
         delete from users
-        where id = ${id}`);
+        where id = ${username}`);
 }
 
 async function createArticle(userId, title, contents, username) {
@@ -170,6 +180,7 @@ module.exports = {
     updateUserData,
     deleteUserData,
     checkUserName,
+    checkEmail,
     createArticle,
     loadArticlesById,
     loadAllArticles,

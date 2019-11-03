@@ -29,7 +29,7 @@
 
                     <div class="form-group">
                         <label for="txtUName">Username:</label>
-                        <span id="usernameTaken" style="display: none; color:red ">Username is taken. Please try something different:</span>
+                        <span id="usernameTaken" style="display: none; color:red">Username is taken. Please try something different:</span>
                         <input type="text" class="form-control" id="txtUName" name="userName" value="{{userName}}">
                     </div>
 
@@ -39,8 +39,8 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="password">Re Enter Password:</label>
-                        <input type="password" class="form-control" id="confirm-password" name="password" value="{{password}}">
+                        <label for="passwordCheck">Re Enter Password:</label>
+                        <input type="password" class="form-control" id="confirm-password" name="passwordCheck" value="">
                          <span id='message'></span>
                     </div>
 
@@ -59,9 +59,11 @@
                         </select>
                     </div>
 
+
                     <div class="form-group">
                         <label for="txtEmail">Email:</label>
-                        <input type="email" class="form-control" id="txtEmail" name="email" placeholder="Enter email" value="{{email}}">
+                        <span id="emailTaken" style="display: none; color:red">Email address is already in use. Please <a href="./login">login here</a> or enter a different email address:</span>
+                        <input type="email" class="form-control" id="txtEmail" name="email" value="{{email}}">
                     </div>
 
                     <div class="form-group">
@@ -322,37 +324,52 @@
 
                     <div class="form-group">
                         <label for="personal">Personal Description:</label>
-                        <input type="text" class="form-control" id="personal" name="personal" value="{{personal}}">
+                        <textarea type="text" class="form-control" id="personal" name="personal" height= value="{{personal}}"></textarea>
                     </div>
 
 
-                    <div class="form-group">
-                        <label for="inpFile">Upload an Avatar:</label>
+                    <div class="form-group" id="imageUpload"> 
+                        <label for="inpFile">Choose an Avatar:</label>
                         <p>Upload avatar image from your computer.</p>
-                        <input id="inpFile" type="file" name="imageFile" accept=".png,.jpg,.jpeg,.bmp,.gif" required>
+                        <input id="inpFile" type="file" name="imageFile" accept=".png,.jpg,.jpeg,.bmp,.gif"><button type="button" class="btn btn-primary" id="clearImgUpload">Clear</button>
+                        <br><p>or</p>
                     </div>
-                    <p>or</p>
+                    
                     
                     <div class="form-group">
                         <label for="inpFile">Select an Avatar:</label>
                         <p>Select an image below that you would like to use for your avatar.</p>
                     </div>
                     <div class="form-group" id="avatarDiv">
-                        <li class="imageli"><img class="imgAvatar" src="./images/avatar_1.png"></li>
-                        <li class="imageli"><img class="imgAvatar" src="./images/avatar_2.png"></li>
-                        <li class="imageli"><img class="imgAvatar" src="./images/avatar_3.png"></li>
-                        <li class="imageli"><img class="imgAvatar" src="./images/avatar_4.png"></li>
-                        <li class="imageli"><img class="imgAvatar" src="./images/avatar_5.png"></li>
-                        <li class="imageli"><img class="imgAvatar" src="./images/avatar_6.png"></li>
-                        <li class="imageli"><img class="imgAvatar" src="./images/avatar_7.png"></li>
-                        <li class="imageli"><img class="imgAvatar" src="./images/avatar_8.png"></li>
-                        <li class="imageli"><img class="imgAvatar" src="./images/avatar_9.png"></li>
-                        <li class="imageli"><img class="imgAvatar" src="./images/avatar_10.png"></li>
-                        <li class="imageli"><img class="imgAvatar" src="./images/avatar_11.png"></li>
+                        <ul id="avatarOptions">
+                            <li class="imageli"><img class="imgAvatar" name="avatarDefault" src="./images/thumbnails/avatar_default.png"></li>
+                            <li class="imageli"><img class="imgAvatar" name="avatar1" src="./images/thumbnails/avatar_1.png"></li>
+                            <li class="imageli"><img class="imgAvatar" name="avatar2" src="./images/thumbnails/avatar_2.png"></li>
+                            <li class="imageli"><img class="imgAvatar" name="avatar3" src="./images/thumbnails/avatar_3.png"></li>
+                            <li class="imageli"><img class="imgAvatar" name="avatar4" src="./images/thumbnails/avatar_4.png"></li>
+                            <li class="imageli"><img class="imgAvatar" name="avatar5" src="./images/thumbnails/avatar_5.png"></li>
+                            <li class="imageli"><img class="imgAvatar" name="avatar6" src="./images/thumbnails/avatar_6.png"></li>
+                            <li class="imageli"><img class="imgAvatar" name="avatar7" src="./images/thumbnails/avatar_7.png"></li>
+                            <li class="imageli"><img class="imgAvatar" name="avatar8" src="./images/thumbnails/avatar_8.png"></li>
+                            <li class="imageli"><img class="imgAvatar" name="avatar9" src="./images/thumbnails/avatar_9.png"></li>
+                            <li class="imageli"><img class="imgAvatar" name="avatar10" src="./images/thumbnails/avatar_10.png"></li>
+                            <li class="imageli"><img class="imgAvatar" name="avatar11" src="./images/thumbnails/avatar_11.png"></li>
+                        </ul>
+                        <input type="radio" id="avatarDefault" name="avatar" value="avatar_Default.png">  
+                        <input type="radio" id="avatar1" name="avatar" value="avatar_1.png">
+                        <input type="radio" id="avatar2" name="avatar" value="avatar_2.png">
+                        <input type="radio" id="avatar3" name="avatar" value="avatar_3.png">
+                        <input type="radio" id="avatar4" name="avatar" value="avatar_4.png">
+                        <input type="radio" id="avatar5" name="avatar" value="avatar_5.png">
+                        <input type="radio" id="avatar6" name="avatar" value="avatar_6.png">
+                        <input type="radio" id="avatar7" name="avatar" value="avatar_7.png">
+                        <input type="radio" id="avatar8" name="avatar" value="avatar_8.png">
+                        <input type="radio" id="avatar9" name="avatar" value="avatar_9.png">
+                        <input type="radio" id="avatar10" name="avatar" value="avatar_10.png">
+                        <input type="radio" id="avatar11" name="avatar" value="avatar_11.png">
                     </div>
-
                     <div class="form-group">
-                        <button type="submit" class="btn btn-primary bt-submit">Submit!</button>
+                        <button type="submit" class="btn btn-primary">Submit!</button>
                     </div>
                 </form>
             </div>     
