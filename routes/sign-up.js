@@ -8,6 +8,9 @@ const upload = require("../modules/multer-uploader");
 // Setup fs
 const fs = require("fs");
 
+// Setup jimp
+const jimp = require("jimp");
+
 // Setup required modules
 const userProcess = require("../modules/user-process");
 const userDao = require("../modules/userDao");
@@ -56,17 +59,32 @@ router.get("/checkemailtaken", async function(req, res) {
 
 //Submission of signup page 
 //calls userDao.createUser() to save details in mindMAPE-db
-router.post("/signup", upload.single("imageFile"), function(req, res) {
-    const fileInfo = req.file;
-    console.log(fileInfo);
+router.post("/signup", upload.single("imageFile"), async function(req, res) {
+    console.log(req.file);
     const userInfo = req.body;
-
+    console.log(userInfo);
+    let avatarId = null;
+    // const selectedAvatar = document.querySelector(".imageli.selected");
+    // console.log(selectedAvatar);
+    if(!req.file) {
+        // fullpath = selectedAvatar.src;
+        // avatarId = fullpath.replace(/^.*[\\\/]/, '');
+        // console.log(`selected avatar filename: ${avatarId}`);
+    } else {
+        const fileInfo = req.file;
+        console.log(fileInfo);
+    
     // Move the image into the images folder
-    const oldFileName = fileInfo.path;
-    const newFileName = `./public/images/${fileInfo.originalname}`;
-    fs.renameSync(oldFileName, newFileName);
+        const oldFileName = fileInfo.path;
+        const newFileName = `./public/images/${fileInfo.originalname}`;
+        fs.renameSync(oldFileName, newFileName);
 
-    //TODO convert uploaded image to thumbnail-size.
+    //Convert uploaded image to thumbnail-size.
+        const image = await jimp.read(newFileName);
+        image.resize(256, jimp.AUTO);
+        await image.write(`./public/images/thumbnails/${fileInfo.originalname}`);
+        avatarId = fileInfo.originalname;
+    }
 
     // Store the new user to the data file
     const newUser = {
@@ -79,13 +97,13 @@ router.post("/signup", upload.single("imageFile"), function(req, res) {
         email: userInfo.email,
         phoneNum: userInfo.phoneNum,
         country: userInfo.country,
-        avatarId: fileInfo.originalname,
+        avatarId: avatarId,
         personalDescription: userInfo.personal,
-        imageUrl: newFileName
-    };
+    }
     //output to console for testing
     console.log(newUser);
-    //confirms all fields are properly filled out and the input is valid
+
+    //Confirms all fields are properly filled out and the input is valid
     //If username is taken will throw error - need to improve error handling so it's not just
     //blank page with the message
     if(userProcess.validateUserData(newUser)) {

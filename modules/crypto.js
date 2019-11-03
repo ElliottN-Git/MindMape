@@ -30,6 +30,7 @@ const sha512 = function(password, salt){
 
 function saltHashPassword(userpassword) {
     const salt = genRandomString(16); /** Gives us salt of length 16 */
+    console.log(userpassword);
     const passwordData = sha512(userpassword, salt);
 
     //TODO remove -- testing only!

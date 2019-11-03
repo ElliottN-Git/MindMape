@@ -18,8 +18,8 @@ function validateUserData(user) {
     if (!user.dob) {
         throw "No date of birth!";
     }
-    if (!user.imageUrl) {
-        throw "No imageUrl!";
+    if (!user.avatarId) {
+        throw "No avatar!";
     }
     if (!user.email) {
         throw "No email!";
@@ -41,14 +41,14 @@ function validateUserData(user) {
     return {
         fname: user.fname,
         lname: user.lname,
-        imageUrl: user.imageUrl,
         DOB: user.DOB,
         gender: user.gender,
         phoneNum: user.phoneNum,
         email: user.email,
         country: user.country,
         username: user.username,
-        password: user.password
+        password: user.password, 
+        avatarId: user.avatarId
     }
 }
 
