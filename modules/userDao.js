@@ -60,10 +60,8 @@ async function authenticateLogin(username, password) {
     const enteredHashedPassWord = crypto.sha512(password, getUser[0].pwordSalt);
 
     if(dbHashedPassWord === enteredHashedPassWord.passwordHash) {
-        console.log("passwords match!");
         return getUser;
     } else {
-        console.log("passwords DON'T match");
         return false;
     }
 }
