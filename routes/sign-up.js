@@ -64,7 +64,7 @@ router.post("/signup", upload.single("imageFile"), async function(req, res) {
     console.log(userInfo);
     console.log(req.body.avatar);
     let avatarId = null;
-    if(!req.file) {
+    if(!req.file) { //TODO not working when no file uploaded????
         console.log(req.body.avatar.value);
     } else {
         const fileInfo = req.file;
