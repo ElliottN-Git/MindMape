@@ -61,11 +61,9 @@ router.get("/checkemailtaken", async function(req, res) {
 //calls userDao.createUser() to save details in mindMAPE-db
 router.post("/signup", upload.single("imageFile"), async function(req, res) {
     const userInfo = req.body;
-    console.log(userInfo);
-    console.log(req.body.avatar);
     let avatarId = null;
-    if(!req.file) { //TODO not working when no file uploaded????
-        console.log(req.body.avatar.value);
+    if(!req.file) { 
+        avatarId = `${req.body.avatar}`;
     } else {
         const fileInfo = req.file;
     
