@@ -11,10 +11,9 @@ function validateUserData(user) {
     if (!user.username) {
         throw "no username!";
     }
-    //Commented out for testing signup details to database
-    // if (!user.password) {
-    //     throw "no password!";
-    // }
+    if (!user.password) {
+        throw "no password!";
+    }
     if (!user.dob) {
         throw "No date of birth!";
     }

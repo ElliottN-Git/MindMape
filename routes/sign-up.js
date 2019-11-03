@@ -61,11 +61,9 @@ router.get("/checkemailtaken", async function(req, res) {
 //calls userDao.createUser() to save details in mindMAPE-db
 router.post("/signup", upload.single("imageFile"), async function(req, res) {
     const userInfo = req.body;
-    console.log(userInfo);
-    console.log(req.body.avatar);
     let avatarId = null;
-    if(!req.file) {
-        console.log(req.body.avatar.value);
+    if(!req.file) { 
+        avatarId = `${req.body.avatar}`;
     } else {
         const fileInfo = req.file;
     
@@ -102,15 +100,18 @@ router.post("/signup", upload.single("imageFile"), async function(req, res) {
     // console.log(newUser);
 
     //Confirms all fields are properly filled out and the input is valid
-    if(userProcess.validateUserData(newUser)) {
-
+    try {
+        userProcess.validateUserData(newUser);
+    } catch(err) {
+        res.redirect('back');
+        window.alert(err);
+    }
     //sends to the user data access object to create new user in db
         userDao.createUser(newUser);
         req.session.user = req.body;
         const user = req.session.user;
     // Redirect to the userProfile page
         res.render("userProfile", user);
-    }
 });
 
 
