@@ -3,8 +3,9 @@
     <h1>{{message}}</h1>
     
     <h1>Hello, {{#if user}} {{user.username}}!{{else}} Stranger!{{/if}}</h1>
-    <p>This is your homepage!</p>
-    <p>Click <a href="./logout">here</a> to log out.</p>
+    {{#if user}}<p>This is your homepage!</p>{{else}}{{/if}}
+    {{#if user}}<p>Click <a href="./logout">here</a> to log out.</p>
+    {{else}}<p>Click <a href="./login">here</a> to log in, or <a href="./signup">here</a> to create an account.</p>{{/if}}
       <!-- Page Content -->
     <div class="container">
 
