@@ -60,7 +60,6 @@ router.get("/checkemailtaken", async function(req, res) {
 //Submission of signup page 
 //calls userDao.createUser() to save details in mindMAPE-db
 router.post("/signup", upload.single("imageFile"), async function(req, res) {
-    console.log(req.file);
     const userInfo = req.body;
     console.log(userInfo);
     let avatarId = null;
@@ -72,7 +71,6 @@ router.post("/signup", upload.single("imageFile"), async function(req, res) {
         // console.log(`selected avatar filename: ${avatarId}`);
     } else {
         const fileInfo = req.file;
-        console.log(fileInfo);
     
     // Move the image into the images folder
         const oldFileName = fileInfo.path;
@@ -104,17 +102,16 @@ router.post("/signup", upload.single("imageFile"), async function(req, res) {
         personalDescription: userInfo.personal,
     }
     //output to console for testing
-    console.log(newUser);
+    // console.log(newUser);
 
     //Confirms all fields are properly filled out and the input is valid
-    //If username is taken will throw error - need to improve error handling so it's not just
-    //blank page with the message
     if(userProcess.validateUserData(newUser)) {
-        //sends to the user data access object to create new user in db
+
+    //sends to the user data access object to create new user in db
         userDao.createUser(newUser);
         req.session.user = req.body;
         const user = req.session.user;
-        // Redirect to the userProfile page
+    // Redirect to the userProfile page
         res.render("userProfile", user);
     }
 });

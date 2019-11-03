@@ -46,6 +46,23 @@ async function checkUniqueEmail(email) {
     }
 }
 
+//Clear the image file selected to be uploaded
+const clearFileInputBtn = document.querySelector("#clearImgUpload");
+
+clearFileInputBtn.addEventListener("click", function(){
+    resetFileInput();
+})
+
+function resetFileInput() {
+    const filledFileInput = document.querySelector("#inpFile");
+    const clearedFileInput = document.createElement("input");
+    clearedFileInput.id = "inpFile";
+    clearedFileInput.type = "file";
+    clearedFileInput.name = "imageFile";
+    clearedFileInput.accept = ".png,.jpg,.jpeg,.bmp,.gif";
+
+    filledFileInput.parentNode.replaceChild(clearedFileInput, filledFileInput);
+}
 
 //Determine selected avatar image
 const avatarList = document.querySelector("#avatarOptions");
