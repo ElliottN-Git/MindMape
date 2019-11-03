@@ -68,12 +68,19 @@ function resetFileInput() {
 const avatarList = document.querySelector("#avatarOptions");
 const imgUploadDiv = document.querySelector("#imageUpload");
 
+//Toggle class "selected" on clicked avatar for animation
 avatarList.addEventListener("click", function(e) {
-    console.log(imgUploadDiv);
+    resetFileInput();
 
     const alreadySelected = document.querySelector(".imageli.selected");
     const selectedLIImg = e.target;
     const parentLI = selectedLIImg.parentElement;
+
+    const selectedImgName = selectedLIImg.name;
+    console.log(selectedImgName);
+
+    const radioButton = document.querySelector(`#${selectedImgName}`);
+    console.log(radioButton);
 
     if(alreadySelected && alreadySelected != parentLI) {
         alreadySelected.classList.toggle("selected");

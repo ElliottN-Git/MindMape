@@ -62,6 +62,7 @@ router.get("/checkemailtaken", async function(req, res) {
 router.post("/signup", upload.single("imageFile"), async function(req, res) {
     const userInfo = req.body;
     console.log(userInfo);
+    console.log(req.body.avatar);
     let avatarId = null;
     // const selectedAvatar = document.querySelector(".imageli.selected");
     // console.log(selectedAvatar);
