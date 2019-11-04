@@ -30,6 +30,7 @@
                     <div class="form-group">
                         <label for="txtUName">Username:</label>
                         <span id="usernameTaken" style="display: none; color:red">Username is taken. Please try something different:</span>
+                        <span id="bannedWord" style="display: none; color:red">That username contains banned words. Try again after you've washed your mouth out with soap!</span>                        
                         <input type="text" class="form-control" id="txtUName" name="userName" value="{{userName}}">
                     </div>
 
@@ -369,7 +370,7 @@
                         <input type="radio" id="avatar11" name="avatar" value="avatar_11.png">
                     </div>
                     <div class="form-group">
-                        <button type="submit" class="btn btn-primary">Submit!</button>
+                        <button type="submit" class="btn btn-primary" id="submitBtn">Submit!</button>
                     </div>
                 </form>
             </div>     

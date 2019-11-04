@@ -2,11 +2,20 @@
 
 //select username entry and error message elements
 const enteredUserName = document.querySelector("#txtUName");
-const usernameTakenElement = document.querySelector("#usernameTaken");
+const usernameTakenSpan = document.querySelector("#usernameTaken");
+const bannedWordSpan = document.querySelector("#bannedWord");
+const signupSubmitBtn = document.querySelector("#submitBtn")
 
 //event handler for username entry input
 enteredUserName.addEventListener("keyup", function() {
     checkUniqueUsername(enteredUserName.value);
+    if(isProfane(enteredUserName.value)) {
+        bannedWordSpan.style.display = "block";
+        signupSubmitBtn.disabled = true;
+    } else {
+        bannedWordSpan.style.display = "none";
+        signupSubmitBtn.disabled = false;
+    }
 });
 
 
@@ -17,9 +26,9 @@ async function checkUniqueUsername(username) {
     let isTaken = await response.json();
 
     if(isTaken == true) {
-        usernameTakenElement.style.display = "block";
+        usernameTakenSpan.style.display = "block";
     } else {
-        usernameTakenElement.style.display = "none";
+        usernameTakenSpan.style.display = "none";
     }
 }
 
@@ -102,7 +111,10 @@ avatarList.addEventListener("click", function(e) {
     //check password re-enter box on sign-up page
     $('#password, #confirm-password').on('keyup', function () {
         if ($('#password').val() == $('#confirm-password').val()) {
+            signupSubmitBtn.disabled = false;
             $('#message').html('Matching').css('color', 'green');
-        } else 
+        } else {
+            signupSubmitBtn.disabled = true;
             $('#message').html('Not Matching').css('color', 'red');
+        }
     });
