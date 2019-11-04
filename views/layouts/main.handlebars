@@ -94,6 +94,7 @@
         paste_data_images: true,
         automatic_uploads: true,
         images_upload_credentials: true,
+
         images_upload_handler : function(blobInfo, success, failure) {
 			let xhr, formData;
 
@@ -126,7 +127,7 @@
 
     });
     function ajaxLoad() {
-        var ed = tinyMCE.get('content');
+        var ed = tinyMCE.get('textarea#full-featured-non-premium');
 
         // Do you ajax call here, window.setTimeout fakes ajax call
         ed.setProgressState(1); // Show progress
@@ -137,7 +138,7 @@
     }
 
     function ajaxSave() {
-        var ed = tinyMCE.get('content');
+        var ed = tinyMCE.get('textarea#full-featured-non-premium');
 
         // Do you ajax call here, window.setTimeout fakes ajax call
         ed.setProgressState(1); // Show progress

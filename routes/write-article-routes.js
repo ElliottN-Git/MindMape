@@ -23,8 +23,13 @@ router.post("/editArticle", async function(req, res) {
     const user = req.session.user;
     const articleId = req.body.articleId;
     const articleDetail = await userDao.loadArticleDetails(articleId);
+    console.log(articleDetail);
     if(user.userId == articleDetail.userId){
-        res.render("writeArticle");
+        const context = {
+            content: articleDetail.content,
+            title: articleDetail.title
+        };
+        res.render("writeArticle", context);
     }
     
 });

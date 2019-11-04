@@ -1,5 +1,25 @@
-
-
+{{#if content}}
+<div class="card">
+<div class="card-body">
+    <p class="card-text">What are we posting today?</p>
+    <form action="./updateArticle" method="POST" enctype="multipart/form-data">
+        <div class = "form-group">
+            <label for="title">Post Title:</label>
+            <input type="text" class="form-control" id="title" name="title" placeholder="Write your title here" value="{{title}}">
+        </div>
+        <div class="form-group">
+            <textarea id="full-featured-non-premium" name="wysiwyg"> {{content}}
+            </textarea>
+        </div>
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary">Submit!</button>
+            <input type="button"  class="btn btn-primary" value="Cancel!" onclick="history.back()">
+        </div>
+        
+    </form>
+</div>
+{{/if}}
+{{#else}}
 <div class="row">
     <div class="col-md-12">
 
@@ -35,5 +55,5 @@
         </div>
     </div>
 </div>
-
+{{/else}}
 
