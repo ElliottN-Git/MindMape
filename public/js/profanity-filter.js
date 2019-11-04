@@ -2,11 +2,15 @@
 const postArticleBtn = document.querySelector("#postArticleBtn");
 
 postArticleBtn.addEventListener("click", function() {
-    const titleStr = document.querySelector("#title").value;
+    let titleStr = document.querySelector("#title").value;
     console.log(titleStr);
     replaceBannedWords(titleStr);
 
-    const articleContent = document.querySelector("#full-featured-non-premium").value;
+    //For some reason doesn't get innerHTML on first try, only after page is reloaded?
+        //Looks like the triggerSave() method fixes it.
+    tinyMCE.triggerSave();
+    let articleContent = document.querySelector("#full-featured-non-premium").value;
+    // console.log(document.querySelector("#full-featured-non-premium"));
     console.log(articleContent);
     replaceBannedWords(articleContent);
 });
@@ -24,8 +28,9 @@ function isProfane(string) {
     }
 }
 
+//Replaces any words that match bannedWords regex with "****"
 function replaceBannedWords(string) {
-    let censoredString = string.replace(bannedWords, "****");
+    let censoredString = string.replace(bannedWords, "#$!@");
     console.log(censoredString);
     return censoredString;
 }
