@@ -4,17 +4,17 @@
 const enteredUserName = document.querySelector("#txtUName");
 const usernameTakenSpan = document.querySelector("#usernameTaken");
 const bannedWordSpan = document.querySelector("#bannedWord");
-const submitBtn = document.querySelector("#submitBtn")
+const signupSubmitBtn = document.querySelector("#submitBtn")
 
 //event handler for username entry input
 enteredUserName.addEventListener("keyup", function() {
     checkUniqueUsername(enteredUserName.value);
     if(isProfane(enteredUserName.value)) {
         bannedWordSpan.style.display = "block";
-        submitBtn.disabled = true;
+        signupSubmitBtn.disabled = true;
     } else {
         bannedWordSpan.style.display = "none";
-        submitBtn.disabled = false;
+        signupSubmitBtn.disabled = false;
     }
 });
 
@@ -111,10 +111,10 @@ avatarList.addEventListener("click", function(e) {
     //check password re-enter box on sign-up page
     $('#password, #confirm-password').on('keyup', function () {
         if ($('#password').val() == $('#confirm-password').val()) {
-            submitBtn.disabled = false;
+            signupSubmitBtn.disabled = false;
             $('#message').html('Matching').css('color', 'green');
         } else {
-            submitBtn.disabled = true;
+            signupSubmitBtn.disabled = true;
             $('#message').html('Not Matching').css('color', 'red');
         }
     });
