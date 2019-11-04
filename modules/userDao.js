@@ -122,6 +122,26 @@ async function createArticle(userId, title, contents, username) {
         )`);
 }
 
+// will add something like 'modified at' later
+async function updateArticle(id, title, content) {
+    const db = await dbPromise;
+    await db.run(SQL`update articles set title = '${title}', content = '${content}' where articleId = ${id}`);
+    // await db.run(SQL`update articles set content = '${content}' where articleId = ${id}`);
+    // let data = [title, id];
+    // let sql = `UPDATE articles
+    //             SET title = ?
+    //             WHERE articleId = ?`;
+    
+    // db.run(sql, data, function(err) {
+    // if (err) {
+    //     return console.error(err.message);
+    // }
+    // console.log(`Row(s) updated: ${this.changes}`);
+    
+    // });
+    
+}
+
 async function deleteArticle(articleId) {
     const db = await dbPromise;
 
@@ -199,6 +219,7 @@ module.exports = {
     checkEmail,
     createArticle,
     deleteArticle,
+    updateArticle,
     loadArticleDetails,
     loadArticlesById,
     loadAllArticles,

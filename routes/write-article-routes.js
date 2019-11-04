@@ -23,26 +23,16 @@ router.post("/editArticle", async function(req, res) {
     const user = req.session.user;
     const articleId = req.body.articleId;
     const articleDetail = await userDao.loadArticleDetails(articleId);
-    console.log(articleDetail);
     if(user.userId == articleDetail.userId){
         const context = {
             content: articleDetail.content,
-            title: articleDetail.title
+            title: articleDetail.title,
+            articleId: articleDetail.articleId
         };
         res.render("writeArticle", context);
     }
     
 });
-// router.post("/editArticle", async function (req, res) {
-//     const userDetails = req.session.user;
-//     const articleId = req.body.articleId;
-//     const articleDetails = await userDao.loadArticleDetails(articleId);
-    
-   
-//     res.render("edit", userDetails);
-// });
-
-
 
 router.post("/writeArticle", upload.single("wysiwyg"), async function(req, res) {
     const title = req.body.title;
