@@ -5,7 +5,7 @@
     <h1>Hello, {{#if user}} {{user.username}}!{{else}} Stranger!{{/if}}</h1>
     {{#if user}}<p>This is your homepage!</p>{{else}}{{/if}}
     {{#if user}}<p>Click <a href="./logout">here</a> to log out.</p>
-    {{else}}<p>Click <a href="./login">here</a> to log in, or <a href="./signup">here</a> to create an account.</p>{{/if}}
+    {{else}}<p><a href="./login">Log in</a>, or <a href="./signup">create an account</a>.</p>{{/if}}
       <!-- Page Content -->
     <div class="container">
 

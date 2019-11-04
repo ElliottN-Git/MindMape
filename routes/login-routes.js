@@ -1,7 +1,6 @@
 const express = require("express");
 const router = express.Router();
 
-const userDb = require("../modules/user-db.js");
 const userDao = require("../modules/userDao.js");
 
 router.use(function(req, res, next) {
