@@ -4,33 +4,42 @@
         <h1>{{user.fname}}'s Profile</h1>
     </div>
 
+    <form action="./updateUserProfile" method="POST" enctype="multipart/form-data">
     <table class="table table-striped">
         
         <tbody>
             <tr>
                 <th>First Name</th>
-                <td>{{user.fname}}</td>
+                <td id="fnametd">{{user.fname}}</td>
             </tr>
             <tr>
                 <th>Last Name</th>
-                <td>{{user.lname}}</td>
+                <td id="lnametd">{{user.lname}}</td>
             </tr>
             <tr>
                 <th>Email</th>
-                <td>{{user.email}}</td>
+                <td id="emailtd">{{user.email}}</td>
             </tr>
             <tr>
                 <th>Gender</th>
-                <td>{{user.gender}}</td>
+                <td id="gendertd">{{user.gender}}</td>
             </tr>
             <tr>
                 <th>Country</th>
-                <td>{{user.country}}</td>
+                <td id="countrytd">{{user.country}}</td>
             </tr>
             <tr>
                 <th>Phone number</th>
-                <td>{{user.phoneNum}}</td>
+                <td id="phonetd">{{user.phoneNum}}</td>
             </tr>
+           
+
         </tbody>
+        
     </table>
+    <div align="right">
+     <input type="button" class="btn btn-primary" id="editprofile" value="Edit">
+     <input type="submit" class="btn btn-primary" id="savebtn" value="Save">
+     </div>
+     </form>
 </div>
