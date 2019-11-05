@@ -3,6 +3,10 @@
   flex-wrap: wrap;
 }
 
+body { 
+  padding-top: 70px; 
+}
+
 [type=radio] { 
   position: absolute;
   opacity: 0;

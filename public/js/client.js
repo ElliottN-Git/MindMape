@@ -27,8 +27,10 @@ async function checkUniqueUsername(username) {
 
     if(isTaken == true) {
         usernameTakenSpan.style.display = "block";
+        signupSubmitBtn.disabled = true;
     } else {
         usernameTakenSpan.style.display = "none";
+        signupSubmitBtn.disabled = false;
     }
 }
 
