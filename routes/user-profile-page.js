@@ -21,7 +21,6 @@ router.post("/updateUserProfile", verifyAuthenticated, async function(req, res){
     const context = {
         user: req.session.user
     }
-    console.log("posted!");
     res.render("userProfile", context);
 });
 // -------------------------------------------------------------------------
