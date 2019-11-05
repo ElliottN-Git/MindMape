@@ -91,21 +91,27 @@ async function createUser(newUserData) {
 }
 
 //TODO get this working!!
-async function updateUserData(userData) {
+async function updateUserData(userData, userId) {
     const db = await dbPromise;
 
     await db.run(SQL`
-        update users
-        set stuff = ${userData.stuff}
-        where id = ${userData.id}`);
+        UPDATE users
+        SET username = ${userData.username},
+        fname = ${userData.fname},
+        lname = ${userData.lname},
+        email = ${userData.email},
+        phoneNum = ${userData.phonenum},
+        country = ${userData.country},
+        gender = ${userData.gender}
+        WHERE userId = ${userId}`);
 }
 
-async function deleteUserData(username) {
+async function deleteUserData(user) {
     const db = await dbPromise;
 
     await db.run(SQL`
         delete from users
-        where id = ${username}`);
+        where id = ${user.id}`);
 }
 
 //articles from here.
