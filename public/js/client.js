@@ -4,19 +4,27 @@
 const enteredUserName = document.querySelector("#txtUName");
 const usernameTakenSpan = document.querySelector("#usernameTaken");
 const bannedWordSpan = document.querySelector("#bannedWord");
-const signupSubmitBtn = document.querySelector("#submitBtn")
+const signupSubmitBtn = document.querySelector("#submitBtn");
 
 // event handler for username entry input
-enteredUserName.addEventListener("keyup", function() {
-    checkUniqueUsername(enteredUserName.value);
-    if(isProfane(enteredUserName.value)) {
+enteredUserName.addEventListener("keyup", async function() {
+    const uNameTaken = await checkUniqueUsername(enteredUserName.value);
+    if(uNameTaken) {
+        return;
+    } else {
+        checkUsernameForProfanity(enteredUserName.value);
+    }
+});
+
+function checkUsernameForProfanity(username) {
+    if(isProfane(username)) {
         bannedWordSpan.style.display = "block";
-        signupSubmitBtn.disabled = true;
+        signupSubmitBtn.disabled = "true";
     } else {
         bannedWordSpan.style.display = "none";
         signupSubmitBtn.disabled = false;
     }
-});
+}
 
 
 //Check username is unique
@@ -28,9 +36,11 @@ async function checkUniqueUsername(username) {
     if(isTaken == true) {
         usernameTakenSpan.style.display = "block";
         signupSubmitBtn.disabled = true;
+        return true;
     } else {
         usernameTakenSpan.style.display = "none";
         signupSubmitBtn.disabled = false;
+        return false;
     }
 }
 

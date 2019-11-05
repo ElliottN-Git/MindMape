@@ -5,10 +5,8 @@ const bannedWords = require("./banned-words-regex-module");
 function isProfane(string) {
     const matches = string.match(bannedWords);
     if(matches != null) {
-        console.log(`Contains banned word: ${matches}`);
         return true;
     } else {
-        console.log(`Doesn't contain banned words`);
         return false;
     }
 }
