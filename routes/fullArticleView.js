@@ -80,8 +80,11 @@ router.post("/deleteArticle", async function (req, res) {
 
 router.post("/updateArticle", upload.single(), async function (req, res) {
     const newArticle = req.body;
-    console.log(newArticle.title);
-    const update = await userDao.updateArticle(newArticle.id, newArticle.title, newArticle.wysiwyg)
+    const title = newArticle.title;
+    const id = newArticle.articleId;
+    const content = newArticle.wysiwyg;
+    console.log(newArticle.articleId);
+    await userDao.updateArticle(id, title, content);
     // const deleteArticle = await userDao.deleteArticle(articleId);
     const user = req.session.user;
     const allArticles = await userDao.loadArticlesById(user.userId);
