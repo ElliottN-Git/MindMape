@@ -16,7 +16,13 @@ router.get("/userProfile", verifyAuthenticated, async function(req, res) {
     res.render("userProfile", context);
 });
 
-
+router.post("/updateUserProfile", verifyAuthenticated, async function(req, res){
+    const context = {
+        user: req.session.user
+    }
+    console.log("posted!");
+    res.render("userProfile", context);
+});
 // -------------------------------------------------------------------------
 
 
