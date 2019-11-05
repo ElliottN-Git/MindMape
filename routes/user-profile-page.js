@@ -17,6 +17,7 @@ router.get("/userProfile", verifyAuthenticated, async function(req, res) {
 });
 
 router.post("/updateUserProfile", verifyAuthenticated, async function(req, res){
+    //TODO userDao.updateUser
     const context = {
         user: req.session.user
     }

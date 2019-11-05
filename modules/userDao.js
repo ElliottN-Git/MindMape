@@ -90,6 +90,7 @@ async function createUser(newUserData) {
         )`)
 }
 
+//TODO get this working!!
 async function updateUserData(userData) {
     const db = await dbPromise;
 
