@@ -28,8 +28,13 @@ router.get("/article", async function (req, res) {
 
 //route handler for the censored article
 router.post("/censoredArticle", async function (req, res) {
-    const clickedArticleId = req.body.articleId;
-    const articleDetail = await userDao.loadArticleDetails(clickedArticleId);
+    let context;
+
+    // Retrieve clicked article id number
+    const articleId = req.body.articleId;
+
+    // Loading linked article details then apply profanity filter.
+    const articleDetail = await userDao.loadArticleDetails(articleId);
 
     const censoredArticleTitle = profanityFilter.replaceBannedWords(articleDetail.title);
     articleDetail.title = censoredArticleTitle;
@@ -37,7 +42,26 @@ router.post("/censoredArticle", async function (req, res) {
     const censoredArticleContent = profanityFilter.replaceBannedWords(articleDetail.content);
     articleDetail.content = censoredArticleContent;
 
-    res.render("fullArticleView", articleDetail);
+    // Loading linked comments (if there is) then apply profanity filter.
+    const loadedComments = await userDao.loadComments();
+    
+    if (loadedComments[0]) {
+        const censoredCommentContent = profanityFilter.replaceBannedWords(loadedComments.content);
+        loadedComments.content = censoredCommentContent;
+        // wrap and send in the context.
+        context = {
+            articleDetail: articleDetail,
+            comments: loadedComments
+        };
+    } else {
+        context = {
+            articleDetail: articleDetail
+        };
+    };
+
+    
+
+    res.render("fullArticleView", context);
 });
 
 //route handler for the un-censored article
@@ -45,7 +69,86 @@ router.post("/article", async function (req, res) {
     const clickedArticleId = req.body.articleId;
     const articleDetail = await userDao.loadArticleDetails(clickedArticleId);
 
-    res.render("fullArticleView", articleDetail);
+    let context;
+    const articleId = req.body.articleId;
+    const commentsAll = await userDao.loadComments(articleId);
+    const details = await userDao.loadArticleDetails(articleId);
+    if(req.session.user) {
+        const userDetail = req.session.user;
+        context = {
+            comments: commentsAll,
+            articleDetail: details,
+            user: userDetail
+        };
+    } else {
+        context = {
+            comments: commentsAll,
+            articleDetail: details
+        };
+    };
+    
+    res.render("fullArticleView", context);
+});
+
+//route handler for the creating a comment
+router.post("/createComment", async function (req, res) {
+    const user = req.session.user;
+    const body = req.body;
+    await userDao.createComment(user.userId, user.username, user.avatarId, body.articleId, body.content);
+    const commentsAll = await userDao.loadComments(body.articleId);
+    
+    const details = await userDao.loadArticleDetails(body.articleId);
+    const context = {
+                comments: commentsAll,
+                articleDetail: details
+            };
+    res.render("fullArticleView", context);
+});
+
+//route handler for the creating a reply comment
+router.post("/createReply", async function (req, res) {
+    const user = req.session.user;
+    const jsonString = req.body.parent+'"}';
+    const content = req.body["reply"];
+    const reply = JSON.parse(jsonString);
+    await userDao.setParent(reply.commentId);
+    
+    await userDao.createReply(user.userId, user.username, user.avatarId, reply.articleId, reply.commentId, content);
+    const commentsAll = await userDao.loadComments(reply.articleId);
+    const details = await userDao.loadArticleDetails(reply.articleId);
+    const context = {
+                comments: commentsAll,
+                articleDetail: details
+            };
+    res.render("fullArticleView", context);
+});
+
+router.post("/deleteComment", async function (req, res) {
+    const commentId = req.body.commentId;
+    const articleId = await userDao.getArticleId(commentId);
+    await userDao.deleteComment(commentId);
+
+    // 
+    // const parent = await userDao.getParent();
+    // console.log(parent);
+    // const stringss = await userDao.resetParent();
+    // const reParent = await userDao.getParent();
+    // console.log(reParent);
+    // if(parent[0]) {
+    //     for (let i = 0; i < parent.length; i++) {
+    //         let re = await userDao.setParent(parent[i].commentId);
+    //         let set = await re;
+    //     }
+    // };
+    // 
+
+    const commentsAll = await userDao.loadComments(articleId);
+    const details = await userDao.loadArticleDetails(articleId);
+    const context = {
+                comments: commentsAll,
+                articleDetail: details
+            };
+    res.render("fullArticleView", context);
 });
 
 
@@ -85,9 +188,7 @@ router.post("/updateArticle", upload.single(), async function (req, res) {
     const title = newArticle.title;
     const id = newArticle.articleId;
     const content = newArticle.wysiwyg;
-    console.log(newArticle.articleId);
     await userDao.updateArticle(id, title, content);
-    // const deleteArticle = await userDao.deleteArticle(articleId);
     const user = req.session.user;
     const allArticles = await userDao.loadArticlesById(user.userId);
     
@@ -105,12 +206,12 @@ router.get("/fullArticleView", function(req, res) {
     res.render("fullArticleView");
 });
 
-router.post("/fullArticleView", upload.single(), async function(req, res) {
-    const textBody = req.body;
-    const context = {
-        comments: textBody.comment
-    };
-    res.render("fullArticleView", context);
-});
+// router.post("/fullArticleView", upload.single(), async function(req, res) {
+//     const textBody = req.body;
+//     const context = {
+//         comments: textBody.comment
+//     };
+//     res.render("fullArticleView", context);
+// });
 
 module.exports = router;
