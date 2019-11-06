@@ -14,9 +14,11 @@ const verifyAuthenticated = require("../modules/verify-auth.js");
 // -------------------------------------------------------------------------
 
 router.get("/writeArticle", verifyAuthenticated, async function(req, res) {
+    const context = {
+        writePage: true
+    }
     
-    
-    res.render("writeArticle");
+    res.render("writeArticle", context);
 });
 
 router.post("/editArticle", async function(req, res) {

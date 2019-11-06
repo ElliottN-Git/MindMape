@@ -21,7 +21,8 @@ const userDao = require("../modules/userDao");
 
 router.get("/userProfile", verifyAuthenticated, async function(req, res) {
     const context = {
-        user: req.session.user
+        user: req.session.user,
+        profilePage: true
     }
     res.render("userProfile", context);
 });
@@ -43,6 +44,15 @@ router.post("/updateUserProfile", verifyAuthenticated, async function(req, res) 
 
 router.post("/changeAvatar", verifyAuthenticated, upload.single("imageFile"), async function(req, res) {
     const fileInfo = req.file;
+    if(fileInfo == undefined) {
+        const context = {
+            loggedIn: true,
+            user: req.session.user,
+            message: "No new avatar selected!"
+        }
+    res.render("userProfile", context);
+    }
+
     const userId = req.session.user.userId
 
     // Move the image into the images folder
