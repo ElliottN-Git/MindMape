@@ -1,19 +1,23 @@
+<div class="card-columns">
 {{#if articles}}
+
     {{#each articles}}
-    <div class="card mb-4">
+    <div class="card">
+        <div class="card-body mt-20">
         <form action="./censoredArticle" method="POST"> 
-            <div class="card-body mt-4">
+            
                 <h2 class="card-title">Article Title: {{this.title}}</h2>
                 <span>by {{this.username}}</span>
-                <span>{{#summary this.content}}{{/summary}}</span>
+                <span class="card-text">{{#summary this.content}}{{/summary}}</span>
             </div>
             <div>
-                <button type="submit" class="btn btn-primary bt-submit" name="articleId" value="{{this.articleId}}" formaction="./article">Read Full Article!</button>
-                <button type="submit" class="btn btn-primary bt-submit" name="articleId" value="{{this.articleId}}">Read Full Censored Article!</button>
+                <button type="submit" class="card-link btn btn-danger" name="articleId" value="{{this.articleId}}" formaction="./article">Read Full Article!</button>
+                <button type="submit" class="card-link btn btn-success" name="articleId" value="{{this.articleId}}">Read Full Censored Article!</button>
             </div>
         </form>
-        
-        <hr>
-    </div>
+
+        </div>
+    
     {{/each}}
+    </div>
 {{/if}}
