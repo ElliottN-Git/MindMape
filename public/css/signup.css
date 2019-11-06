@@ -4,7 +4,7 @@
 }
 
 body { 
-  padding-top: 70px; 
+  padding-top: 0; 
 }
 
 [type=radio] { 
@@ -140,4 +140,108 @@ body {
 
   .img-responsive {
     margin: 0 auto;
+}
+/* styles.css*/
+html,
+body {
+	height: 100%;
+    
+}
+img {
+    max-width: 100%;
+}
+#cover {
+    background: #222 url('http://www.goodwp.com/pic/201602/1920x1200/goodwp.com-32937.jpg') center center no-repeat;
+    background-size: auto;
+    color: white;
+    height: 40%;
+    text-align: center;
+    display:flex;
+    align-items: center;
+}
+#cover-caption {
+   margin: auto;
+   
+   
+}
+
+#container {
+    width: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.section-content {
+    padding: 5rem 0;
+}
+.section-content h3 {
+    margin-left: 20px;
+}
+.lead 
+ {
+    margin-left: 20px;
+}
+
+.btn-secondary {
+  color: #ccc;
+  background-color: transparent;
+  border-color: #ccc;
+    margin-right: 10%;
+   
+}
+.btn-secondary:hover {
+  color: #ccc;
+  background-color:transparent;
+  border-color: #adadad;
+}
+.img-fluid {
+    height: 960px;
+}
+
+.form-inline {
+    margin-left: 18%;
+ 
+}
+.card-img-top {
+    height: 300px;
+}
+
+#about {
+    background: url('http://i.huffpost.com/gen/1349209/images/o-CAREER-WOMEN-facebook.jpg') center center no-repeat;
+    background-size: cover;
+}
+
+.about-text {
+    background: rgba(0,0,0,0.8);
+    color: white;
+    padding: 1.875rem;
+}
+.btn-secondary {
+    color: white;
+   margin: 10px;
+}
+
+h5 {
+    margin-left: 15px;
+}
+
+#news h3 {
+    margin-left: 20px;
+    margin-top: 10px;
+}
+
+#footer-main {
+    background: #222;
+    color: white;
+    font-size: 0.8rem;
+    padding: 2.5rem 0;
+    
+}
+.list-group-item {
+    background: #232323;
+    border-color: #232323;
+}
+
+#footer-main a {
+  color: #a3a3c2;
 }
