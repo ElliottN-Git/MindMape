@@ -28,9 +28,9 @@ function isProfane(string) {
     }
 }
 
-//Replaces any words that match bannedWords regex with "#$!@"
+//Replaces any words that match bannedWords regex with "****"
 function replaceBannedWords(string) {
-    let censoredString = string.replace(bannedWords, "#$!@");
+    let censoredString = string.replace(bannedWords, "****");
     console.log(censoredString);
     return censoredString;
 }

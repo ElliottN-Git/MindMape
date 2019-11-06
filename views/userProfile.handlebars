@@ -1,36 +1,59 @@
+{{#if message}}
+    <p>{{message}}</p>
+{{/if}}
+
 <div class="row">
     <div class="page-header">
         <img src="/images/thumbnails/{{user.avatarId}}">
+        <br>
+        <br>
+        <form action="./changeAvatar" method="POST" enctype="multipart/form-data">
+        <div class="form-group" id="imageUpload" style="display: none";> 
+            <label for="inpFile">Choose an Avatar:</label>
+            <p>Upload avatar image from your computer.</p>
+            <input id="inpFile" type="file" name="imageFile" accept=".png,.jpg,.jpeg,.bmp,.gif"><button type="button" class="btn btn-primary" id="clearImgUpload">Clear</button>
+            <br>
+        </div>
+        <input type="button" class="btn btn-primary" id="changeAvatar" value="Change Avatar" style="display: block;">
+        <input type="submit" class="btn btn-primary" id="saveAvatar" value="Save Avatar" style="display: none;">
+        </form>
         <h1>{{user.fname}}'s Profile</h1>
     </div>
 
-    <form action="./updateUserProfile" method="POST" enctype="multipart/form-data">
+    <form action="./updateUserProfile" method="POST">
+        
         <table class="table table-striped">
-
+            
             <tbody>
+                 <tr>
+                    <th>Username</th>
+                    <span id="usernameTaken" style="display: none; color:red">Username is taken. Please try something different:</span>
+                    <span id="bannedWord" style="display: none; color:red">That username contains banned words. Try again after you've washed your mouth out with soap!</span>                        
+                    <td name="username" id="unametd">{{user.username}}</td>
+                </tr>
                 <tr>
                     <th>First Name</th>
-                    <td id="fnametd">{{user.fname}}</td>
+                    <td name="fname" id="fnametd">{{user.fname}}</td>
                 </tr>
                 <tr>
                     <th>Last Name</th>
-                    <td id="lnametd">{{user.lname}}</td>
+                    <td name="lname" id="lnametd">{{user.lname}}</td>
                 </tr>
                 <tr>
                     <th>Email</th>
-                    <td id="emailtd">{{user.email}}</td>
+                    <td name="email" id="emailtd">{{user.email}}</td>
                 </tr>
                 <tr>
                     <th>Gender</th>
-                    <td id="gendertd">{{user.gender}}</td>
+                    <td name="gender" id="gendertd">{{user.gender}}</td>
                 </tr>
                 <tr>
                     <th>Country</th>
-                    <td id="countrytd">{{user.country}}</td>
+                    <td name="country" id="countrytd">{{user.country}}</td>
                 </tr>
                 <tr>
                     <th>Phone number</th>
-                    <td id="phonetd">{{user.phoneNum}}</td>
+                    <td name="phonenum" id="phonetd">{{user.phoneNum}}</td>
                 </tr>
 
 
@@ -39,7 +62,7 @@
         </table>
         <div align="right">
             <input type="button" class="btn btn-primary" id="editprofile" value="Edit">
-            <input type="submit" class="btn btn-primary" id="savebtn" value="Save">
+            <button type="submit" class="btn btn-primary" id="savebtn">Save</button>
         </div>
     </form>
 </div>

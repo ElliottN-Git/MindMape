@@ -92,6 +92,7 @@ const imgUploadDiv = document.querySelector("#imageUpload");
 //Toggle class "selected" on clicked avatar for animation
 avatarList.addEventListener("click", function(e) {
     resetFileInput();
+    
 
     const alreadySelected = document.querySelector(".imageli.selected");
     const selectedLIImg = e.target;
@@ -100,22 +101,34 @@ avatarList.addEventListener("click", function(e) {
     const selectedImgName = selectedLIImg.name;
     const radioButton = document.querySelector(`#${selectedImgName}`);
 
-
+    // imgUploadDiv.style.display = 'block';
     if(alreadySelected && alreadySelected != parentLI) {
+        
         alreadySelected.classList.toggle("selected");
         parentLI.classList.toggle("selected");
         if(radioButton.checked == "true"){
             radioButton.checked = "false";
+            // if(imgUploadDiv.style.display === "none") {
+            //     imgUploadDiv.style.display = "block";
+            // }
         } else {
             radioButton.checked = "true";
+            // if(imgUploadDiv.style.display === "block") {
+            //     imgUploadDiv.style.display = "none";
+            // } 
         }
     } else {
         parentLI.classList.toggle("selected");
-        imgUploadDiv.classList.toggle("d-none");
         if(radioButton.checked == "true"){
             radioButton.checked = "false";
+            // if(imgUploadDiv.style.display === "none") {
+            //     imgUploadDiv.style,display = "block";
+            // }
         } else {
             radioButton.checked = "true";
+            // if(imgUploadDiv.style.display === "block") {
+            //     imgUploadDiv.style.display = "none";
+            // } 
         }
     }
 });
