@@ -9,8 +9,12 @@ router.use(function(req, res, next) {
 });
 
 router.get("/login", function(req, res) {
-    res.locals.message = req.query.message;
-    res.render("login");
+    const context = {
+        message: req.query.message,
+        loginPage: true
+    }
+    
+    res.render("login", context);
 });
 
 router.post("/login", async function(req, res) {
