@@ -90,7 +90,6 @@ async function createUser(newUserData) {
         )`)
 }
 
-//TODO get this working!!
 async function updateUserData(userData, userId) {
     const db = await dbPromise;
 
@@ -103,6 +102,15 @@ async function updateUserData(userData, userId) {
         phoneNum = ${userData.phonenum},
         country = ${userData.country},
         gender = ${userData.gender}
+        WHERE userId = ${userId}`);
+}
+
+async function updateUserAvatar(avatarId, userId) {
+    const db = await dbPromise;
+
+    await db.run(SQL`
+        UPDATE users
+        SET avatarId = ${avatarId}
         WHERE userId = ${userId}`);
 }
 
@@ -220,6 +228,7 @@ module.exports = {
     authenticateLogin,
     createUser,
     updateUserData,
+    updateUserAvatar,
     deleteUserData,
     checkUserName,
     checkEmail,

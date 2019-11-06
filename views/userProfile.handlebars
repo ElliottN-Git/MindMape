@@ -5,6 +5,18 @@
 <div class="row">
     <div class="page-header">
         <img src="/images/thumbnails/{{user.avatarId}}">
+        <br>
+        <br>
+        <form action="./changeAvatar" method="POST" enctype="multipart/form-data">
+        <div class="form-group" id="imageUpload" style="display: none";> 
+            <label for="inpFile">Choose an Avatar:</label>
+            <p>Upload avatar image from your computer.</p>
+            <input id="inpFile" type="file" name="imageFile" accept=".png,.jpg,.jpeg,.bmp,.gif"><button type="button" class="btn btn-primary" id="clearImgUpload">Clear</button>
+            <br>
+        </div>
+        <input type="button" class="btn btn-primary" id="changeAvatar" value="Change Avatar" style="display: block;">
+        <input type="submit" class="btn btn-primary" id="saveAvatar" value="Save Avatar" style="display: none;">
+        </form>
         <h1>{{user.fname}}'s Profile</h1>
     </div>
 
@@ -15,6 +27,8 @@
             <tbody>
                  <tr>
                     <th>Username</th>
+                    <span id="usernameTaken" style="display: none; color:red">Username is taken. Please try something different:</span>
+                    <span id="bannedWord" style="display: none; color:red">That username contains banned words. Try again after you've washed your mouth out with soap!</span>                        
                     <td name="username" id="unametd">{{user.username}}</td>
                 </tr>
                 <tr>
