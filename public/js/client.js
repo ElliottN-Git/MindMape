@@ -101,35 +101,23 @@ avatarList.addEventListener("click", function(e) {
     const selectedImgName = selectedLIImg.name;
     const radioButton = document.querySelector(`#${selectedImgName}`);
 
-    // imgUploadDiv.style.display = 'block';
+//different avatar is already selected, unselect it and select the avatar that was clicked on
+//hides or reveals the image upload div depending on if an avatar is "selected"
     if(alreadySelected && alreadySelected != parentLI) {
-        
         alreadySelected.classList.toggle("selected");
         parentLI.classList.toggle("selected");
         if(radioButton.checked == "true"){
             radioButton.checked = "false";
-            // if(imgUploadDiv.style.display === "none") {
-            //     imgUploadDiv.style.display = "block";
-            // }
+            imgUploadDiv.classList.remove("hidden");
         } else {
             radioButton.checked = "true";
-            // if(imgUploadDiv.style.display === "block") {
-            //     imgUploadDiv.style.display = "none";
-            // } 
+            imgUploadDiv.classList.add("hidden");
         }
+//same avatar was clicked, unselect it and hide the image upload div
     } else {
         parentLI.classList.toggle("selected");
-        if(radioButton.checked == "true"){
-            radioButton.checked = "false";
-            // if(imgUploadDiv.style.display === "none") {
-            //     imgUploadDiv.style,display = "block";
-            // }
-        } else {
-            radioButton.checked = "true";
-            // if(imgUploadDiv.style.display === "block") {
-            //     imgUploadDiv.style.display = "none";
-            // } 
-        }
+        radioButton.checked = "true"; 
+        imgUploadDiv.classList.toggle("hidden");
     }
 });
 

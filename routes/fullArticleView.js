@@ -19,7 +19,8 @@ router.get("/article", async function (req, res) {
     }
 
     const context = {
-        articles: allArticles
+        articles: allArticles,
+        articlePage: true
     }
 
     res.render("article", context);
@@ -51,7 +52,8 @@ router.post("/article", async function (req, res) {
 router.get("/userArticleHistory", async function (req, res) {
     const user = req.session.user;
     const allArticles = await userDao.loadArticlesById(user.userId);
-    const context={
+    const context = {
+        historyPage: true,
         articles: allArticles
     };
    
