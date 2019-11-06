@@ -9,10 +9,8 @@ router.use(function(req, res, next) {
 });
 
 router.get("/login", function(req, res) {
-
     res.locals.message = req.query.message;
     res.render("login");
-
 });
 
 router.post("/login", async function(req, res) {
@@ -42,11 +40,8 @@ router.get("/logout", function(req, res) {
     if (req.session.user) {
         delete req.session.user;
     }
-    const context = {
-        loggedIn: false,
-        message: "Successfully logged out!"
-    }
-    res.render("home", context);
+
+    res.redirect("/");
 });
 
 module.exports = router;
