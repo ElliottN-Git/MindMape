@@ -186,9 +186,7 @@
                 <div id="navbar" class="navbar-collapse collapse">
                     <ul class="nav navbar-nav">
                         <li class="{{#if homePage}} active{{/if}}"><a href="./">Home</a></li>
-                        <li class="{{#if profilePage}} active{{/if}}"><a href="./userProfile">My Profile</a></li>
-                        <li class="{{#if writePage}} active{{/if}}"><a href="./writeArticle">Write Article</a></li>
-                        <li class="{{#if articlePage}} active{{/if}}"><a href="./">Articles</a></li>
+                        <li class="{{#if articlePage}} active{{/if}}"><a href="./article">Articles</a></li>
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Topics<span class="caret"></span></a>
                             <ul class="dropdown-menu">
@@ -196,10 +194,10 @@
                                 <li class="{{#if moviesPage}} active{{/if}}"><a href="./">Movies</a></li>
                             </ul>
                         </li>
-                        <li class="{{#if aboutPage}} active{{/if}}"><a href="./">About</a></li>
-                        <li><a href="./article">ArticleTest</a></li>
+                        <li class="{{#if writePage}} active{{/if}}"><a href="./writeArticle">Write Article</a></li>
                         {{#if user}}
                         <li><a href="./userArticleHistory">My Article History</a></li>
+                        <li class="{{#if profilePage}} active{{/if}}"><a href="./userProfile">My Profile</a></li>
                         <li><a href="./logout">Logout</a></li>
                         {{else}}
                         <li class="{{#if notLogged}} active{{/if}}"><a href="./login">Login!</a></li>
