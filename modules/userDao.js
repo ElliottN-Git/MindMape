@@ -140,8 +140,6 @@ async function createArticle(userId, title, contents, username) {
 // will add something like 'modified at' later
 async function updateArticle(id, title, content) {
     const db = await dbPromise;
-    // await db.run(SQL`update articles set title = '${title}', content = '${content}' where articleId = ${id}`);
-    // await db.run(SQL`update articles set content = '${content}' where articleId = ${id}`);
     let data = [title, content, id];
     let sql = `UPDATE articles
                 SET title = '${title}',
@@ -188,8 +186,14 @@ async function loadAllArticles() {
     return articles;
 }
 
-// testing
-async function getComments(articleId) {
+async function getArticleId(commentId) {
+    const db = await dbPromise;
+    const getArticleId = await db.all(SQL`
+    SELECT articleId FROM comments WHERE commentId = ${commentId}`);
+    return getArticleId[0].articleId;
+}
+
+async function loadComments(articleId) {
     const db = await dbPromise;
     const getComments = await db.all(SQL`
     SELECT * FROM comments WHERE articleId = ${articleId} ORDER By created_At DESC`);
@@ -197,12 +201,28 @@ async function getComments(articleId) {
     return commentsArray;
 }
 
-async function createComment(userId, content, articleId, parentCommentId) {
+async function createComment(userId, username, avatarId, articleId, content) {
+    const db = await dbPromise;
+    await db.run(SQL`
+    INSERT INTO comments (userId, username, avatarId, articleId, content, created_At) VALUES (
+        ${userId},
+        ${username},
+        ${avatarId},
+        ${articleId},
+        ${content},
+        datetime('now')
+    )`);
+         
+}
+
+async function createReply(userId, username, avatarId, articleId, parentCommentId, content) {
     const db = await dbPromise;
     if(parentCommentId) {
         await db.run(SQL`
-        INSERT INTO comments (userId, articleId, replyTo_Id content, created_At) VALUES (
+        INSERT INTO comments (userId, username, avatarId, articleId, replyTo_Id, content, created_At) VALUES (
             ${userId},
+            ${username},   
+            ${avatarId},         
             ${articleId},
             ${parentCommentId},
             ${content},
@@ -216,9 +236,72 @@ async function createComment(userId, content, articleId, parentCommentId) {
             ${content},
             datetime('now')
         )`);
+    }     
+}
+
+async function setParent(commentId) {
+    const db = await dbPromise;
+    let data = [commentId];
+    let sql = `UPDATE comments
+                SET isParent = 1
+                WHERE commentId = ${commentId};`;
+    db.run(sql, data, function(err) {
+    if (err) {
+        return console.error(err.message);
     }
-    
-    
+    console.log(`Row(s) updated: ${this.changes}`);
+    });
+}
+
+async function noReply(commentId) {
+    const db = await dbPromise;
+    let data = [commentId];
+    let sql = `UPDATE comments
+                SET isParent = 0
+                WHERE commentId = ${commentId};`;
+    db.run(sql, data, function(err) {
+    if (err) {
+        return console.error(err.message);
+    }
+    console.log(`Row(s) updated: ${this.changes}`);
+    });
+}
+
+async function deleteComment(commentId) {
+    const db = await dbPromise;
+
+    let data = [commentId];
+    let sql = `delete from comments WHERE commentId = ${commentId};`;
+    db.run(sql, data, function(err) {
+    if (err) {
+        return console.error(err.message);
+    }
+    console.log(`Row(s) updated: ${this.changes}`);
+    });
+}
+
+async function resetParent() {
+    const db = await dbPromise;
+    await db.run(SQL`
+        update comments
+        set isParent = 0;`);
+    // let sql = `UPDATE comments
+    //             SET isParent = 0;`;
+    // db.run(sql, function(err) {
+    // if (err) {
+    //     return console.error(err.message);
+    // }
+    // console.log(`Row(s) updated: ${this.changes}`);
+    // });
+    return "done";
+}
+
+async function getParent() {
+    const db = await dbPromise;
+    const getParent = await db.all(SQL`
+    SELECT commentId from comments except SELECT s.commentId from comments as s, comments as i where s.commentId = i.replyTo_Id;`);
+    const parentsArray = makeArray(getParent);
+    return parentsArray;
 }
 
 // Export functions.
@@ -239,5 +322,12 @@ module.exports = {
     loadArticlesById,
     loadAllArticles,
     createComment,
-    getComments
+    loadComments,
+    createReply,
+    deleteComment,
+    getArticleId,
+    setParent,
+    noReply,
+    resetParent,
+    getParent
 };

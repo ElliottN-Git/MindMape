@@ -25,6 +25,15 @@ app.engine("handlebars", handlebars({
             // let plusTable = htmlString.replace(/<img[^>]*>|<table[^>]+>/g,"");
             const subString = stripedHtml.substring(0,500);
             return subString;
+        },
+        equal: function (v1, v2) {
+            return v1 === v2;
+        },
+        and: function () {
+            return Array.prototype.slice.call(arguments, 0, arguments.length - 1).every(Boolean);
+        },
+        toJSON: function(object) {
+            return JSON.stringify(object);
         }
     },
     defaultLayout: "main"

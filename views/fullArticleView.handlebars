@@ -1,71 +1,131 @@
 
+
 <div class="container">
 
     <div class="main-content">
-      <h1 class="page-title text-center">{{title}}</h1>
-      <h4 class="page-title text-right">posted by {{username}}</h4>
-      <hr />
+      <h1 class="page-title text-center">{{articleDetail.title}}</h1>
+      <h4 class="page-title text-right">posted by {{articleDetail.username}}</h4>
+      <hr>
 
      
-      {{{content}}}
+      {{{articleDetail.content}}}
     </div>
 
     <hr>
 
 
-<!-- comments container -->
+<!-- comments container --> 
 	<div class="comment_block" id="comment_container">
-
-		 <!-- used by #{user} to create a new comment -->
-		 {{!-- <div class="create_new_comment">
-            <H2> Comments </H2>
-
-			<!-- current #{user} avatar -->
-		 	<div class="user_avatar">
-		 		<img src={{userAvatar}}"https://s3.amazonaws.com/uifaces/faces/twitter/BillSKenney/73.jpg">
-		 	</div><!-- the input field --><div class="input_comment">
-		 		<input type="text" placeholder="Your comment..">
-		 	</div>
-
-		</div> --}}
-    {{#if comments}}
-    {{#each comments}}
-    <div class="media mb-4">
-      <img class="d-flex mr-3 rounded-circle" src="https://s3.amazonaws.com/uifaces/faces/twitter/BillSKenney/73.jpg" alt="user's Avatar in src">
-      <div class="media-body">
-        <h5 class="mt-0">Commenter Name here</h5>
-        {{comments}}
-        <div class="media mt-4">
-          <div class="media-body">
-            <h5 class="mt-0">Write a reply</h5>
-            <form action="./fullArticleView" method="POST" enctype="multipart/form-data">
-              <div class="form-group">
-                <textarea class="form-control" rows="3" name = "reply" id="replyMade"></textarea>
-              </div>
-              <div class="form-group">
-                <button type="submit" class="btn btn-primary bt-submit">Submit!</button>
-              </div>
-            </form>
-          </div>
-        </div>
-      </div>
-    </div>
-    {{/each}}
-    {{/if}}
-
+    {{#if user}}
     <div class="card my-4">
-      <h5 class="card-header">Leave a Comment:</h5>
-      <div class="card-body">
-        <form action="./fullArticleView" method="POST" enctype="multipart/form-data">
+      <h4 class="card-header">Leave a Comment</h4>
+      <div class="card-body row">
+        <img class="img-circle col-sm-2" src="/images/thumbnails/{{user.avatarId}}" alt="user's Avatar in src">
+        <form action="./createComment" method="POST" class="col-sm-10">
           <div class="form-group">
-            <textarea class="form-control" rows="3" name = "comment" id="commentMade"></textarea>
+            <h5>{{user.username}}</h5>
+            <textarea class="form-control" rows="3" name = "content" id="commentMade"></textarea>
           </div>
           <div class="form-group">
-            <button type="submit" class="btn btn-primary bt-submit">Submit!</button>
+            <button type="submit" class="btn btn-primary btn-lg btn-block bt-submit" name="articleId" value="{{articleDetail.articleId}}">Submit</button>
           </div>
         </form>
       </div>
     </div>
+    {{/if}}
+
+    
+    {{#each comments}}
+    <br>
+    {{#if (equal this.replyTo_Id null)}}
+    <div class="media bg-light">
+      <div class="media-left">
+        <img src="/images/thumbnails/{{this.avatarId}}" class="media-object" style="width:45px">
+      </div>
+      <div class="media-body">
+        <h4 class="media-heading">{{this.username}} <small><i>Posted on {{this.created_At}}</i></small></h4>
+        <p>{{this.content}}</p>
+        {{#if (equal ../user.userId this.userId)}}
+        <form method="POST">
+          <button type="submit" class="btn btn-sm btn-danger" formaction="./deleteComment" name="commentId" value="{{this.commentId}}">Delete this comment</button>
+        </form>
+        {{/if}}
+
+        {{!-- {{#each ../comments}}
+        {{#if (equal ../this.commentId this.replyTo_Id)}}
+        <div>
+          <button type="button" class="btn btn-sm btn-primary" data-toggle="collapse" data-target="#id{{../../this.commentId}}">Load Comments</button>
+        </div>
+        {{/if}}
+        {{/each}} --}}
+        
+        {{#if (equal ../user.userId this.userId)}}
+        <div>
+          <button type="button" class="btn btn-sm btn-block btn-primary" data-toggle="collapse" data-target="#reply{{this.commentId}}">Write a reply</button>
+        </div>
+        <div class="collapse" id="reply{{this.commentId}}">
+          <div class="media-body" id="writeReply">
+            <h3 class="media-heading">Write a reply</h3>
+            <form action="./createReply" method="POST">
+              <div class="form-group">
+                <textarea class="form-control" rows="1" name = "reply"></textarea>
+              </div>
+              <div class="form-group">
+                <button type="submit" class="btn btn-primary btn-sm btn-block bt-submit" name="parent"  value={{{toJSON ./this}}}>Reply!</button>
+              </div>
+            </form>
+          </div>
+        </div>
+        {{/if}}
+        
+        {{!-- Creating Nest Comments --}}
+        <div class="accordion" id="{{this.commentId}}parent">
+          
+          <div class="media">
+            {{#if (equal this.isParent 1)}}
+            <div class="media-header" id="{{this.commentId}}heading">
+              <h5 class="mb-0">
+                <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#{{this.commentId}}" aria-expanded="false" aria-controls="collapseTwo">
+                  toggle comments
+                </button>
+              </h5>
+            </div>
+            {{/if}}
+            <div id="{{this.commentId}}" class="collapse in" aria-labelledby="{{this.commentId}}heading" data-parent="#{{this.commentId}}parent">
+              <div class="media-body">
+                {{#each ../comments}}
+                  {{#if (equal this.replyTo_Id ../this.commentId)}}
+                  <br>
+                  <div class="media-left">
+                    <img src="/images/thumbnails/{{this.avatarId}}" class="media-object" style="width:45px">
+                  </div>
+                  <div class="media-body">
+                    <h4 class="media-heading">{{this.username}} <small><i>{{this.created_At}}</i></small></h4>
+                    <p id="replyBody">{{this.content}}</p>
+                  </div>
+                  {{#if (equal ../../user.userId this.userId)}}
+                  <form method="POST">
+                    <button type="submit" class="btn btn-sm btn-danger" formaction="./deleteComment" name="commentId" value="{{this.commentId}}">Delete this comment</button>
+                  </form>
+                  {{/if}}
+                  {{/if}}      
+                {{/each}}
+              </div>
+            </div>
+          </div>
+          
+
+          
+        </div>
+        {{!-- Finish Creating Nest Comments --}}
+        
+        
+      </div>
+    </div>
+    {{/if}}
+    {{/each}}
+
+
   
 
 </div>
