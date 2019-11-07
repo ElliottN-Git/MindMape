@@ -114,12 +114,14 @@ async function updateUserAvatar(avatarId, userId) {
         WHERE userId = ${userId}`);
 }
 
-async function deleteUserData(user) {
+async function deleteUserData(userId) {
     const db = await dbPromise;
 
     await db.run(SQL`
         delete from users
-        where id = ${user.id}`);
+        where userId = ${userId}`);
+
+    return "Deleted";
 }
 
 //articles from here.

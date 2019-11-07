@@ -82,6 +82,23 @@ router.post("/changeAvatar", verifyAuthenticated, upload.single("imageFile"), as
         }
         res.render("userProfile", context);
 });
+
+
+router.post("/deleteProfile", verifyAuthenticated, async function(req, res) {
+    await userDao.deleteUserData(req.session.user.userId);
+
+    if (req.session.user) {
+        delete req.session.user;
+    }
+
+    context = {
+        user: null,
+        loggedIn: false,
+        message: "Your profile has been deleted."
+    }
+
+    res.render("home", context);
+});
 // -------------------------------------------------------------------------
 
 
