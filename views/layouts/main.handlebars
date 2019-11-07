@@ -50,7 +50,7 @@
       </div>
      </section>
 
-        <nav class="navbar navbar-default"> <!-- navbar-fixed-top is the class for fixed navbar -->
+        <nav id="navbar" class="navbar navbar-default"> <!-- navbar-fixed-top is the class for fixed navbar -->
             <div class="container-fluid">
                 <div class="navbar-header">
                     <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false"
@@ -62,23 +62,25 @@
                     </button>
                     <a class="navbar-brand" href="#">mindMAPE</a>
                 </div>
-                <div id="navbar" class="navbar-collapse collapse">
+                <div class="navbar-collapse collapse">
                     <ul class="nav navbar-nav">
-                        <li class="{{#if homePage}} active{{/if}}"><a href="./">Home</a></li>
-                        <li class="{{#if articlePage}} active{{/if}}"><a href="./article">Articles</a></li>
-                        <li class="dropdown">
+                        <li class="nav-item{{#if homePage}} active{{/if}}"><a href="./">Home</a></li>
+                        <li class="nav-item{{#if articlePage}} active{{/if}}"><a href="./article">Articles</a></li>
+                        <li class="nav-item dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Topics<span class="caret"></span></a>
                             <ul class="dropdown-menu">
                                 <li class="{{#if musicPage}} active{{/if}}"><a href="./">Music</a></li>
                                 <li class="{{#if moviesPage}} active{{/if}}"><a href="./">Movies</a></li>
                             </ul>
                         </li>
-                        <li class="{{#if writePage}} active{{/if}}"><a href="./writeArticle">Write Article</a></li>
+                        <li class="nav-item{{#if writePage}} active{{/if}}"><a href="./writeArticle">Write Article</a></li>
                         {{#if user}}
-                        <li class="{{#if historyPage}} active{{/if}}"><a href="./userArticleHistory">My Article History</a></li>
-                        <li class="{{#if profilePage}} active{{/if}}"><a href="./userProfile">My Profile</a></li>
-                        <li><a href="./logout">Logout</a></li>
+                        <li class="nav-item{{#if historyPage}} active{{/if}}"><a href="./userArticleHistory">My Article History</a></li>
+                        <li class="nav-item{{#if profilePage}} active{{/if}}"><a href="./userProfile">My Profile</a></li>
+                        <li class="nav-item{{#if loggedIn}} active{{/if}}"><a href="./logout">Logout</a></li>
+                    </ul>
                         {{else}}
+                    <ul class="nav navbar-nav ml-auto">
                         <li class="{{#if notLogged}} active{{/if}}"><a href="./login">Login!</a></li>
                         <li class="active"><a href="./signup">Create account</a></li>
                         {{/if}}
@@ -86,6 +88,8 @@
                 </div>
             </div>
         </nav>
+        
+    <div class="container">
         {{{body}}}
     </div>
     <!-- Load client.js -->
@@ -93,6 +97,7 @@
     <script type="application/javascript" src="/js/profanity-filter.js"></script>
     <script type="application/javascript" src="/js/banned-words-regex.js"></script>
     <script type="application/javascript" src="/js/editProfile.js"></script>
+    <script type="application/javascript" src="/js/sticky-navbar.js"></script>
 
 </body>
 
