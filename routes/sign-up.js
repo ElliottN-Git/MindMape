@@ -20,22 +20,6 @@ const userDao = require("../modules/userDao");
 
 router.get("/signup", function(req, res) {
 
-    // let context;
-    // if(req.cookies["details"]){
-    //     const userCookie = req.cookies["details"];
-    //     context = {
-    //         message: req.query.message,
-    //         name: userCookie.name,
-    //         address: userCookie.address,
-    //         phoneNum: userCookie.phoneNum
-    //     };
- 
-    // } else {
-    //     context = {
-    //         message: req.query.message
-    //     };
-    // }
-
     res.render("signUp"); //context object commented out for testing
 });
 
@@ -63,7 +47,11 @@ router.post("/signup", upload.single("imageFile"), async function(req, res) {
     const userInfo = req.body;
     let avatarId = null;
     if(!req.file) { 
-        avatarId = `${req.body.avatar}`;
+        if(req.body.avatar) {
+            avatarId = `${req.body.avatar}`;
+        } else {
+            avatarId = "avatar_default.png";
+        }
     } else {
         const fileInfo = req.file;
     
@@ -103,8 +91,10 @@ router.post("/signup", upload.single("imageFile"), async function(req, res) {
     try {
         userProcess.validateUserData(newUser);
     } catch(err) {
-        res.redirect('back');
-        window.alert(err);
+        context = {
+            message: err
+        }
+        res.render("signup", context);
     }
     //sends to the user data access object to create new user in db
         userDao.createUser(newUser);

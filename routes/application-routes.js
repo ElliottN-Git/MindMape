@@ -6,18 +6,19 @@ const verifyAuthenticated = require("../modules/verify-auth.js");
 router.get("/", verifyAuthenticated, function(req, res) {
     if(req.session.user) {
         context = {
-            homePage: true,
+            articlePage: true,
+            loggedIn: true,
             user: req.session.user
         }
     } else {
         context = {
-            homePage: true,
-            notLogged: true,
+            articlePage: true,
+            loggedIn: false,
             message: "please log in"
         }
     }
     
-    res.render("home", context);
+    res.render("article", context);
 });
 
 module.exports = router;

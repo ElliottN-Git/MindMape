@@ -43,7 +43,6 @@ app.engine("handlebars", handlebars({
             // var tmpImg = tmp.querySelector('img').getAttribute('src');
             // const htmlString = str;
             // const img = htmlString.getElementsByTagName("img").getAttribute("src");
-            console.log(imgTags);
             return imgTags;
 
         }
