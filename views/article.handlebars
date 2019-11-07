@@ -3,12 +3,14 @@
 
     {{#each articles}}
     <div class="card">
-        <div class="card-body mt-20">
-        <form action="./censoredArticle" method="POST"> 
-            
-                <h2 class="card-title">Article Title: {{this.title}}</h2>
-                <span>by {{this.username}}</span>
-                <span class="card-text">{{#summary this.content}}{{/summary}}</span>
+        <form action="./censoredArticle" method="POST">
+            <div class="card-header">
+                {{#getImage this.content}}{{/getImage}}
+            </div> 
+            <div class="card-body mt-4">
+                <h1 class="card-title">Article Title: {{this.title}}</h1>
+                <p><em>by {{this.username}}</em></p>
+                <p class="card-text">{{#summary this.content}}{{/summary}}</p>
             </div>
             <div>
                 <button type="submit" class="card-link btn btn-danger" name="articleId" value="{{this.articleId}}" formaction="./article">Read Full Article!</button>
