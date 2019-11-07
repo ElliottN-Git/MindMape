@@ -1,10 +1,22 @@
+*{font-family: Calibri, sans-serif;}
+
+
+.card {
+  padding: 10px;
+  margin: 15px;
+  border: ridge rgba(200,200,200,0.7) 1px;
+  border-radius: 10px;
+  box-shadow: 3px 5px 3px 1px lightslategrey; 
+}
+
 #avatarDiv {
   display: flex;
   flex-wrap: wrap;
 }
 
 body { 
-  padding-top: 0; 
+  padding-top: 0;
+  background-color: whitesmoke; 
 }
 
 [type=radio] { 
@@ -143,10 +155,11 @@ body {
 }
 /* styles.css*/
 html,
+
 body {
 	height: 100%;
-    
 }
+
 img {
     max-width: 100%;
 }
@@ -169,6 +182,11 @@ img {
     width: 100%;
     display: flex;
     align-items: center;
+    margin-bottom: 20px;
+}
+
+.container {
+  margin-bottom: 20px;
 }
 
 .section-content {
