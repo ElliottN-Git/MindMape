@@ -1,3 +1,12 @@
+{{#if message}}
+    <p>{{message}}</p>
+{{/if}}
+
+<h1>Hello, {{#if user}} {{user.username}}!{{else}} Stranger!{{/if}}</h1>
+{{#if user}}<p>This is your homepage!</p>{{else}}{{/if}}
+{{#if user}}<p>Click <a href="./logout">here</a> to log out.</p>
+{{else}}<p><a href="./login">Log in</a>, or <a href="./signup">create an account</a>.</p>{{/if}}
+
 <div class="card-columns">
 {{#if articles}}
 
@@ -18,8 +27,9 @@
             </div>
         </form>
 
-        </div>
+    </div>
     
     {{/each}}
-    </div>
+    
 {{/if}}
+</div>

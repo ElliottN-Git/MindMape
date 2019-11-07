@@ -50,14 +50,6 @@
           <button type="submit" class="btn btn-sm btn-danger" formaction="./deleteComment" name="commentId" value="{{this.commentId}}">Delete this comment</button>
         </form>
         {{/if}}
-
-        {{!-- {{#each ../comments}}
-        {{#if (equal ../this.commentId this.replyTo_Id)}}
-        <div>
-          <button type="button" class="btn btn-sm btn-primary" data-toggle="collapse" data-target="#id{{../../this.commentId}}">Load Comments</button>
-        </div>
-        {{/if}}
-        {{/each}} --}}
         
         {{#if (equal ../user.userId this.userId)}}
         <div>

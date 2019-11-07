@@ -27,12 +27,8 @@ router.post("/login", async function(req, res) {
     if (user != false) {
         // Auth success - add the user to the session, and render to the homepage.
         req.session.user = user[0];
-        context = {
-            loggedIn: true,
-            user: req.session.user,
-            message: "Successfully logged in!"
-        };
-        res.render("home", context);
+        
+        res.redirect("./");
     }
     else {
         // Auth fail - redirect user to the login page with a message.
