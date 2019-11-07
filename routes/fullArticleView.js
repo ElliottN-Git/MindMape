@@ -34,40 +34,43 @@ router.post("/censoredArticle", async function (req, res) {
     const articleId = req.body.articleId;
 
     // Loading linked article details then apply profanity filter.
-    const articleDetail = await userDao.loadArticleDetails(articleId);
+    let details = await userDao.loadArticleDetails(articleId);
 
-    const censoredArticleTitle = profanityFilter.replaceBannedWords(articleDetail.title);
-    articleDetail.title = censoredArticleTitle;
+    const censoredArticleTitle = profanityFilter.replaceBannedWords(details.title);
+    details.title = censoredArticleTitle;
 
-    const censoredArticleContent = profanityFilter.replaceBannedWords(articleDetail.content);
-    articleDetail.content = censoredArticleContent;
+    const censoredArticleContent = profanityFilter.replaceBannedWords(details.content);
+    details.content = censoredArticleContent;
 
     // Loading linked comments (if there is) then apply profanity filter.
-    const loadedComments = await userDao.loadComments();
+    const commentsAll = await userDao.loadComments(articleId);
     
-    if (loadedComments[0]) {
-        const censoredCommentContent = profanityFilter.replaceBannedWords(loadedComments.content);
-        loadedComments.content = censoredCommentContent;
-        // wrap and send in the context.
+    for(let i = 0; i < commentsAll.length; i++) {
+        const censoredComments = profanityFilter.replaceBannedWords(commentsAll[i].content);
+        commentsAll[i].content = censoredComments;
+    }
+
+    if(req.session.user) {
+        const userDetail = req.session.user;
         context = {
-            articleDetail: articleDetail,
-            comments: loadedComments
+            comments: commentsAll,
+            articleDetail: details,
+            user: userDetail
         };
     } else {
         context = {
-            articleDetail: articleDetail
+            comments: commentsAll,
+            articleDetail: details
         };
     };
-
-    
 
     res.render("fullArticleView", context);
 });
 
 //route handler for the un-censored article
 router.post("/article", async function (req, res) {
-    const clickedArticleId = req.body.articleId;
-    const articleDetail = await userDao.loadArticleDetails(clickedArticleId);
+    // const clickedArticleId = req.body.articleId;
+    // const articleDetail = await userDao.loadArticleDetails(clickedArticleId);
 
     let context;
     const articleId = req.body.articleId;
@@ -200,11 +203,11 @@ router.post("/updateArticle", upload.single(), async function (req, res) {
     res.render("userArticleHistory", context);
 });
 
-router.get("/fullArticleView", function(req, res) {
+// router.get("/fullArticleView", function(req, res) {
     
-    // userDao.getComments(articleId);
-    res.render("fullArticleView");
-});
+//     // userDao.getComments(articleId);
+//     res.render("fullArticleView");
+// });
 
 // router.post("/fullArticleView", upload.single(), async function(req, res) {
 //     const textBody = req.body;

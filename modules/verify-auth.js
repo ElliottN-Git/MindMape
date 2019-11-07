@@ -7,7 +7,7 @@ function verifyAuthenticated(req, res, next) {
     }
     else {
         res.locals.message = "Please log in to continue";
-        res.render("home");
+        res.render("login");
     }
 }
 

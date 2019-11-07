@@ -1,80 +1,35 @@
-    {{#if message}}
-        <p>{{message}}</p>
-    {{/if}}
-    
-    <h1>Hello, {{#if user}} {{user.username}}!{{else}} Stranger!{{/if}}</h1>
-    {{#if user}}<p>This is your homepage!</p>{{else}}{{/if}}
-    {{#if user}}<p>Click <a href="./logout">here</a> to log out.</p>
-    {{else}}<p><a href="./login">Log in</a>, or <a href="./signup">create an account</a>.</p>{{/if}}
-      <!-- Page Content -->
-    <div class="container">
+{{#if message}}
+    <p>{{message}}</p>
+{{/if}}
 
-        <div class="row">
-           
-            <!-- Blog Entries Column -->
-            <div class="col-8 center-block text-center">
-            <h1 class="my-4">Articles List</h1>
-            <hr>
+<h1>Hello, {{#if user}} {{user.username}}!{{else}} Stranger!{{/if}}</h1>
+{{#if user}}<p>This is your homepage!</p>{{else}}{{/if}}
+{{#if user}}<p>Click <a href="./logout">here</a> to log out.</p>
+{{else}}<p><a href="./login">Log in</a>, or <a href="./signup">create an account</a>.</p>{{/if}}
 
-                <!-- Blog Post -->
-       
-                <div class="card mb-4">
-                    {{#if articles}}
-                    {{#each articles}}
-                        <div class="card mb-4">
-                            <form action="./article" method="POST"> 
-                                <div class="card-body mt-4">
-                                    <h2 class="card-title">Article Title: {{this.title}}</h2>
-                                    <span>by {{this.username}}</span>
-                                    <span>{{#summary this.content}}{{/summary}}</span>
-                                </div>
-                                <div>
-                                    <button type="submit" class="btn btn-primary bt-submit" name="articleId" value="{{this.articleId}}">Read Full Article!</button>
-                                </div>
-                            </form>
-                            
-                            <hr>
-                        </div>
-                        {{/each}}
-                    {{/if}}
-                <img class="img-responsive" src="http://lorempixel.com/640/360" alt="Card image cap">
-                <div class="card-body">
-                    <h2 class="card-title">Post Title</h2>
-                     <span>by Joe Bloggs</span>
-                    <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reiciendis aliquid atque, nulla? Quos cum ex quis soluta, a laboriosam. Dicta expedita corporis animi vero voluptate voluptatibus possimus, veniam magni quis!</p>
-                     <a href="./fullArticleView" class="btn btn-primary">Read Full Article &rarr;</a>
-                </div>
-                {{!-- <i onclick="myFunction(this)" class="fa fa-thumbs-up" style="font-size: 2em;"></i>
-                <script>function myFunction(x) {  x.classList.toggle("fa-thumbs-down");
-                }</script> --}}
+<div class="card-columns">
+{{#if articles}}
 
-                <div class="card-footer text-muted"></div>
-                </div>
-                <hr>    
-
-                <!-- Blog Post -->
-                <div class="card mb-4">
-                <img class="img-responsive" src="http://lorempixel.com/640/480/sports" alt="Card image cap">
-                <div class="card-body">
-                    <h2 class="card-title">Post Title</h2>
-                    <span>by Joe Bloggs</span>
-                    <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reiciendis aliquid atque, nulla? Quos cum ex quis soluta, a laboriosam. Dicta expedita corporis animi vero voluptate voluptatibus possimus, veniam magni quis!</p>
-                    <a href="./fullArticleView" class="btn btn-primary">Read Full Article &rarr;</a>
-                </div>
-                </div>
-                <hr>  
-
-                <!-- Blog Post -->
-                <div class="card mb-4">
-                <img class="img-responsive" src="https://www.placecage.com/640/360" alt="Card image cap">
-                <div class="card-body">
-                    <h2 class="card-title">Post Title</h2>
-                    <span>by Joe Bloggs</span>
-                    <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reiciendis aliquid atque, nulla? Quos cum ex quis soluta, a laboriosam. Dicta expedita corporis animi vero voluptate voluptatibus possimus, veniam magni quis!</p>
-                    <a href="./fullArticleView" class="btn btn-primary">Read Full Article &rarr;</a>
-                </div>
-                </div>
-                <hr>  
+    {{#each articles}}
+    <div class="card">
+        <form action="./censoredArticle" method="POST">
+            <div class="card-header">
+                {{#getImage this.content}}{{/getImage}}
+            </div> 
+            <div class="card-body mt-4">
+                <h1 class="card-title">Article Title: {{this.title}}</h1>
+                <p><em>by {{this.username}}</em></p>
+                <p class="card-text">{{#summary this.content}}{{/summary}}</p>
             </div>
-        </div>
+            <div>
+                <button type="submit" class="card-link btn btn-danger" name="articleId" value="{{this.articleId}}" formaction="./article">Read Full Article!</button>
+                <button type="submit" class="card-link btn btn-success" name="articleId" value="{{this.articleId}}">Read Full Censored Article!</button>
+            </div>
+        </form>
+
     </div>
+    
+    {{/each}}
+    
+{{/if}}
+</div>
