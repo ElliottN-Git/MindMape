@@ -34,6 +34,18 @@ app.engine("handlebars", handlebars({
         },
         toJSON: function(object) {
             return JSON.stringify(object);
+        },
+        getImage: function(str) {
+            const imgTags = str.match(/<img [^>]*src="[^"]*"[^>]*>/gm);
+            // const sources = str.match(/<img [^>]*src="[^"]*"[^>]*>/gm).map(x => x.replace(/.*src="([^"]*)".*/, '$1');
+            // var tmp = document.createElement('div');
+            // tmp.innerHTML = str;
+            // var tmpImg = tmp.querySelector('img').getAttribute('src');
+            // const htmlString = str;
+            // const img = htmlString.getElementsByTagName("img").getAttribute("src");
+            console.log(imgTags);
+            return imgTags;
+
         }
     },
     defaultLayout: "main"
