@@ -31,11 +31,11 @@ router.get("/", async function(req, res) {
             articles: allArticles,
             homePage: true,
             notLogged: true,
-            message: "please log in"
+            message: "Please log in"
         }
     }
     
-    res.render("article", context);
+    res.render("home", context);
 });
 
 
