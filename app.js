@@ -32,6 +32,9 @@ app.engine("handlebars", handlebars({
         and: function () {
             return Array.prototype.slice.call(arguments, 0, arguments.length - 1).every(Boolean);
         },
+        or: function () {
+            return Array.prototype.slice.call(arguments, 0, -1).some(Boolean);
+        },
         toJSON: function(object) {
             return JSON.stringify(object);
         },

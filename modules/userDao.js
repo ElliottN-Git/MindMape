@@ -54,7 +54,6 @@ async function authenticateLogin(username, password) {
     const db = await dbPromise;
     const getUser = await db.all(SQL`
     SELECT * FROM users WHERE username = ${username}`);
-    console.log(getUser.length);
     if (getUser.length == "0") {
         return false;
     } else {
@@ -67,6 +66,18 @@ async function authenticateLogin(username, password) {
         }
     }
 }
+
+// retrieve userdata using username <- to be used for createUser
+async function retrieveUserDataByUsername(username) {
+    const db = await dbPromise;
+
+    const userData = await db.get(SQL`
+        select * from users
+        where username = ${username}`);
+
+    return userData;
+}
+
 
 async function createUser(newUserData) {
     const db = await dbPromise;
@@ -90,6 +101,8 @@ async function createUser(newUserData) {
             ${newUserData.country},
             ${newUserData.personalDescription}            
         )`)
+    const user = await retrieveUserDataByUsername(newUserData.username);
+    return user;
 }
 
 async function updateUserData(userData, userId) {
@@ -365,5 +378,6 @@ module.exports = {
     noReply,
     setNoParent,
     getCommentsNoReply,
-    isParent
+    isParent,
+    retrieveUserDataByUsername
 };

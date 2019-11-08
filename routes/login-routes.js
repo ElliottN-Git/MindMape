@@ -27,7 +27,6 @@ router.post("/login", async function(req, res) {
     if (user != false) {
         // Auth success - add the user to the session, and render to the homepage.
         req.session.user = user[0];
-        
         res.redirect("./");
     }
     else {

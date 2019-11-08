@@ -90,21 +90,22 @@ router.post("/signup", upload.single("imageFile"), async function(req, res) {
     //Confirms all fields are properly filled out and the input is valid
     try {
         userProcess.validateUserData(newUser);
+        //sends to the user data access object to create new user in db
+        const userDataArr = await userDao.createUser(newUser);
+        req.session.user = userDataArr;
+        const userData = req.session.user;
+    // Redirect to the userProfile page
+        context = {
+            user: userData
+        };
+        
     } catch(err) {
         context = {
-            message: err
+            message: err + "please fill in correct details"
         }
         res.render("signup", context);
     }
-    //sends to the user data access object to create new user in db
-        userDao.createUser(newUser);
-        req.session.user = newUser;
-        const userProfile = req.session.user;
-        context = {
-            user: userProfile
-        };
-    // Redirect to the userProfile page
-        res.render("userProfile", context);
+    res.render("home", context);
 });
 
 
