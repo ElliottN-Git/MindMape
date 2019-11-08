@@ -43,13 +43,12 @@
       <div class="media-body">
         <h4 class="media-heading">{{this.username}} <small><i>Posted on {{this.created_At}}</i></small></h4>
         <p id="opComment">{{this.content}}</p>
-        {{#if (equal ../user.userId this.userId)}}
+        {{#if (or (equal ../user.userId this.userId) (equal ../user.userId ../articleDetail.userId))}}
         <form method="POST">
           <button type="submit" class="btn btn-sm btn-danger" formaction="./deleteComment" name="commentId" value="{{this.commentId}}">Delete this comment</button>
         </form>
         {{/if}}
-        
-        {{#if (equal ../user.userId this.userId)}}
+        {{#if ../user}}
         <div>
           <button type="button" class="btn btn-sm btn-block btn-primary" data-toggle="collapse" data-target="#reply{{this.commentId}}">Write a reply</button>
         </div>
@@ -93,7 +92,7 @@
                     <h4 class="media-heading">{{this.username}} <small><i>{{this.created_At}}</i></small></h4>
                     <p id="replyBody">{{this.content}}</p>
                   </div>
-                  {{#if (equal ../../user.userId this.userId)}}
+                  {{#if (or (equal ../user.userId this.userId) (equal ../user.userId ../articleDetail.userId))}}
                   <form method="POST">
                     <button type="submit" class="btn btn-sm btn-danger" formaction="./deleteComment" name="commentId" value="{{this.commentId}}">Delete this comment</button>
                   </form>
