@@ -35,18 +35,18 @@
     
     {{#each comments}}
     <br>
-    {{#if (equal this.replyTo_Id null)}}
+    {{#if (equal this.replyTo_Id null)}}    
     <div class="media bg-light card">
-      <div class="media-left">
-        <img src="/images/thumbnails/{{this.avatarId}}" class="media-object" style="width:45px">
-      </div>
       <div class="media-body">
-        <h4 class="media-heading">{{this.username}} <small><i>Posted on {{this.created_At}}</i></small></h4>
+        <img src="/images/thumbnails/{{this.avatarId}}" class="media-object" style="width:45px">
+        <h4 class="media-heading">{{this.username}} <small><em>Posted on {{this.created_At}}</em></small></h4>
         <p id="opComment">{{this.content}}</p>
+        {{#if ../user}}
         {{#if (or (equal ../user.userId this.userId) (equal ../user.userId ../articleDetail.userId))}}
         <form method="POST">
           <button type="submit" class="btn btn-sm btn-danger" formaction="./deleteComment" name="commentId" value="{{this.commentId}}">Delete this comment</button>
         </form>
+        {{/if}}
         {{/if}}
         {{#if ../user}}
         <div>
@@ -87,15 +87,15 @@
                   <br>
                   <div class="media-left">
                     <img src="/images/thumbnails/{{this.avatarId}}" class="media-object" style="width:45px">
-                  </div>
-                  <div class="media-body">
-                    <h4 class="media-heading">{{this.username}} <small><i>{{this.created_At}}</i></small></h4>
+                    <h4 class="media-heading">{{this.username}} <small><em>Posted on {{this.created_At}}</em></small></h4>
                     <p id="replyBody">{{this.content}}</p>
                   </div>
-                  {{#if (or (equal ../user.userId this.userId) (equal ../user.userId ../articleDetail.userId))}}
+                  {{#if ../../user}}
+                  {{#if (or (equal ../../user.userId this.userId) (equal ../../user.userId ../articleDetail.userId))}}
                   <form method="POST">
                     <button type="submit" class="btn btn-sm btn-danger" formaction="./deleteComment" name="commentId" value="{{this.commentId}}">Delete this comment</button>
                   </form>
+                  {{/if}}
                   {{/if}}
                   {{/if}}      
                 {{/each}}
