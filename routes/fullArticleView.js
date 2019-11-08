@@ -131,20 +131,13 @@ router.post("/deleteComment", async function (req, res) {
     const articleId = await userDao.getArticleId(commentId);
     await userDao.deleteComment(commentId);
 
-    // 
-    // const parent = await userDao.getParent();
-    // console.log(parent);
-    // const stringss = await userDao.resetParent();
-    // const reParent = await userDao.getParent();
-    // console.log(reParent);
-    // if(parent[0]) {
-    //     for (let i = 0; i < parent.length; i++) {
-    //         let re = await userDao.setParent(parent[i].commentId);
-    //         let set = await re;
-    //     }
-    // };
-    // 
-
+    
+    const noparent = await userDao.getCommentsNoReply();
+    for (let i = 0; i < noparent.length; i++) {
+        const setNo = await userDao.setNoParent(noparent[i]);
+        const parent = await setNo;
+    }
+    
     const commentsAll = await userDao.loadComments(articleId);
     const details = await userDao.loadArticleDetails(articleId);
     const context = {

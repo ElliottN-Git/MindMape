@@ -116,17 +116,16 @@ async function updateUserAvatar(avatarId, userId) {
 
 async function deleteUserData(userId) {
     const db = await dbPromise;
-    const one = await db.run(SQL`
+    await db.run(SQL`
         delete from comments
         where userId = ${userId}`);
-    const two = await db.run(SQL`
+    await db.run(SQL`
         delete from articles
         where userId = ${userId}`);
-    const three = await db.run(SQL`
+    await db.run(SQL`
         delete from users
         where userId = ${userId}`);
 
-    console.log(one, two, three);
     return "Deleted";
 }
 
@@ -165,9 +164,14 @@ async function updateArticle(id, title, content) {
 async function deleteArticle(articleId) {
     const db = await dbPromise;
 
+
+    await db.run(SQL`
+        delete from comments
+        where articleId = ${articleId}`);
     await db.run(SQL`
         delete from articles
         where articleId = ${articleId}`);
+
 }
 
 async function loadArticleDetails(articleId) {
@@ -212,104 +216,125 @@ async function loadComments(articleId) {
 async function createComment(userId, username, avatarId, articleId, content) {
     const db = await dbPromise;
     await db.run(SQL`
-    INSERT INTO comments (userId, username, avatarId, articleId, content, created_At) VALUES (
+    INSERT INTO comments (userId, username, avatarId, articleId, content, created_At, isParent) VALUES (
         ${userId},
         ${username},
         ${avatarId},
         ${articleId},
         ${content},
-        datetime('now')
+        datetime('now'),
+        0
     )`);
          
 }
 
 async function createReply(userId, username, avatarId, articleId, parentCommentId, content) {
     const db = await dbPromise;
-    if(parentCommentId) {
-        await db.run(SQL`
-        INSERT INTO comments (userId, username, avatarId, articleId, replyTo_Id, content, created_At) VALUES (
-            ${userId},
-            ${username},   
-            ${avatarId},         
-            ${articleId},
-            ${parentCommentId},
-            ${content},
-            datetime('now')
-        )`);
-    } else {
-        await db.run(SQL`
-        INSERT INTO comments (userId, articleId, content, created_At) VALUES (
-            ${userId},
-            ${articleId},
-            ${content},
-            datetime('now')
-        )`);
-    }     
+    
+    await db.run(SQL`
+    INSERT INTO comments (userId, username, avatarId, articleId, replyTo_Id, content, created_At, isParent) VALUES (
+        ${userId},
+        ${username},   
+        ${avatarId},         
+        ${articleId},
+        ${parentCommentId},
+        ${content},
+        datetime('now'),
+        0
+    )`);
+    
 }
 
 async function setParent(commentId) {
     const db = await dbPromise;
-    let data = [commentId];
-    let sql = `UPDATE comments
-                SET isParent = 1
-                WHERE commentId = ${commentId};`;
-    db.run(sql, data, function(err) {
-    if (err) {
-        return console.error(err.message);
-    }
-    console.log(`Row(s) updated: ${this.changes}`);
-    });
-}
 
-async function noReply(commentId) {
-    const db = await dbPromise;
-    let data = [commentId];
-    let sql = `UPDATE comments
-                SET isParent = 0
-                WHERE commentId = ${commentId};`;
-    db.run(sql, data, function(err) {
-    if (err) {
-        return console.error(err.message);
-    }
-    console.log(`Row(s) updated: ${this.changes}`);
-    });
-}
-
-async function deleteComment(commentId) {
-    const db = await dbPromise;
-
-    let data = [commentId];
-    let sql = `delete from comments WHERE commentId = ${commentId};`;
-    db.run(sql, data, function(err) {
-    if (err) {
-        return console.error(err.message);
-    }
-    console.log(`Row(s) updated: ${this.changes}`);
-    });
-}
-
-async function resetParent() {
-    const db = await dbPromise;
     await db.run(SQL`
-        update comments
-        set isParent = 0;`);
+        UPDATE comments
+        SET isParent = 1
+        WHERE commentId = ${commentId}`);
+
+
+    // let data = [commentId];
     // let sql = `UPDATE comments
-    //             SET isParent = 0;`;
-    // db.run(sql, function(err) {
+    //             SET isParent = 1
+    //             WHERE commentId = ${commentId};`;
+    // db.run(sql, data, function(err) {
     // if (err) {
     //     return console.error(err.message);
     // }
     // console.log(`Row(s) updated: ${this.changes}`);
     // });
-    return "done";
 }
 
-async function getParent() {
+async function noReply(commentId) {
+    const db = await dbPromise;
+
+    await db.run(SQL`
+        UPDATE comments
+        SET isParent = 0
+        WHERE commentId = ${commentId}`);
+
+    // let data = [commentId];
+    // let sql = `UPDATE comments
+    //             SET isParent = 0
+    //             WHERE commentId = ${commentId};`;
+    // db.run(sql, data, function(err) {
+    // if (err) {
+    //     return console.error(err.message);
+    // }
+    // console.log(`Row(s) updated: ${this.changes}`);
+    // });
+}
+
+async function deleteComment(commentId) {
+    const db = await dbPromise;
+    await db.run(SQL`
+    delete from comments
+    where replyTo_Id = ${commentId}`);
+    await db.run(SQL`
+    delete from comments
+    where commentId = ${commentId}`);
+
+    // let data = [commentId];
+    // let sql = `delete from comments WHERE commentId = ${commentId};`;
+    // db.run(sql, data, function(err) {
+    // if (err) {
+    //     return console.error(err.message);
+    // }
+    // console.log(`Row(s) updated: ${this.changes}`);
+    // });
+}
+
+async function setNoParent(commentId) {
+    const db = await dbPromise;
+
+
+    let sql = `UPDATE comments
+                SET isParent = 0;`;
+    db.run(sql, function(err) {
+    if (err) {
+        return console.error(err.message);
+    }
+    console.log(`Row(s) updated: ${this.changes}`);
+    });
+    
+    await db.run(SQL`
+    update comments set isParent = 1 where (select replyTo_Id from comments as c where c.replyTo_Id = comments.commentId)`);
+}
+
+async function getCommentsNoReply() {
     const db = await dbPromise;
     const getParent = await db.all(SQL`
     SELECT commentId from comments except SELECT s.commentId from comments as s, comments as i where s.commentId = i.replyTo_Id;`);
     const parentsArray = makeArray(getParent);
     return parentsArray;
+}
+
+async function isParent(commentId) {
+    const db = await dbPromise;
+    const getParent = await db.all(SQL`
+    SELECT isParent from comments where commentId = ${commentId};`);
+    return getParent;
 }
 
 // Export functions.
@@ -336,6 +361,7 @@ module.exports = {
     getArticleId,
     setParent,
     noReply,
-    resetParent,
-    getParent
+    setNoParent,
+    getCommentsNoReply,
+    isParent
 };
