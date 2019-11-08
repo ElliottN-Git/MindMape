@@ -42,7 +42,7 @@
       </div>
       <div class="media-body">
         <h4 class="media-heading">{{this.username}} <small><i>Posted on {{this.created_At}}</i></small></h4>
-        <p>{{this.content}}</p>
+        <p id="opComment">{{this.content}}</p>
         {{#if (equal ../user.userId this.userId)}}
         <form method="POST">
           <button type="submit" class="btn btn-sm btn-danger" formaction="./deleteComment" name="commentId" value="{{this.commentId}}">Delete this comment</button>

@@ -264,3 +264,10 @@ h5 {
 #footer-main a {
   color: #a3a3c2;
 }
+
+#opComment, #replyBody {
+  background: white;
+  border: inset 1px rgba(200,200,200,0.7);
+  border-radius: 5px;
+  padding: 3px;
+}
