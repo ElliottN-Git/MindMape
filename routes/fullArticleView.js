@@ -152,6 +152,7 @@ router.get("/userArticleHistory", async function (req, res) {
     const user = req.session.user;
     const allArticles = await userDao.loadArticlesById(user.userId);
     const context = {
+        historyPage: true,
         articles: allArticles
     };
    
