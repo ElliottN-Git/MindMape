@@ -15,14 +15,7 @@ app.engine("handlebars", handlebars({
     helpers: {
         summary: function (str) {
             const htmlString= str;
-            // if we only want the plain text for the Summary
-            // const stripedHtml = htmlString.replace(/<[^>]+>/g, '');
-            // if we only want to remove image
             const stripedHtml = htmlString.replace(/<img[^>]*>/g,"");
-            // if we want to remove image and table
-            // we can go so on and I'm suggesting options but personally I think may be just remove image
-            // unless we figure out how to resize image from the WYSIWYG when uploaded (we can but might take a lot of time)
-            // let plusTable = htmlString.replace(/<img[^>]*>|<table[^>]+>/g,"");
             const subString = stripedHtml.substring(0,500);
             return subString;
         },
@@ -40,12 +33,6 @@ app.engine("handlebars", handlebars({
         },
         getImage: function(str) {
             const imgTags = str.match(/<img [^>]*src="[^"]*"[^>]*>/gm);
-            // const sources = str.match(/<img [^>]*src="[^"]*"[^>]*>/gm).map(x => x.replace(/.*src="([^"]*)".*/, '$1');
-            // var tmp = document.createElement('div');
-            // tmp.innerHTML = str;
-            // var tmpImg = tmp.querySelector('img').getAttribute('src');
-            // const htmlString = str;
-            // const img = htmlString.getElementsByTagName("img").getAttribute("src");
             return imgTags;
 
         }
