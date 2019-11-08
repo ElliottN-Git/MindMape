@@ -1,8 +1,8 @@
-//submit button on write article page
+//censor button on write article page
 const censorArticleBtn = document.querySelector("#censorArticleBtn");
 
+//removes profanity from article when writer clicks the button before posting
 censorArticleBtn.addEventListener("click", function() {
-    console.log("clicked censor button");
     const titleInput = document.querySelector("#title");
     const titleStr = titleInput.value;
     const censoredTitle = replaceBannedWords(titleStr);
@@ -13,11 +13,11 @@ censorArticleBtn.addEventListener("click", function() {
     tinyMCE.triggerSave();
     const articleWYSIWYG = document.querySelector("#full-featured-non-premium");
     const articleContent = articleWYSIWYG.value;
-    console.log(articleContent);
     const censoredArticle = replaceBannedWords(articleContent);
 
     tinyMCE.activeEditor.setContent(censoredArticle);
 });
+
 
 //Checks the input string against the bannedWords regex 
 // and returns true if any matches are found or false if not.
@@ -33,6 +33,5 @@ function isProfane(string) {
 //Replaces any words that match bannedWords regex with "****"
 function replaceBannedWords(string) {
     let censoredString = string.replace(bannedWords, "****");
-    console.log(censoredString);
     return censoredString;
 }

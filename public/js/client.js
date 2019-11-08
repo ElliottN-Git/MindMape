@@ -67,6 +67,15 @@ async function checkUniqueEmail(email) {
     }
 }
 
+//Personal description
+const personalDescTxtArea = document.querySelector("#personal");
+//Filters profanity in the personal description on deselection of the textbox
+personalDescTxtArea.addEventListener("blur", function() {
+    const description = personalDescTxtArea.value;
+    const censoredDesc = replaceBannedWords(description);
+    personalDescTxtArea.value = censoredDesc;
+});
+
 //Clear the image file selected to be uploaded
 const clearFileInputBtn = document.querySelector("#clearImgUpload");
 
