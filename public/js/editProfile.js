@@ -2,6 +2,7 @@
 const editbtn = document.querySelector("#editprofile");
 const changeAvatarBtn = document.querySelector("#changeAvatar");
 const saveAvatarBtn = document.querySelector("#saveAvatar");
+const cancelChangeBtn = document.querySelector("#cancelChange");
 
 const fileUploadDiv = document.querySelector("#imageUpload");
 
@@ -12,15 +13,19 @@ const emailtd = document.querySelector("#emailtd");
 const gendertd = document.querySelector("#gendertd");
 const countrytd = document.querySelector("#countrytd");
 const phonetd = document.querySelector("#phonetd");
+const dobtd = document.querySelector("#dob");
+const personalDesctd = document.querySelector("#personal");
 
 editbtn.addEventListener("click", function() {
     tdToTextInput(unametd, "username");
     tdToTextInput(fnametd, "fname");
     tdToTextInput(lnametd, "lname");
     tdToTextInput(emailtd, "email");
+    tdToDateInput(dobtd);
     tdToGenderInput(gendertd);
     tdToCountryInput(countrytd);
     tdToTextInput(phonetd, "phonenum");
+    tdToTextBoxInput(personalDesctd);
     editbtn.disabled = true;
 });
 
@@ -29,14 +34,28 @@ changeAvatarBtn.addEventListener("click", function() {
         fileUploadDiv.style.display = "block";
     }
     changeAvatarBtn.style.display = "none";
-    // if(saveAvatarBtn.style.display === "none") {
-        saveAvatarBtn.style.display = "block";
-    // }
+    saveAvatarBtn.style.display = "block";
+    cancelChangeBtn.style.display = "block";
+});
+
+cancelChangeBtn.addEventListener("click", function() {
+    saveAvatarBtn.style.display = "none";
+    fileUploadDiv.style.display = "none";
+    cancelChangeBtn.style.display = "none";
+    changeAvatarBtn.style.display = "block";
 });
     
 function tdToTextInput(tdElement, inputName) {
     tdElement.innerHTML = `<input type="text" id="${tdElement.id}Input" name="${inputName}" value="${tdElement.innerHTML}" class="form-control">`;
 };
+
+function tdToTextBoxInput(tdElement) {
+    tdElement.innerHTML = `<textarea type="text" class="form-control" id="personal" name="personal">${tdElement.innerHTML}</textarea>`;
+};
+
+function tdToDateInput(tdElement) {
+    tdElement.innerHTML = `<input type="date" class="form-control" id="bday" name="DOB" placeholder="dd/mm/yyyy" min="02/01/1903" max="31/12/2099" value="${tdElement.innerHTML}">`
+}
 
 function tdToGenderInput(tdElement) {
     tdElement.innerHTML = `

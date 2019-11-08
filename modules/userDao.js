@@ -116,7 +116,9 @@ async function updateUserData(userData, userId) {
         email = ${userData.email},
         phoneNum = ${userData.phonenum},
         country = ${userData.country},
-        gender = ${userData.gender}
+        dob = ${userData.DOB},
+        gender = ${userData.gender},
+        personalDescription = ${userData.personal}
         WHERE userId = ${userId}`);
 }
 
