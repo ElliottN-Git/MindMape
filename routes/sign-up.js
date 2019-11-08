@@ -20,7 +20,7 @@ const userDao = require("../modules/userDao");
 
 router.get("/signup", function(req, res) {
     const context = {
-        signUpPage: true,
+        signUpPage: true
     }
 
     res.render("signUp", context);
@@ -101,14 +101,14 @@ router.post("/signup", upload.single("imageFile"), async function(req, res) {
         context = {
             user: userData
         };
-        
+        res.render("home", context);
     } catch(err) {
         context = {
             message: err + "please fill in correct details"
         }
         res.render("signup", context);
     }
-    res.render("home", context);
+    
 });
 
 
