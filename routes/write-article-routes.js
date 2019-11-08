@@ -42,7 +42,7 @@ router.post("/writeArticle", upload.single("wysiwyg"), async function(req, res) 
     const user = req.session.user;
     const writeArticle = await userDao.createArticle(user.userId, title, body, user.username);
     
-    res.render("article");
+    res.redirect("./article");
 });
 
 
