@@ -1,26 +1,22 @@
 //submit button on write article page
 const censorArticleBtn = document.querySelector("#censorArticleBtn");
 
-postArticleBtn.addEventListener("click", function() {
-    let titleStr = document.querySelector("#title").value;
-    replaceBannedWords(titleStr);
+censorArticleBtn.addEventListener("click", function() {
+    console.log("clicked censor button");
+    const titleInput = document.querySelector("#title");
+    const titleStr = titleInput.value;
+    const censoredTitle = replaceBannedWords(titleStr);
+    titleInput.value = censoredTitle;
 
-    //For some reason doesn't get innerHTML on first try, only after page is reloaded?
-        //Looks like the triggerSave() method fixes it.
+    //For some reason doesn't get tinyMCE's innerHTML on first try,
+        //the triggerSave() method fixes it.
     tinyMCE.triggerSave();
-    let articleContent = document.querySelector("#full-featured-non-premium").value;
-    // console.log(document.querySelector("#full-featured-non-premium"));
+    const articleWYSIWYG = document.querySelector("#full-featured-non-premium");
+    const articleContent = articleWYSIWYG.value;
+    console.log(articleContent);
     const censoredArticle = replaceBannedWords(articleContent);
 
-    tinyMCE.triggerSave();
-
-    const tinyMCE = document.querySelector("#tinymce");
-    console.log(tinyMCE);
-    tinyMCE.innerHTML = censoredArticle;
-
-    tinyMCE.triggerSave();
-
-    // articleContent = censoredArticle;
+    tinyMCE.activeEditor.setContent(censoredArticle);
 });
 
 //Checks the input string against the bannedWords regex 
