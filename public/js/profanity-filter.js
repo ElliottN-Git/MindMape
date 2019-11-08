@@ -1,6 +1,7 @@
-//submit button on write article page
+//censor button on write article page
 const censorArticleBtn = document.querySelector("#censorArticleBtn");
 
+//removes profanity from article when writer clicks the button before posting
 censorArticleBtn.addEventListener("click", function() {
     const titleInput = document.querySelector("#title");
     const titleStr = titleInput.value;
@@ -16,6 +17,7 @@ censorArticleBtn.addEventListener("click", function() {
 
     tinyMCE.activeEditor.setContent(censoredArticle);
 });
+
 
 //Checks the input string against the bannedWords regex 
 // and returns true if any matches are found or false if not.
