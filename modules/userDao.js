@@ -56,7 +56,6 @@ async function authenticateLogin(username, password) {
     SELECT * FROM users WHERE username = ${username}`);
 
     const dbHashedPassWord = getUser[0].pwordHash;
-
     const enteredHashedPassWord = crypto.sha512(password, getUser[0].pwordSalt);
 
     if(dbHashedPassWord === enteredHashedPassWord.passwordHash) {
@@ -101,7 +100,9 @@ async function updateUserData(userData, userId) {
         email = ${userData.email},
         phoneNum = ${userData.phonenum},
         country = ${userData.country},
-        gender = ${userData.gender}
+        dob = ${userData.DOB},
+        gender = ${userData.gender},
+        personalDescription = ${userData.personal}
         WHERE userId = ${userId}`);
 }
 
@@ -116,17 +117,17 @@ async function updateUserAvatar(avatarId, userId) {
 
 async function deleteUserData(userId) {
     const db = await dbPromise;
-    const one = await db.run(SQL`
+    const deleteComments = await db.run(SQL`
         delete from comments
         where userId = ${userId}`);
-    const two = await db.run(SQL`
+    const deleteArticles = await db.run(SQL`
         delete from articles
         where userId = ${userId}`);
-    const three = await db.run(SQL`
+    const deleteUser = await db.run(SQL`
         delete from users
         where userId = ${userId}`);
 
-    console.log(one, two, three);
+    console.log(deleteComments, deleteArticles, deleteUser);
     return "Deleted";
 }
 

@@ -75,8 +75,8 @@
                     </ul>
                     {{else}}
                     <ul class="nav navbar-nav navbar-right">
-                        <li class="{{#if notLogged}} active{{/if}}"><a href="./login">Login!</a></li>
-                        <li class="active"><a href="./signup">Create account</a></li>
+                        <li class="{{#if loginPage}} active{{/if}}"><a href="./login">Login!</a></li>
+                        <li class="{{#if signUpPage}} active{{/if}}"><a href="./signup">Create account</a></li>
                     {{/if}}
                     </ul>
                 </div>

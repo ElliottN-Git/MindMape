@@ -18,40 +18,40 @@
                 <form action="./signup" method="POST" enctype="multipart/form-data">
                     <div class="form-group">
                         <label for="txtFName">First Name:</label>
-                        <input type="text" class="form-control" id="txtFName" name="fname" value="{{fname}}">
+                        <input type="text" class="form-control" id="txtFName" name="fname" value="{{fname}}" required>
                     </div>
 
                     <div class="form-group">
                         <label for="txtLName">Last Name:</label>
-                        <input type="text" class="form-control" id="txtLName" name="lname" value="{{lname}}">
+                        <input type="text" class="form-control" id="txtLName" name="lname" value="{{lname}}" required>
                     </div>
 
                     <div class="form-group">
                         <label for="txtUName">Username:</label>
                         <span id="usernameTaken" style="display: none; color:red">Username is taken. Please try something different:</span>
                         <span id="bannedWord" style="display: none; color:red">That username contains banned words. Try again after you've washed your mouth out with soap!</span>                        
-                        <input type="text" class="form-control" id="txtUName" name="userName" value="{{userName}}">
+                        <input type="text" class="form-control" id="txtUName" name="userName" value="{{userName}}" required>
                     </div>
 
                     <div class="form-group">
                         <label for="password">Password:</label>
-                        <input type="password" class="form-control" id="password" name="password" value="{{password}}">
+                        <input type="password" class="form-control" id="password" name="password" value="{{password}}" required>
                     </div>
 
                     <div class="form-group">
                         <label for="passwordCheck">Re Enter Password:</label>
-                        <input type="password" class="form-control" id="confirm-password" name="passwordCheck" value="">
+                        <input type="password" class="form-control" id="confirm-password" name="passwordCheck" value="" required>
                          <span id='message'></span>
                     </div>
 
                     <div class="form-group">
                         <label for="bday">Date of Birth:</label>
-                        <input type="date" class="form-control" id="bday" name="DOB" placeholder="dd/mm/yyyy" value="{{DOB}}">
+                        <input type="date" class="form-control" id="bday" name="DOB" placeholder="dd/mm/yyyy" min="02/01/1903" max="31/12/2099" value="{{DOB}}" required>
                     </div>
 
                     <div class="form-group">
                         <label for="genderSelection">Gender:</label>
-                        <select class="form-control" id="genderSelection" name="gender">
+                        <select class="form-control" id="genderSelection" name="gender" required>
                             <option>    </option>
                             <option value="Male">Male</option>
                             <option value="Female">Female</option>
@@ -63,17 +63,17 @@
                     <div class="form-group">
                         <label for="txtEmail">Email:</label>
                         <span id="emailTaken" style="display: none; color:red">Email address is already in use. Please <a href="./login">login here</a> or enter a different email address:</span>
-                        <input type="email" class="form-control" id="txtEmail" name="email" value="{{email}}">
+                        <input type="email" class="form-control" id="txtEmail" name="email" value="{{email}}" required>
                     </div>
 
                     <div class="form-group">
                         <label for="txtPhone">Phone number:</label>
-                        <input type="text" class="form-control" id="txtPhone" name="phoneNum" value="{{phoneNum}}">
+                        <input type="text" class="form-control" id="txtPhone" name="phoneNum" value="{{phoneNum}}" required>
                     </div>
 
                     <div class="form-group">
                         <label for="country">Country</label>      
-                        <select id="country" name="country" class="form-control">
+                        <select id="country" name="country" class="form-control" required>
                             <option value="Empty">  </option>
                             <option value="Afghanistan">Afghanistan</option>
                             <option value="Åland Islands">Åland Islands</option>
@@ -324,7 +324,7 @@
 
                     <div class="form-group">
                         <label for="personal">Personal Description:</label>
-                        <textarea type="text" class="form-control" id="personal" name="personal" height= value="{{personal}}"></textarea>
+                        <textarea type="text" class="form-control" id="personal" name="personal" value="{{personal}}"></textarea>
                     </div>
 
 

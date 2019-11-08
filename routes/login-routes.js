@@ -22,7 +22,7 @@ router.post("/login", async function(req, res) {
     const username = req.body.username;
     const password = req.body.password;
 
-    let userdata = userDao.authenticateLogin(username, password);
+    let userdata = await userDao.authenticateLogin(username, password);
     let user = await userdata;
     if (user != false) {
         // Auth success - add the user to the session, and render to the homepage.

@@ -164,8 +164,8 @@ img {
     max-width: 100%;
 }
 #cover {
-    background: #222 url('http://www.goodwp.com/pic/201602/1920x1200/goodwp.com-32937.jpg') center center no-repeat;
-    background-size: auto;
+    background: #222 url("/images/cover.jpg") center center no-repeat;
+    background-size: cover;
     color: white;
     height: 40%;
     text-align: center;

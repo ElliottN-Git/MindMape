@@ -19,8 +19,11 @@ const userDao = require("../modules/userDao");
 // -------------------------------------------------------------------------
 
 router.get("/signup", function(req, res) {
+    const context = {
+        signUpPage: true,
+    }
 
-    res.render("signUp"); //context object commented out for testing
+    res.render("signUp", context);
 });
 
 //route handler for querying the database for username from client.js via fetch
