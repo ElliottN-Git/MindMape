@@ -98,10 +98,13 @@ router.post("/signup", upload.single("imageFile"), async function(req, res) {
     }
     //sends to the user data access object to create new user in db
         userDao.createUser(newUser);
-        req.session.user = req.body;
-        const user = req.session.user;
+        req.session.user = newUser;
+        const userProfile = req.session.user;
+        context = {
+            user: userProfile
+        };
     // Redirect to the userProfile page
-        res.render("userProfile", user);
+        res.render("userProfile", context);
 });
 
 
