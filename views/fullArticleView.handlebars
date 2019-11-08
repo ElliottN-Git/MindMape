@@ -1,6 +1,6 @@
 <div class="container">
 
-    <div class="main-content">
+    <div class="main-content card">
       <h1 class="page-title text-center">{{articleDetail.title}}</h1>
       <h4 class="page-title text-right">posted by {{articleDetail.username}}</h4>
       <hr>
@@ -36,7 +36,7 @@
     {{#each comments}}
     <br>
     {{#if (equal this.replyTo_Id null)}}
-    <div class="media bg-light">
+    <div class="media bg-light card">
       <div class="media-left">
         <img src="/images/thumbnails/{{this.avatarId}}" class="media-object" style="width:45px">
       </div>
