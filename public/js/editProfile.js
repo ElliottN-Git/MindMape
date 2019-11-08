@@ -317,4 +317,3 @@ function tdToCountryInput(tdElement) {
                 <option value="Zimbabwe">Zimbabwe</option>
             </select>`;
 };
-
