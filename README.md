@@ -1,20 +1,15 @@
-Final project &ndash; A personal blogging system &ndash; Starter project
-==========
-1. Which is the main JavaScript file, which should be run using the ​node command to start your webapp?
-The app.js is the main JavaScript file.
+Welcome to MindMAPE!
 
-2. Does the marker need to do anything prior to running your webapp, other than npm install?
-No.
+This website was completed as the final project of my Postgraduate Certificate in Information Technology to showcase everything we had learned throughout the semester.
 
-3. At least one username / password combination for an existing user in your system with some already-published articles & comments.
-Please use username: enix002 / password: enix002mm
+It was completed by myself (Elliott Nixon) along with three others: Paul Won, Amber Dong and Mose Tanielu.
 
-4. Any other instructions / comments you wish to make to your markers.
-Have fun with the profanity filter.
+To run the webapp, ensure you have npm and nodejs installed. (https://www.npmjs.com/get-npm)
 
-Homepage articles are viewable without loggin in.
+Open the command prompt, and ensure '\cs719-project-team-mape' is the current directory. 
 
-Please use either testing account or create a new user to use user intended features such as writing/editing/deleting articles
-or writing/deleting comments/replies. Also author of the article is able to delete any comments made on the article.
+Run 'npm install'.
 
-Thank you.
+Run 'node app.js'.
+
+Open http://localhost:3000 in your browser.
