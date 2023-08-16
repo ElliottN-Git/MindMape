@@ -33,7 +33,7 @@ const { Sequelize } = require('sequelize');
 
 const sequelize = new Sequelize(process.env.DB_NAME, process.env.DB_USER, process.env.DB_PASS, {
     dialect: 'mssql',
-    host: process.env.INSTANCE_HOST, //'34.89.61.55', 
+    server: process.env.INSTANCE_HOST, //'34.89.61.55', 
     user: process.env.DB_USER,
     port: process.env.DB_PORT
 
