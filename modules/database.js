@@ -22,13 +22,22 @@ const { Sequelize } = require('sequelize');
 // const sequelize = new Sequelize('postgres://user:pass@example.com:5432/dbname') // Example for postgres
 // Option 3: Passing parameters separately (other dialects)
 
-const sequelize = new Sequelize('mindmapeDB', 'sqlserver ', 'testingLocalLogin', {
-  dialect: 'mssql',
-  host: '34.89.61.55', //'127.0.0.1',
-  timestamps: false,
-  dialectOptions: {
-    socketPath: 'neon-reporter-395414:europe-west2:mindmape' //or '/cloudsql/mindmape' ?
-  },
+// const sequelize = new Sequelize('mindmapeDB', 'sqlserver ', 'testingLocalLogin', {
+//   dialect: 'mssql',
+//   host: '127.0.0.1', //'34.89.61.55', 
+//   timestamps: false,
+//   dialectOptions: {
+//     socketPath: 'neon-reporter-395414:europe-west2:mindmape' //or '/cloudsql/mindmape' ?
+//   },
+// });
+
+const sequelize = new Sequelize(process.env.DB_NAME, process.env.DB_USER, process.env.DB_PASS, {
+    dialect: 'mssql',
+    host: process.env.INSTANCE_HOST, //'34.89.61.55', 
+    user: process.env.DB_USER,
+    port: process.env.DB_PORT
+
+  //   timestamps: false,
 });
 
 async function tryAuth() {
