@@ -24,7 +24,7 @@ const { Sequelize } = require('sequelize');
 
 const sequelize = new Sequelize('mindmapeDB', 'sqlserver ', 'testingLocalLogin', {
   dialect: 'mssql',
-  host: '127.0.0.1', //'34.89.61.55',
+  host: '34.89.61.55', //'127.0.0.1',
   timestamps: false,
   dialectOptions: {
     socketPath: 'neon-reporter-395414:europe-west2:mindmape' //or '/cloudsql/mindmape' ?
