@@ -10,10 +10,10 @@
 -- DROP TABLE IF EXISTS comments;
 
 CREATE TABLE users (
-    userId INT NOT NULL PRIMARY KEY,
+    userId INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
     username VARCHAR(20) UNIQUE,
     pwordSalt VARCHAR(100),
-    pwordHash VARCHAR(100),
+    pwordHash VARCHAR(255),
     fname VARCHAR(30),
     lname VARCHAR(50),
     dob DATE,
@@ -36,14 +36,14 @@ CREATE TABLE socialMedia (
 );
 
 CREATE TABLE articles (
-    articleId INT NOT NULL PRIMARY KEY,
+    articleId INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
     content VARCHAR(MAX), -- You need to specify the length for VARCHAR(MAX)
     userId INT,
     created_At DATETIME DEFAULT GETDATE() -- Use DATETIME instead of TEXT for timestamp
 );
 
 CREATE TABLE comments (
-    commentId INT NOT NULL PRIMARY KEY,
+    commentId INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
     userId INT,
     articleId INT,
     replyTo_Id INT,

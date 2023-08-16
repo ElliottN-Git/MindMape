@@ -3,14 +3,17 @@
   "version": "1.0.0",
   "private": true,
   "dependencies": {
+    "@google-cloud/cloud-sql-connector": "^0.5.1",
     "cookie-parser": "^1.4.4",
     "express": "~4.16.1",
     "express-handlebars": "^3.1.0",
     "express-session": "^1.16.2",
     "jimp": "^0.8.4",
     "multer": "^1.4.2",
+    "sequelize": "^6.32.1",
     "sql-template-strings": "^2.2.2",
     "sqlite": "^5.0.1",
-    "sqlite3": "^5.1.6"
+    "sqlite3": "^5.1.6",
+    "tedious": "^16.4.0"
   }
 }

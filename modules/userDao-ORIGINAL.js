@@ -1,35 +1,33 @@
 const SQL = require("sql-template-strings");
 const dbPromise = require("./database.js");
-const { QueryTypes } = require('sequelize');
 const crypto = require("./crypto");
 const makeArray = require("./make-array");
 
 async function retrieveUserDataById(id) {
     const db = await dbPromise;
 
-    const userData = await db.query(SQL`
+    const userData = await db.get(SQL`
         select * from users
         where userId = ${id}`);
-    console.log("retrieveUserDataById: " + userData[0]);
-    return userData[0];
+
+    return userData;
 }
 
 async function retrieveAllUserData() {
     const db = await dbPromise;
 
-    const allUserData = await db.query(SQL`select * from users`);
-    console.log("allUserData: " + userData[0]);
-    return allUserData[0];
+    const allUserData = await db.all(SQL`select * from users`);
+    return allUserData;
 }
 
 //Check if a username is already taken in the database
 async function checkUserName(username) {
     const db = await dbPromise;
-    const getUsername = await db.query(SQL`
+    const getUsername = await db.get(SQL`
     SELECT username FROM users
     WHERE username = ${username}`);
 
-    if (getUsername[1] != 0) {
+    if (getUsername != undefined) {
         return true;
     } else {
         return false;
@@ -39,11 +37,11 @@ async function checkUserName(username) {
 //Check if an email is already taken in the database
 async function checkEmail(email) {
     const db = await dbPromise;
-    const getEmail = await db.query(SQL`
+    const getEmail = await db.get(SQL`
     SELECT email FROM users
     WHERE email = ${email}`);
 
-    if (getEmail[1] != 0) {
+    if (getEmail != undefined) {
         return true;
     } else {
         return false;
@@ -54,16 +52,15 @@ async function checkEmail(email) {
 async function authenticateLogin(username, password) {
 
     const db = await dbPromise;
-    const getUser = await db.query(SQL`
+    const getUser = await db.all(SQL`
     SELECT * FROM users WHERE username = ${username}`);
-    if (getUser[1] == 0) {
-        console.log("Auth failed: User not found");
+    if (getUser.length == "0") {
         return false;
     } else {
-        const dbHashedPassWord = getUser[0][0].pwordHash; //Suspect this arrary index will bug with the new query
-        const enteredHashedPassWord = crypto.sha512(password, getUser[0][0].pwordSalt);
+        const dbHashedPassWord = getUser[0].pwordHash;
+        const enteredHashedPassWord = crypto.sha512(password, getUser[0].pwordSalt);
         if (dbHashedPassWord === enteredHashedPassWord.passwordHash) {
-            return getUser[0][0];
+            return getUser;
         } else {
             return false;
         }
@@ -74,11 +71,11 @@ async function authenticateLogin(username, password) {
 async function retrieveUserDataByUsername(username) {
     const db = await dbPromise;
 
-    const userData = await db.query(SQL`
+    const userData = await db.get(SQL`
         select * from users
         where username = ${username}`);
 
-    return userData[0];
+    return userData;
 }
 
 
@@ -89,8 +86,7 @@ async function createUser(newUserData) {
     //Stores only salt and hashed password
     const saltedHashedPword = crypto.saltHashPassword(newUserData.password);
 
-    try {
-        await db.query(SQL`
+    await db.run(SQL`
         INSERT INTO users (username, pwordSalt, pwordHash, fname, lname, dob, gender, email, phoneNum, avatarId, country, personalDescription) VALUES (
             ${newUserData.username}, 
             ${saltedHashedPword.salt},
@@ -105,9 +101,6 @@ async function createUser(newUserData) {
             ${newUserData.country},
             ${newUserData.personalDescription}            
         )`)
-    } catch (error) {
-        console.error('DB error:', error);
-    }
     const user = await retrieveUserDataByUsername(newUserData.username);
     return user;
 }
@@ -115,7 +108,7 @@ async function createUser(newUserData) {
 async function updateUserData(userData, userId) {
     const db = await dbPromise;
 
-    await db.query(SQL`
+    await db.run(SQL`
         UPDATE users
         SET username = ${userData.username},
         fname = ${userData.fname},
@@ -132,7 +125,7 @@ async function updateUserData(userData, userId) {
 async function updateUserAvatar(avatarId, userId) {
     const db = await dbPromise;
 
-    await db.query(SQL`
+    await db.run(SQL`
         UPDATE users
         SET avatarId = ${avatarId}
         WHERE userId = ${userId}`);
@@ -140,23 +133,25 @@ async function updateUserAvatar(avatarId, userId) {
 
 async function deleteUserData(userId) {
     const db = await dbPromise;
-    await db.query(SQL`
+    await db.run(SQL`
         delete from comments
         where userId = ${userId}`);
-    await db.query(SQL`
+    await db.run(SQL`
         delete from articles
         where userId = ${userId}`);
-    await db.query(SQL`
+    await db.run(SQL`
         delete from users
         where userId = ${userId}`);
 
     return "Deleted";
 }
 
-//articles queries
+//articles from here.
+//maybe create another Dao js for tidying in the future.
+
 async function createArticle(userId, title, contents, username) {
     const db = await dbPromise;
-    await db.query(SQL`
+    await db.run(SQL`
         INSERT INTO articles (title, content, userId, username, created_At) VALUES (
             ${title},
             ${contents},
@@ -167,7 +162,6 @@ async function createArticle(userId, title, contents, username) {
 }
 
 // will add something like 'modified at' later
-//Potential bugs here due to SQL query changed
 async function updateArticle(id, title, content) {
     const db = await dbPromise;
     let data = [title, content, id];
@@ -175,7 +169,7 @@ async function updateArticle(id, title, content) {
                 SET title = '${title}',
                 content = '${content}'
                 WHERE articleId = ${id};`;
-    db.query(sql, data, function (err) {
+    db.run(sql, data, function (err) {
         if (err) {
             return console.error(err.message);
         }
@@ -188,10 +182,10 @@ async function deleteArticle(articleId) {
     const db = await dbPromise;
 
 
-    await db.query(SQL`
+    await db.run(SQL`
         delete from comments
         where articleId = ${articleId}`);
-    await db.query(SQL`
+    await db.run(SQL`
         delete from articles
         where articleId = ${articleId}`);
 
@@ -200,7 +194,7 @@ async function deleteArticle(articleId) {
 async function loadArticleDetails(articleId) {
     const db = await dbPromise;
 
-    const articleDetails = await db.query(SQL`
+    const articleDetails = await db.all(SQL`
     SELECT * FROM articles WHERE articleId = ${articleId}`);
     return articleDetails[0];
 }
@@ -208,105 +202,54 @@ async function loadArticleDetails(articleId) {
 async function loadArticlesById(userId) {
     const db = await dbPromise;
 
-    const userArticle = await db.query(SQL`
+    const userArticle = await db.all(SQL`
     SELECT * FROM articles WHERE userId = ${userId} ORDER BY created_At DESC`);
-    return userArticle[0];
+    return userArticle;
 }
 
-async function loadAllArticles() {
-    const db = dbPromise;
-
-    const articles = await db.query(SQL`
-    SELECT * FROM articles ORDER BY created_At DESC`);
-    // console.log(articles[0]);
-    return articles[0];
-}
-//---------WITH COULD-SQL-CONNECTOR-----------//
-// const { Connection, Request } = require('tedious');
-// const { Connector } = require('@google-cloud/cloud-sql-connector');
-
-// const connector = new Connector();
-// const clientOpts = connector.getTediousOptions({
-//     instanceConnectionName: 'neon-reporter-395414:europe-west2:mindmape',
-//     ipType: 'PUBLIC'
-// });
-// const connection = new Connection({
-//     // Please note that the `server` property here is not used and is only defined
-//     // due to a bug in the tedious driver (ref: https://github.com/tediousjs/tedious/issues/1541)
-//     // With that in mind, do not try to change this value since it will have no
-//     // impact in how the connector works, this README will be updated to remove
-//     // this property declaration as soon as the tedious driver bug is fixed
-//     server: '0.0.0.0',
-//     authentication: {
-//         type: 'default',
-//         options: {
-//             userName: 'sqlserver',
-//             password: ']Q*J@=aP[b88"#kX',
-//         },
-//     },
-//     options: {
-//         ...clientOpts,
-//         // Please note that the `port` property here is not used and is only defined
-//         // due to a bug in the tedious driver (ref: https://github.com/tediousjs/tedious/issues/1541)
-//         // With that in mind, do not try to change this value since it will have no
-//         // impact in how the connector works, this README will be updated to remove
-//         // this property declaration as soon as the tedious driver bug is fixed
-//         port: 9999,
-//         database: 'mindmape',
-//     },
-// });
-
-// connection.connect(err => {
-//     if (err) { throw err; }
-//     let result;
-//     const req = new Request('SELECT GETUTCDATE()', (err) => {
-//         if (err) { throw err; }
-//     })
-//     req.on('error', (err) => { throw err; });
-//     req.on('row', (columns) => { result = columns; });
-//     req.on('requestCompleted', () => {
-//         console.table(result);
-//     });
-//     connection.execSql(req);
-// });
-
-
+//---------ORIGINAL-----------//
 // async function loadAllArticles() {
-//     const req = new Request('SELECT * FROM articles ORDER BY created_At DESC', (err) => {
-//         if (err) { throw err; }
-//     })
-//     req.on('error', (err) => { throw err; });
-//     req.on('row', (columns) => { result = columns; });
-//     req.on('requestCompleted', () => {
-//         console.table(result);
-//     });
-//     connection.execSql(req);
+//     const db = await dbPromise;
+
+//     const articles = await db.all(SQL`
+//     SELECT * FROM articles ORDER BY created_At DESC`);
+//     return articles;
 // }
-
-// connection.close();
-// connector.close();
-
 //----------------------------//
 
+//---------SEQUELIZE (WITHOUT CLOUD-SQL-CONNECTOR)-----------//
+
+// console.log(dbPromise);
+// const { QueryTypes } = require('sequelize');
+
+// async function loadAllArticles() {
+//     const db = dbPromise;
+
+//     const articles = await db.query(`
+//     SELECT * FROM articles ORDER BY created_At DESC`, { type: QueryTypes.SELECT });
+//     console.log(articles);
+//     return articles;
+// }
+//----------------------------//
 
 async function getArticleId(commentId) {
     const db = await dbPromise;
-    const getArticleId = await db.query(SQL`
+    const getArticleId = await db.all(SQL`
     SELECT articleId FROM comments WHERE commentId = ${commentId}`);
     return getArticleId[0].articleId;
 }
 
 async function loadComments(articleId) {
     const db = await dbPromise;
-    const getComments = await db.query(SQL`
+    const getComments = await db.all(SQL`
     SELECT * FROM comments WHERE articleId = ${articleId} ORDER By created_At DESC`);
     const commentsArray = makeArray(getComments);
-    return commentsArray[0];
+    return commentsArray;
 }
 
 async function createComment(userId, username, avatarId, articleId, content) {
     const db = await dbPromise;
-    await db.query(SQL`
+    await db.run(SQL`
     INSERT INTO comments (userId, username, avatarId, articleId, content, created_At, isParent) VALUES (
         ${userId},
         ${username},
@@ -322,7 +265,7 @@ async function createComment(userId, username, avatarId, articleId, content) {
 async function createReply(userId, username, avatarId, articleId, parentCommentId, content) {
     const db = await dbPromise;
 
-    await db.query(SQL`
+    await db.run(SQL`
     INSERT INTO comments (userId, username, avatarId, articleId, replyTo_Id, content, created_At, isParent) VALUES (
         ${userId},
         ${username},   
@@ -339,7 +282,7 @@ async function createReply(userId, username, avatarId, articleId, parentCommentI
 async function setParent(commentId) {
     const db = await dbPromise;
 
-    await db.query(SQL`
+    await db.run(SQL`
         UPDATE comments
         SET isParent = 1
         WHERE commentId = ${commentId}`);
@@ -349,7 +292,7 @@ async function setParent(commentId) {
     // let sql = `UPDATE comments
     //             SET isParent = 1
     //             WHERE commentId = ${commentId};`;
-    // db.query(sql, data, function(err) {
+    // db.run(sql, data, function(err) {
     // if (err) {
     //     return console.error(err.message);
     // }
@@ -360,7 +303,7 @@ async function setParent(commentId) {
 async function noReply(commentId) {
     const db = await dbPromise;
 
-    await db.query(SQL`
+    await db.run(SQL`
         UPDATE comments
         SET isParent = 0
         WHERE commentId = ${commentId}`);
@@ -369,7 +312,7 @@ async function noReply(commentId) {
     // let sql = `UPDATE comments
     //             SET isParent = 0
     //             WHERE commentId = ${commentId};`;
-    // db.query(sql, data, function(err) {
+    // db.run(sql, data, function(err) {
     // if (err) {
     //     return console.error(err.message);
     // }
@@ -379,16 +322,16 @@ async function noReply(commentId) {
 
 async function deleteComment(commentId) {
     const db = await dbPromise;
-    await db.query(SQL`
+    await db.run(SQL`
     delete from comments
     where replyTo_Id = ${commentId}`);
-    await db.query(SQL`
+    await db.run(SQL`
     delete from comments
     where commentId = ${commentId}`);
 
     // let data = [commentId];
     // let sql = `delete from comments WHERE commentId = ${commentId};`;
-    // db.query(sql, data, function(err) {
+    // db.run(sql, data, function(err) {
     // if (err) {
     //     return console.error(err.message);
     // }
@@ -402,30 +345,30 @@ async function setNoParent(commentId) {
 
     let sql = `UPDATE comments
                 SET isParent = 0;`;
-    db.query(sql, function (err) {
+    db.run(sql, function (err) {
         if (err) {
             return console.error(err.message);
         }
         console.log(`Row(s) updated: ${this.changes}`);
     });
 
-    await db.query(SQL`
+    await db.run(SQL`
     update comments set isParent = 1 where (select replyTo_Id from comments as c where c.replyTo_Id = comments.commentId)`);
 }
 
 async function getCommentsNoReply() {
     const db = await dbPromise;
-    const getParent = await db.query(SQL`
+    const getParent = await db.all(SQL`
     SELECT commentId from comments except SELECT s.commentId from comments as s, comments as i where s.commentId = i.replyTo_Id;`);
-    const parentsArray = makeArray(getParent[0]);
+    const parentsArray = makeArray(getParent);
     return parentsArray;
 }
 
 async function isParent(commentId) {
     const db = await dbPromise;
-    const getParent = await db.query(SQL`
+    const getParent = await db.all(SQL`
     SELECT isParent from comments where commentId = ${commentId};`);
-    return getParent[0];
+    return getParent;
 }
 
 // Export functions.
