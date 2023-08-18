@@ -34,7 +34,7 @@ const { Sequelize } = require('sequelize');
 const sequelize = new Sequelize('mindmapeDB', 'sqlserver', 'testingLocalLogin', {
     dialect: 'mssql',
     // protocol: 'tcp',
-    host: '127.0.0.1',//'35.246.71.121', //10.18.192.3',//process.env.INSTANCE_HOST, //'34.89.61.55', 
+    host: process.env.INSTANCE_HOST, //'127.0.0.1',//'35.246.71.121', //10.18.192.3', //'34.89.61.55', 
     // user: 'sqlserver', //process.env.DB_USER,
     // password: 'testingLocalLogin' //process.env.DB_PASS
     // port: ''//process.env.DB_PORT
