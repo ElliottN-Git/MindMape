@@ -5,7 +5,7 @@
 // Setup Express
 const express = require("express");
 const app = express();
-const port =  process.env.DB_PORT//8080; //1433; //3000;
+const port = 1433 //8080; //1433; //3000;
 // const host = '34.89.61.55'; can be passed to app.listen as 2nd param
 //const host = process.env.INSTANCE_HOST; //'34.89.61.55',
 
