@@ -22,7 +22,7 @@ const { Sequelize } = require('sequelize');
 // const sequelize = new Sequelize('postgres://user:pass@example.com:5432/dbname') // Example for postgres
 // Option 3: Passing parameters separately (other dialects)
 
-// const sequelize = new Sequelize('mindmapeDB', 'sqlserver ', 'testingLocalLogin', {
+// const sequelize = new Sequelize('mindmapeDB', 'sqlserver', 'testingLocalLogin', {
 //   dialect: 'mssql',
 //   host: '127.0.0.1', //'34.89.61.55', 
 //   timestamps: false,
@@ -31,13 +31,18 @@ const { Sequelize } = require('sequelize');
 //   },
 // });
 
-const sequelize = new Sequelize(process.env.DB_NAME, process.env.DB_USER, process.env.DB_PASS, {
+const sequelize = new Sequelize('mindmapeDB', 'sqlserver', 'testingLocalLogin', {
     dialect: 'mssql',
-    host: '10.18.192.3',//process.env.INSTANCE_HOST, //'34.89.61.55', 
-    user: 'sqlserver', //process.env.DB_USER,
-    port: 'testingLocalLogin' //process.env.DB_PORT
+    // protocol: 'tcp',
+    host: '127.0.0.1',//'35.246.71.121', //10.18.192.3',//process.env.INSTANCE_HOST, //'34.89.61.55', 
+    // user: 'sqlserver', //process.env.DB_USER,
+    // password: 'testingLocalLogin' //process.env.DB_PASS
+    // port: ''//process.env.DB_PORT
 
-  //   timestamps: false,
+    timestamps: false,
+    // dialectOptions: {
+    //       socketPath: 'neon-reporter-395414:europe-west2:mindmape' //or '/cloudsql/mindmape' ?
+    //     },
 });
 
 async function tryAuth() {
