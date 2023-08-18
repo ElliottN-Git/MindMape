@@ -7,6 +7,8 @@ const express = require("express");
 const app = express();
 const port = 8080; //3000; 1433; 
 // const host = '34.89.61.55'; can be passed to app.listen as 2nd param
+const host = process.env.INSTANCE_HOST; //'34.89.61.55',
+
 
 // Setup Handlebars
 const handlebars = require("express-handlebars");
@@ -82,6 +84,6 @@ const fullArticle = require("./routes/fullArticleView")
 app.use(fullArticle);
 
 // Start the server running.
-app.listen(port, function () { //host can be passed in as 2nd param
+app.listen(port,server, function () { //host can be passed in as 2nd param
     console.log(`App listening on port ${port}!`);
 });
