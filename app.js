@@ -5,9 +5,9 @@
 // Setup Express
 const express = require("express");
 const app = express();
-const port = 8080; //3000; 1433; 
+const port = 8080; //3000; 1433;
 // const host = '34.89.61.55'; can be passed to app.listen as 2nd param
-const host = process.env.INSTANCE_HOST; //'34.89.61.55',
+//const host = process.env.INSTANCE_HOST; //'34.89.61.55',
 
 
 // Setup Handlebars
