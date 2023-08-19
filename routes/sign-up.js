@@ -48,12 +48,12 @@ router.get("/checkemailtaken", async function(req, res) {
 //calls userDao.createUser() to save details in mindMAPE-db
 router.post("/signup", upload.single("imageFile"), async function(req, res) {
     const userInfo = req.body;
-    let avatarId = null;
+    let avatarid = null;
     if(!req.file) { 
         if(req.body.avatar) {
-            avatarId = `${req.body.avatar}`;
+            avatarid = `${req.body.avatar}`;
         } else {
-            avatarId = "avatar_default.png";
+            avatarid = "avatar_default.png";
         }
     } else {
         const fileInfo = req.file;
@@ -67,7 +67,7 @@ router.post("/signup", upload.single("imageFile"), async function(req, res) {
         const image = await jimp.read(newFileName);
         image.resize(256, jimp.AUTO);
         await image.write(`./public/images/thumbnails/${fileInfo.originalname}`);
-        avatarId = fileInfo.originalname;
+        avatarid = fileInfo.originalname;
 
     //delete full-sized image
         fs.unlinkSync(newFileName);
@@ -84,7 +84,7 @@ router.post("/signup", upload.single("imageFile"), async function(req, res) {
         email: userInfo.email,
         phoneNum: userInfo.phoneNum,
         country: userInfo.country,
-        avatarId: avatarId,
+        avatarid: avatarid,
         personalDescription: userInfo.personal,
     }
     //output to console for testing

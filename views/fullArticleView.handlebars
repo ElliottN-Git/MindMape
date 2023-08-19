@@ -18,14 +18,14 @@
     <div class="card my-4">
       <h4 class="card-header">Leave a Comment</h4>
       <div class="card-body row">
-        <img class="img-circle col-sm-2" src="/images/thumbnails/{{user.avatarId}}" alt="user's Avatar in src">
+        <img class="img-circle col-sm-2" src="/images/thumbnails/{{user.avatarid}}" alt="user's Avatar in src">
         <form action="./createComment" method="POST" class="col-sm-10">
           <div class="form-group">
             <h5>{{user.username}}</h5>
             <textarea class="form-control" rows="3" name = "content" id="commentMade"></textarea>
           </div>
           <div class="form-group">
-            <button type="submit" class="btn btn-primary btn-lg btn-block bt-submit" name="articleId" value="{{articleDetail.articleId}}">Submit</button>
+            <button type="submit" class="btn btn-primary btn-lg btn-block bt-submit" name="articleid" value="{{articleDetail.articleid}}">Submit</button>
           </div>
         </form>
       </div>
@@ -38,21 +38,21 @@
     {{#if (equal this.replyTo_Id null)}}    
     <div class="media bg-light card">
       <div class="media-body">
-        <img src="/images/thumbnails/{{this.avatarId}}" class="media-object" style="width:45px">
+        <img src="/images/thumbnails/{{this.avatarid}}" class="media-object" style="width:45px">
         <h4 class="media-heading">{{this.username}} <small><em>Posted on {{this.created_At}}</em></small></h4>
         <p id="opComment">{{this.content}}</p>
         {{#if ../user}}
-        {{#if (or (equal ../user.userId this.userId) (equal ../user.userId ../articleDetail.userId))}}
+        {{#if (or (equal ../user.userid this.userid) (equal ../user.userid ../articleDetail.userid))}}
         <form method="POST">
-          <button type="submit" class="btn btn-sm btn-danger" formaction="./deleteComment" name="commentId" value="{{this.commentId}}">Delete this comment</button>
+          <button type="submit" class="btn btn-sm btn-danger" formaction="./deleteComment" name="commentid" value="{{this.commentid}}">Delete this comment</button>
         </form>
         {{/if}}
         {{/if}}
         {{#if ../user}}
         <div>
-          <button type="button" class="btn btn-sm btn-block btn-primary" data-toggle="collapse" data-target="#reply{{this.commentId}}">Write a reply</button>
+          <button type="button" class="btn btn-sm btn-block btn-primary" data-toggle="collapse" data-target="#reply{{this.commentid}}">Write a reply</button>
         </div>
-        <div class="collapse" id="reply{{this.commentId}}">
+        <div class="collapse" id="reply{{this.commentid}}">
           <div class="media-body" id="writeReply">
             <h3 class="media-heading">Write a reply</h3>
             <form action="./createReply" method="POST">
@@ -68,32 +68,32 @@
         {{/if}}
         
         {{!-- Creating Nest Comments --}}
-        <div class="accordion" id="{{this.commentId}}parent">
+        <div class="accordion" id="{{this.commentid}}parent">
           
           <div class="media">
             {{#if (equal this.isParent 1)}}
-            <div class="media-header" id="{{this.commentId}}heading">
+            <div class="media-header" id="{{this.commentid}}heading">
               <h5 class="mb-0">
-                <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#{{this.commentId}}" aria-expanded="false" aria-controls="collapseTwo">
+                <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#{{this.commentid}}" aria-expanded="false" aria-controls="collapseTwo">
                   toggle comments
                 </button>
               </h5>
             </div>
             {{/if}}
-            <div id="{{this.commentId}}" class="collapse in" aria-labelledby="{{this.commentId}}heading" data-parent="#{{this.commentId}}parent">
+            <div id="{{this.commentid}}" class="collapse in" aria-labelledby="{{this.commentid}}heading" data-parent="#{{this.commentid}}parent">
               <div class="media-body">
                 {{#each ../comments}}
-                  {{#if (equal this.replyTo_Id ../this.commentId)}}
+                  {{#if (equal this.replyTo_Id ../this.commentid)}}
                   <br>
                   <div class="media-left">
-                    <img src="/images/thumbnails/{{this.avatarId}}" class="media-object" style="width:45px">
+                    <img src="/images/thumbnails/{{this.avatarid}}" class="media-object" style="width:45px">
                     <h4 class="media-heading">{{this.username}} <small><em>Posted on {{this.created_At}}</em></small></h4>
                     <p id="replyBody">{{this.content}}</p>
                   </div>
                   {{#if ../../user}}
-                  {{#if (or (equal ../../user.userId this.userId) (equal ../../user.userId ../articleDetail.userId))}}
+                  {{#if (or (equal ../../user.userid this.userid) (equal ../../user.userid ../articleDetail.userid))}}
                   <form method="POST">
-                    <button type="submit" class="btn btn-sm btn-danger" formaction="./deleteComment" name="commentId" value="{{this.commentId}}">Delete this comment</button>
+                    <button type="submit" class="btn btn-sm btn-danger" formaction="./deleteComment" name="commentid" value="{{this.commentid}}">Delete this comment</button>
                   </form>
                   {{/if}}
                   {{/if}}

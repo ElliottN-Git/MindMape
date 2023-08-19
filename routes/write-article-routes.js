@@ -23,13 +23,13 @@ router.get("/writeArticle", verifyAuthenticated, async function(req, res) {
 
 router.post("/editArticle", async function(req, res) {
     const user = req.session.user;
-    const articleId = req.body.articleId;
-    const articleDetail = await userDao.loadArticleDetails(articleId);
-    if(user.userId == articleDetail.userId){
+    const articleid = req.body.articleid;
+    const articleDetail = await userDao.loadArticleDetails(articleid);
+    if(user.userid == articleDetail.userid){
         const context = {
             content: articleDetail.content,
             title: articleDetail.title,
-            articleId: articleDetail.articleId
+            articleid: articleDetail.articleid
         };
         res.render("writeArticle", context);
     }
@@ -41,7 +41,7 @@ router.post("/writeArticle", upload.single("wysiwyg"), async function(req, res) 
     const body = req.body.wysiwyg;
     const user = req.session.user;
     console.log('user: ' + JSON.stringify(user));
-    console.log('user.userId: ' + user.userid);
+    console.log('user.userid: ' + user.userid);
     const writeArticle = await userDao.createArticle(user.userid, title, body, user.username);
     
     res.redirect("./article");

@@ -9,7 +9,7 @@ async function retrieveUserDataById(id) {
 
     const userData = await db.query(SQL`
         select * from users
-        where userId = ${id}`);
+        where userid = ${id}`);
     console.log("retrieveUserDataById: " + userData[0]);
     return userData[0];
 }
@@ -91,7 +91,7 @@ async function createUser(newUserData) {
 
     try {
         await db.query(SQL`
-        INSERT INTO users (username, pwordSalt, pwordHash, fname, lname, dob, gender, email, phoneNum, avatarId, country, personalDescription) VALUES (
+        INSERT INTO users (username, pwordSalt, pwordHash, fname, lname, dob, gender, email, phoneNum, avatarid, country, personalDescription) VALUES (
             ${newUserData.username}, 
             ${saltedHashedPword.salt},
             ${saltedHashedPword.passwordHash},
@@ -101,7 +101,7 @@ async function createUser(newUserData) {
             ${newUserData.gender},
             ${newUserData.email},
             ${newUserData.phoneNum},
-            ${newUserData.avatarId},
+            ${newUserData.avatarid},
             ${newUserData.country},
             ${newUserData.personalDescription}            
         )`)
@@ -112,7 +112,7 @@ async function createUser(newUserData) {
     return user;
 }
 
-async function updateUserData(userData, userId) {
+async function updateUserData(userData, userid) {
     const db = await dbPromise;
 
     await db.query(SQL`
@@ -126,45 +126,45 @@ async function updateUserData(userData, userId) {
         dob = ${userData.DOB},
         gender = ${userData.gender},
         personalDescription = ${userData.personal}
-        WHERE userId = ${userId}`);
+        WHERE userid = ${userid}`);
 }
 
-async function updateUserAvatar(avatarId, userId) {
+async function updateUserAvatar(avatarid, userid) {
     const db = await dbPromise;
 
     await db.query(SQL`
         UPDATE users
-        SET avatarId = ${avatarId}
-        WHERE userId = ${userId}`);
+        SET avatarid = ${avatarid}
+        WHERE userid = ${userid}`);
 }
 
-async function deleteUserData(userId) {
+async function deleteUserData(userid) {
     const db = await dbPromise;
     await db.query(SQL`
         delete from comments
-        where userId = ${userId}`);
+        where userid = ${userid}`);
     await db.query(SQL`
         delete from articles
-        where userId = ${userId}`);
+        where userid = ${userid}`);
     await db.query(SQL`
         delete from users
-        where userId = ${userId}`);
+        where userid = ${userid}`);
 
     return "Deleted";
 }
 
 //articles queries
-async function createArticle(userId, title, contents, username) {
+async function createArticle(userid, title, contents, username) {
     const db = await dbPromise;
     console.log(`${title}, 
         ${contents}, 
-        ${userId}, 
+        ${userid}, 
         ${username}`)
     await db.query(SQL`
-        INSERT INTO articles (title, content, userId, username, created_At) VALUES (
+        INSERT INTO articles (title, content, userid, username, created_At) VALUES (
             ${title},
             ${contents},
-            ${userId},
+            ${userid},
             ${username},
             CURRENT_TIMESTAMP                 
         )`);
@@ -178,7 +178,7 @@ async function updateArticle(id, title, content) {
     let sql = `UPDATE articles
                 SET title = '${title}',
                 content = '${content}'
-                WHERE articleId = ${id};`;
+                WHERE articleid = ${id};`;
     db.query(sql, data, function (err) {
         if (err) {
             return console.error(err.message);
@@ -188,32 +188,32 @@ async function updateArticle(id, title, content) {
 
 }
 
-async function deleteArticle(articleId) {
+async function deleteArticle(articleid) {
     const db = await dbPromise;
 
 
     await db.query(SQL`
         delete from comments
-        where articleId = ${articleId}`);
+        where articleid = ${articleid}`);
     await db.query(SQL`
         delete from articles
-        where articleId = ${articleId}`);
+        where articleid = ${articleid}`);
 
 }
 
-async function loadArticleDetails(articleId) {
+async function loadArticleDetails(articleid) {
     const db = await dbPromise;
 
     const articleDetails = await db.query(SQL`
-    SELECT * FROM articles WHERE articleId = ${articleId}`);
-    return articleDetails[0];
+    SELECT * FROM articles WHERE articleid = ${articleid}`);
+    return articleDetails[0][0];
 }
 
-async function loadArticlesById(userId) {
+async function loadArticlesById(userid) {
     const db = await dbPromise;
 
     const userArticle = await db.query(SQL`
-    SELECT * FROM articles WHERE userId = ${userId} ORDER BY created_At DESC`);
+    SELECT * FROM articles WHERE userid = ${userid} ORDER BY created_At DESC`);
     return userArticle[0];
 }
 
@@ -293,29 +293,29 @@ async function loadAllArticles() {
 //----------------------------//
 
 
-async function getArticleId(commentId) {
+async function getarticleid(commentid) {
     const db = await dbPromise;
-    const getArticleId = await db.query(SQL`
-    SELECT articleId FROM comments WHERE commentId = ${commentId}`);
-    return getArticleId[0].articleid;
+    const getarticleid = await db.query(SQL`
+    SELECT articleid FROM comments WHERE commentid = ${commentid}`);
+    return getarticleid[0].articleid;
 }
 
-async function loadComments(articleId) {
+async function loadComments(articleid) {
     const db = await dbPromise;
     const getComments = await db.query(SQL`
-    SELECT * FROM comments WHERE articleId = ${articleId} ORDER By created_At DESC`);
+    SELECT * FROM comments WHERE articleid = ${articleid} ORDER By created_At DESC`);
     const commentsArray = makeArray(getComments);
     return commentsArray[0];
 }
 
-async function createComment(userId, username, avatarId, articleId, content) {
+async function createComment(userid, username, avatarid, articleid, content) {
     const db = await dbPromise;
     await db.query(SQL`
-    INSERT INTO comments (userId, username, avatarId, articleId, content, created_At, isParent) VALUES (
-        ${userId},
+    INSERT INTO comments (userid, username, avatarid, articleid, content, created_At, isParent) VALUES (
+        ${userid},
         ${username},
-        ${avatarId},
-        ${articleId},
+        ${avatarid},
+        ${articleid},
         ${content},
         CURRENT_TIMESTAMP,
         0
@@ -323,15 +323,15 @@ async function createComment(userId, username, avatarId, articleId, content) {
 
 }
 
-async function createReply(userId, username, avatarId, articleId, parentCommentId, content) {
+async function createReply(userid, username, avatarid, articleid, parentCommentId, content) {
     const db = await dbPromise;
 
     await db.query(SQL`
-    INSERT INTO comments (userId, username, avatarId, articleId, replyTo_Id, content, created_At, isParent) VALUES (
-        ${userId},
+    INSERT INTO comments (userid, username, avatarid, articleid, replyTo_Id, content, created_At, isParent) VALUES (
+        ${userid},
         ${username},   
-        ${avatarId},         
-        ${articleId},
+        ${avatarid},         
+        ${articleid},
         ${parentCommentId},
         ${content},
         CURRENT_TIMESTAMP,
@@ -340,19 +340,19 @@ async function createReply(userId, username, avatarId, articleId, parentCommentI
 
 }
 
-async function setParent(commentId) {
+async function setParent(commentid) {
     const db = await dbPromise;
 
     await db.query(SQL`
         UPDATE comments
         SET isParent = 1
-        WHERE commentId = ${commentId}`);
+        WHERE commentid = ${commentid}`);
 
 
-    // let data = [commentId];
+    // let data = [commentid];
     // let sql = `UPDATE comments
     //             SET isParent = 1
-    //             WHERE commentId = ${commentId};`;
+    //             WHERE commentid = ${commentid};`;
     // db.query(sql, data, function(err) {
     // if (err) {
     //     return console.error(err.message);
@@ -361,18 +361,18 @@ async function setParent(commentId) {
     // });
 }
 
-async function noReply(commentId) {
+async function noReply(commentid) {
     const db = await dbPromise;
 
     await db.query(SQL`
         UPDATE comments
         SET isParent = 0
-        WHERE commentId = ${commentId}`);
+        WHERE commentid = ${commentid}`);
 
-    // let data = [commentId];
+    // let data = [commentid];
     // let sql = `UPDATE comments
     //             SET isParent = 0
-    //             WHERE commentId = ${commentId};`;
+    //             WHERE commentid = ${commentid};`;
     // db.query(sql, data, function(err) {
     // if (err) {
     //     return console.error(err.message);
@@ -381,17 +381,17 @@ async function noReply(commentId) {
     // });
 }
 
-async function deleteComment(commentId) {
+async function deleteComment(commentid) {
     const db = await dbPromise;
     await db.query(SQL`
     delete from comments
-    where replyTo_Id = ${commentId}`);
+    where replyTo_Id = ${commentid}`);
     await db.query(SQL`
     delete from comments
-    where commentId = ${commentId}`);
+    where commentid = ${commentid}`);
 
-    // let data = [commentId];
-    // let sql = `delete from comments WHERE commentId = ${commentId};`;
+    // let data = [commentid];
+    // let sql = `delete from comments WHERE commentid = ${commentid};`;
     // db.query(sql, data, function(err) {
     // if (err) {
     //     return console.error(err.message);
@@ -400,7 +400,7 @@ async function deleteComment(commentId) {
     // });
 }
 
-async function setNoParent(commentId) {
+async function setNoParent(commentid) {
     const db = await dbPromise;
 
 
@@ -414,21 +414,21 @@ async function setNoParent(commentId) {
     });
 
     await db.query(SQL`
-    update comments set isParent = 1 where (select replyTo_Id from comments as c where c.replyTo_Id = comments.commentId)`);
+    update comments set isParent = 1 where (select replyTo_Id from comments as c where c.replyTo_Id = comments.commentid)`);
 }
 
 async function getCommentsNoReply() {
     const db = await dbPromise;
     const getParent = await db.query(SQL`
-    SELECT commentId from comments except SELECT s.commentId from comments as s, comments as i where s.commentId = i.replyTo_Id;`);
+    SELECT commentid from comments except SELECT s.commentid from comments as s, comments as i where s.commentid = i.replyTo_Id;`);
     const parentsArray = makeArray(getParent[0]);
     return parentsArray;
 }
 
-async function isParent(commentId) {
+async function isParent(commentid) {
     const db = await dbPromise;
     const getParent = await db.query(SQL`
-    SELECT isParent from comments where commentId = ${commentId};`);
+    SELECT isParent from comments where commentid = ${commentid};`);
     return getParent[0];
 }
 
@@ -453,7 +453,7 @@ module.exports = {
     loadComments,
     createReply,
     deleteComment,
-    getArticleId,
+    getarticleid,
     setParent,
     noReply,
     setNoParent,

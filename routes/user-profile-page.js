@@ -29,10 +29,10 @@ router.get("/userProfile", verifyAuthenticated, async function(req, res) {
 
 router.post("/updateUserProfile", verifyAuthenticated, async function(req, res) {
     const updatedUser = req.body;
-    const userId = req.session.user.userId
+    const userid = req.session.user.userid
 
-    await userDao.updateUserData(updatedUser, userId);
-    const updatedSession = await userDao.retrieveUserDataById(userId);
+    await userDao.updateUserData(updatedUser, userid);
+    const updatedSession = await userDao.retrieveUserDataById(userid);
     req.session.user = updatedSession;
     const context = {
         loggedIn: true,
@@ -53,7 +53,7 @@ router.post("/changeAvatar", verifyAuthenticated, upload.single("imageFile"), as
     res.render("userProfile", context);
     }
 
-    const userId = req.session.user.userId
+    const userid = req.session.user.userid
 
     // Move the image into the images folder
         const oldFileName = fileInfo.path;
@@ -65,15 +65,15 @@ router.post("/changeAvatar", verifyAuthenticated, upload.single("imageFile"), as
         image.resize(256, jimp.AUTO);
         await image.write(`./public/images/thumbnails/${fileInfo.originalname}`);
         
-        const avatarId = fileInfo.originalname;
+        const avatarid = fileInfo.originalname;
 
     //delete full-sized image
         fs.unlinkSync(newFileName);
 
     //update the user in the database
-        await userDao.updateUserAvatar(avatarId, userId);
+        await userDao.updateUserAvatar(avatarid, userid);
 
-        const updatedSession = await userDao.retrieveUserDataById(userId);
+        const updatedSession = await userDao.retrieveUserDataById(userid);
         req.session.user = updatedSession;
         const context = {
             loggedIn: true,
@@ -85,7 +85,7 @@ router.post("/changeAvatar", verifyAuthenticated, upload.single("imageFile"), as
 
 
 router.post("/deleteProfile", verifyAuthenticated, async function(req, res) {
-    await userDao.deleteUserData(req.session.user.userId);
+    await userDao.deleteUserData(req.session.user.userid);
 
     if (req.session.user) {
         delete req.session.user;

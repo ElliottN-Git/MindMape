@@ -17,7 +17,7 @@ function validateUserData(user) {
     if (!user.dob) {
         throw "No date of birth!";
     }
-    if (!user.avatarId) {
+    if (!user.avatarid) {
         throw "No avatar!";
     }
     if (!user.email) {
@@ -47,7 +47,7 @@ function validateUserData(user) {
         country: user.country,
         username: user.username,
         password: user.password, 
-        avatarId: user.avatarId
+        avatarid: user.avatarid
     }
 }
 
