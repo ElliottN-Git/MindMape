@@ -40,8 +40,6 @@ router.post("/writeArticle", upload.single("wysiwyg"), async function(req, res) 
     const title = req.body.title;
     const body = req.body.wysiwyg;
     const user = req.session.user;
-    console.log('user: ' + JSON.stringify(user));
-    console.log('user.userid: ' + user.userid);
     const writeArticle = await userDao.createArticle(user.userid, title, body, user.username);
     
     res.redirect("./article");

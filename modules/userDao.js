@@ -10,7 +10,6 @@ async function retrieveUserDataById(id) {
     const userData = await db.query(SQL`
         select * from users
         where userid = ${id}`);
-    console.log("retrieveUserDataById: " + userData[0]);
     return userData[0];
 }
 
@@ -18,7 +17,6 @@ async function retrieveAllUserData() {
     const db = await dbPromise;
 
     const allUserData = await db.query(SQL`select * from users`);
-    console.log("allUserData: " + userData[0]);
     return allUserData[0];
 }
 
@@ -156,10 +154,6 @@ async function deleteUserData(userid) {
 //articles queries
 async function createArticle(userid, title, contents, username) {
     const db = await dbPromise;
-    console.log(`${title}, 
-        ${contents}, 
-        ${userid}, 
-        ${username}`)
     await db.query(SQL`
         INSERT INTO articles (title, content, userid, username, created_At) VALUES (
             ${title},
@@ -222,7 +216,6 @@ async function loadAllArticles() {
 
     const articles = await db.query(SQL`
     SELECT * FROM articles ORDER BY created_At DESC`);
-    console.log('Articles[0]: ' + articles[0]);
     return articles[0];
 }
 //---------WITH COULD-SQL-CONNECTOR-----------//

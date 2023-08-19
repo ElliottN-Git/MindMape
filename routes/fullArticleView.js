@@ -76,8 +76,6 @@ router.post("/article", async function (req, res) {
     const articleid = req.body.articleid;
     const commentsAll = await userDao.loadComments(articleid);
     const details = await userDao.loadArticleDetails(articleid);
-    console.log("articleDetails: " + JSON.stringify(details));
-    console.log("articleDetails.title: " + details.title);
     if(req.session.user) {
         const userDetail = req.session.user;
         context = {
@@ -152,7 +150,6 @@ router.post("/deleteComment", async function (req, res) {
 
 router.get("/userArticleHistory", async function (req, res) {
     const user = req.session.user;
-    console.log("user.userid: " + user.userid);
     const allArticles = await userDao.loadArticlesById(user.userid);
     const context = {
         historyPage: true,
