@@ -19,7 +19,7 @@ CREATE TABLE "comments" (
 	"articleId"	INTEGER,
 	"replyTo_Id"	INTEGER,
 	"content"	VARCHAR(1000),
-	"created_At"	TEXT DEFAULT CURRENT_TIMESTAMP,
+	"created_At" TEXT DEFAULT CURRENT_TIMESTAMP,
 	"isParent"	INTEGER,
 	PRIMARY KEY("commentId"),
 	CONSTRAINT "fk_comments_replyTo_Id" FOREIGN KEY("replyTo_Id") REFERENCES "comments"("commentId") ON DELETE CASCADE ON UPDATE CASCADE,

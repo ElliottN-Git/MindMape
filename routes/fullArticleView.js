@@ -31,7 +31,7 @@ router.post("/censoredArticle", async function (req, res) {
     let context;
 
     // Retrieve clicked article id number
-    const articleId = req.body.articleId;
+    const articleId = req.body.articleId; //TODO check this doesn't need to be updated to 'articleid'
 
     // Loading linked article details then apply profanity filter.
     let details = await userDao.loadArticleDetails(articleId);
@@ -97,7 +97,7 @@ router.post("/article", async function (req, res) {
 router.post("/createComment", async function (req, res) {
     const user = req.session.user;
     const body = req.body;
-    await userDao.createComment(user.userId, user.username, user.avatarId, body.articleId, body.content);
+    await userDao.createComment(user.userId, user.username, user.avatarId, body.articleId, body.content); //TODO Update to lowercase
     const commentsAll = await userDao.loadComments(body.articleId);
     
     const details = await userDao.loadArticleDetails(body.articleId);

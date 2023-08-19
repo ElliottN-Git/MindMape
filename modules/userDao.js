@@ -60,8 +60,8 @@ async function authenticateLogin(username, password) {
         console.log("Auth failed: User not found");
         return false;
     } else {
-        const dbHashedPassWord = getUser[0][0].pwordHash; //Suspect this arrary index will bug with the new query
-        const enteredHashedPassWord = crypto.sha512(password, getUser[0][0].pwordSalt);
+        const dbHashedPassWord = getUser[0][0].pwordhash; //Note the getUser objects are must be named the same as in the db (case sensitive - .powrdHash won't work)
+        const enteredHashedPassWord = crypto.sha512(password, getUser[0][0].pwordsalt);
         if (dbHashedPassWord === enteredHashedPassWord.passwordHash) {
             return getUser[0][0];
         } else {
@@ -156,13 +156,17 @@ async function deleteUserData(userId) {
 //articles queries
 async function createArticle(userId, title, contents, username) {
     const db = await dbPromise;
+    console.log(`${title}, 
+        ${contents}, 
+        ${userId}, 
+        ${username}`)
     await db.query(SQL`
         INSERT INTO articles (title, content, userId, username, created_At) VALUES (
             ${title},
             ${contents},
             ${userId},
             ${username},
-            datetime('now')                 
+            CURRENT_TIMESTAMP                 
         )`);
 }
 
@@ -218,7 +222,7 @@ async function loadAllArticles() {
 
     const articles = await db.query(SQL`
     SELECT * FROM articles ORDER BY created_At DESC`);
-    // console.log(articles[0]);
+    console.log('Articles[0]: ' + articles[0]);
     return articles[0];
 }
 //---------WITH COULD-SQL-CONNECTOR-----------//
@@ -293,7 +297,7 @@ async function getArticleId(commentId) {
     const db = await dbPromise;
     const getArticleId = await db.query(SQL`
     SELECT articleId FROM comments WHERE commentId = ${commentId}`);
-    return getArticleId[0].articleId;
+    return getArticleId[0].articleid;
 }
 
 async function loadComments(articleId) {
@@ -313,7 +317,7 @@ async function createComment(userId, username, avatarId, articleId, content) {
         ${avatarId},
         ${articleId},
         ${content},
-        datetime('now'),
+        CURRENT_TIMESTAMP,
         0
     )`);
 
@@ -330,7 +334,7 @@ async function createReply(userId, username, avatarId, articleId, parentCommentI
         ${articleId},
         ${parentCommentId},
         ${content},
-        datetime('now'),
+        CURRENT_TIMESTAMP,
         0
     )`);
 

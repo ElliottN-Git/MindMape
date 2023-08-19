@@ -5,45 +5,35 @@
 //     driver: sqlite3.Database
 // });
 
-// //Try this:
-// // async function openDb() {
-// //     return sqlite.open({
-// //       filename: './database.db',
-// //       driver: sqlite3.Database,
-// //     });
-// //   }
-
 // module.exports = dbPromise;
+//-------------------------------------------------------------------------------//
 
-const { Sequelize } = require('sequelize');
+// Connect to CockroachDB through Sequelize using certs instead:
+// See cert creation here: https://www.cockroachlabs.com/docs/stable/cockroach-cert
 
-// Option 1: Passing a connection URI
-// const sequelize = new Sequelize('sqlite::memory:') // Example for sqlite
-// const sequelize = new Sequelize('postgres://user:pass@example.com:5432/dbname') // Example for postgres
-// Option 3: Passing parameters separately (other dialects)
-
-// const sequelize = new Sequelize('mindmapeDB', 'sqlserver', 'testingLocalLogin', {
-//   dialect: 'mssql',
-//   host: '127.0.0.1', //'34.89.61.55', 
-//   timestamps: false,
+// var sequelize = new Sequelize('bank', 'maxroach', '', {
+//   dialect: 'postgres',
+//   port: 26257,
+//   logging: false,
 //   dialectOptions: {
-//     socketPath: 'neon-reporter-395414:europe-west2:mindmape' //or '/cloudsql/mindmape' ?
-//   },
+//       ssl: {
+//           ca: fs.readFileSync('certs/ca.crt')
+//               .toString(),
+//           key: fs.readFileSync('certs/client.maxroach.key')
+//               .toString(),
+//           cert: fs.readFileSync('certs/client.maxroach.crt')
+//               .toString()
+//       }
+//   }
 // });
 
-const sequelize = new Sequelize('mindmapeDB', 'sqlserver', 'testingLocalLogin', {
-    dialect: 'mssql',
-    // protocol: 'tcp',
-    host: '127.0.0.1',//'35.246.71.121', //10.18.192.3',//process.env.INSTANCE_HOST, //'34.89.61.55', 
-    // user: 'sqlserver', //process.env.DB_USER,
-    // password: 'testingLocalLogin' //process.env.DB_PASS
-    // port: ''//process.env.DB_PORT
+// xOL-RkiNCRtvf_NML6RbqA
 
-    timestamps: false,
-    // dialectOptions: {
-    //       socketPath: 'neon-reporter-395414:europe-west2:mindmape' //or '/cloudsql/mindmape' ?
-    //     },
-});
+const { Sequelize } = require('sequelize-cockroachdb');
+
+const connectionString = "postgresql://elliott:xOL-RkiNCRtvf_NML6RbqA@mindmape-9771.8nj.cockroachlabs.cloud:26257/defaultdb?sslmode=verify-full"; //process.env.DATABASE_URL
+const sequelize = new Sequelize(connectionString);
+
 
 async function tryAuth() {
   try {
