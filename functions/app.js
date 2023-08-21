@@ -9,6 +9,7 @@ const port = 8080; //8080; //1433; //3000;
 // const host = '34.89.61.55'; can be passed to app.listen as 2nd param
 //const host = process.env.INSTANCE_HOST; //'34.89.61.55',
 
+const {onRequest} = require("firebase-functions/v2/https");
 
 // Setup Handlebars
 const handlebars = require("express-handlebars");
@@ -62,28 +63,34 @@ app.use(session({
 
 // Make the "public" folder available statically
 const path = require("path");
-app.use(express.static(path.join(__dirname, "/public")));
+app.use(express.static(path.join(__dirname, '..', "/public")));
+
+app.set('views', path.join(__dirname, '..', "views"));
 
 // Setup routes
-const appRouter = require("./routes/application-routes.js");
+const appRouter = require("../routes/application-routes.js");
 app.use(appRouter);
 
-const loginRouter = require("./routes/login-routes.js");
+const loginRouter = require("../routes/login-routes.js");
 app.use(loginRouter);
 
-const signUpRouter = require("./routes/sign-up.js");
+const signUpRouter = require("../routes/sign-up.js");
 app.use(signUpRouter);
 
-const userProfileRouter = require("./routes/user-profile-page");
+const userProfileRouter = require("../routes/user-profile-page");
 app.use(userProfileRouter);
 
-const writeArticle = require("./routes/write-article-routes")
+const writeArticle = require("../routes/write-article-routes")
 app.use(writeArticle);
 
-const fullArticle = require("./routes/fullArticleView")
+const fullArticle = require("../routes/fullArticleView")
 app.use(fullArticle);
 
 // Start the server running.
-app.listen(port, function () { //host can be passed in as 2nd param
-    console.log(`App listening on port ${port}!`);
-});
+// app.listen(port, function () { //host can be passed in as 2nd param
+//     console.log(`App listening on port ${port}!`);
+// });
+
+exports.mindMAPE = onRequest(app);
+
+// module.exports = app;

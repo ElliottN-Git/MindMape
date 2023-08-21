@@ -15,9 +15,6 @@
     "sqlite": "^5.0.1",
     "sqlite3": "^5.1.6",
     "tedious": "^16.4.0"
-  },
-  "scripts": {
-    "start": "node app.js"
   }
 
 }
