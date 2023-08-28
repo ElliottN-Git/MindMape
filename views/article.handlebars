@@ -10,7 +10,7 @@
             <div class="card-body mt-4">
                 <h1 class="card-title">Article Title: {{this.title}}</h1>
                 <p><em>by {{this.username}}</em></p>
-                <p class="card-text">{{#summary this.content}}{{/summary}}</p>
+                <p class="card-text">{{this.content}}</p>
             </div>
             <div>
                 <button type="submit" class="card-link btn btn-primary" name="articleid" value="{{this.articleid}}" formaction="./article">Read Full Article!</button>
