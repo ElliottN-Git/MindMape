@@ -3,95 +3,105 @@
 
 <head>
     <!-- JQuery -->
-    <script src="https://code.jquery.com/jquery-3.2.0.js" integrity="sha256-wPFJNIFlVY49B+CuAIrDr932XSb6Jk3J1M22M3E2ylQ=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.2.0.js"
+        integrity="sha256-wPFJNIFlVY49B+CuAIrDr932XSb6Jk3J1M22M3E2ylQ=" crossorigin="anonymous"></script>
 
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
-        crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+        integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 
 
     <link rel="stylesheet" href="./css/signup.css">
 
     <!-- Bootstrap Theme CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp"
-        crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
+        integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
 
     <!-- Add icon library -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-   
+
     <!-- Bootstrap JavaScript -->
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+        integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
         crossorigin="anonymous"></script>
 
-    <!-- Site.css --> 
-    <link rel="stylesheet" href="/site.css">
-    
-    <!-- TinyMCE setup -->
-    <script src="https://cdn.tiny.cloud/1/jsn42zk82irmb553ip6f15r5onj7dfusebzu9fqtyw4p8cbk/tinymce/5/tinymce.min.js"></script>
-    <script src="/js/tinyMCE.js" type="text/javascript"></script>
+    <!-- Site.css -->
+    {{!-- <link rel="stylesheet" href="/site.css"> --}}
 
-    
-    
+    <!-- TinyMCE setup -->
+    <script
+        src="https://cdn.tiny.cloud/1/jsn42zk82irmb553ip6f15r5onj7dfusebzu9fqtyw4p8cbk/tinymce/5/tinymce.min.js"></script>
+    <script src="../../js/tinyMCE.js" type="application/javascript" crossorigin="use-credentials"></script>
+
+    <!-- Icons -->
+    <link rel="apple-touch-icon" sizes="180x180" href="../../public/images/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../../public/images/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../../public/images/favicon-16x16.png">
+    <link rel="manifest" href="../../site.webmanifest">
+
     <title>mindMAPE</title>
-    
+
 </head>
 
 <body>
 
-     <section id="cover">
-      <div id="cover-caption">
-        <div class="container">
-          <div class="col-sm-10 col-sm-offset-1">
-            <h1 class="display-3">Welcome To mindMAPE</h1>
-          </div>
-        </div>
-      </div>
-     </section>
-
-        <nav id="navbar" class="navbar navbar-default">
-            <div class="container-fluid">
-                <div class="navbar-header">
-                    <a class="navbar-brand" href="./">mindMAPE</a>
-                </div>
-                <div class="navbar-collapse collapse">
-                    <ul class="nav navbar-nav">
-                        <li class="nav-item{{#if homePage}} active{{/if}}"><a href="./">Home</a></li>
-                        <li class="nav-item{{#if articlePage}} active{{/if}}"><a href="./article">Articles</a></li>
-                        {{!-- <li class="nav-item dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Topics<span class="caret"></span></a>
-                            <ul class="dropdown-menu">
-                                <li class="{{#if musicPage}} active{{/if}}"><a href="./">Music</a></li>
-                                <li class="{{#if moviesPage}} active{{/if}}"><a href="./">Movies</a></li>
-                            </ul>
-                        </li> --}}
-                        
-                    </ul>
-                    {{#if user}}
-                    <ul class="nav navbar-nav navbar-right">
-                        <li class="nav-item{{#if writePage}} active{{/if}}"><a href="./writeArticle">Write Article</a></li>
-                        <li class="nav-item{{#if historyPage}} active{{/if}}"><a href="./userArticleHistory">My Article History</a></li>
-                        <li class="nav-item{{#if profilePage}} active{{/if}}"><a href="./userProfile">My Profile</a></li>
-                        <li class="nav-item"><a href="./logout">Logout</a></li>
-                    </ul>
-                    {{else}}
-                    <ul class="nav navbar-nav navbar-right">
-                        <li class="{{#if loginPage}} active{{/if}}"><a href="./login">Login!</a></li>
-                        <li class="{{#if signUpPage}} active{{/if}}"><a href="./signup">Create account</a></li>
-                    {{/if}}
-                    </ul>
+    <section id="cover">
+        <div id="cover-caption">
+            <div class="container">
+                <div class="col-sm-10 col-sm-offset-1">
+                    <h1 class="display-3">Welcome To mindMAPE</h1>
                 </div>
             </div>
-        </nav>
-        
+        </div>
+    </section>
+
+    <nav id="navbar" class="navbar navbar-default">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="./">mindMAPE</a>
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li class="nav-item{{#if homePage}} active{{/if}}"><a href="./">Home</a></li>
+                    <li class="nav-item{{#if articlePage}} active{{/if}}"><a href="/article">Articles</a></li>
+                    {{!-- <li class="nav-item dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                            aria-expanded="false">Topics<span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li class="{{#if musicPage}} active{{/if}}"><a href="./">Music</a></li>
+                            <li class="{{#if moviesPage}} active{{/if}}"><a href="./">Movies</a></li>
+                        </ul>
+                    </li> --}}
+
+                </ul>
+                {{#if user}}
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="nav-item{{#if writePage}} active{{/if}}"><a href="./writeArticle">Write Article</a></li>
+                    <li class="nav-item{{#if historyPage}} active{{/if}}"><a href="./userArticleHistory">My Article
+                            History</a></li>
+                    <li class="nav-item{{#if profilePage}} active{{/if}}"><a href="./userProfile">My Profile</a></li>
+                    <li class="nav-item"><a href="./logout">Logout</a></li>
+                </ul>
+                {{else}}
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="{{#if loginPage}} active{{/if}}"><a href="./login">Login!</a></li>
+                    <li class="{{#if signUpPage}} active{{/if}}"><a href="./signup">Create account</a></li>
+                    {{/if}}
+                </ul>
+            </div>
+        </div>
+    </nav>
+
     <div class="container">
         {{{body}}}
     </div>
-    <!-- Load client.js -->
-    <script type="application/javascript" src="/js/client.js"></script>
-    <script type="application/javascript" src="/js/profanity-filter.js"></script>
-    <script type="application/javascript" src="/js/banned-words-regex.js"></script>
-    <script type="application/javascript" src="/js/editProfile.js"></script>
-    <script type="application/javascript" src="/js/sticky-navbar.js"></script>
+    
+    <!-- Load js -->
+    <script src="../../js/client.js" type="application/javascript"></script>
+    <script src="../../js/profanity-filter.js" type="application/javascript"></script>
+    <script src="../../js/banned-words-regex.js" type="application/javascript"></script>
+    <script src="../../js/editProfile.js" type="application/javascript"></script>
+    <script src="../../js/sticky-navbar.js" type="application/javascript"></script>
 
 </body>
 

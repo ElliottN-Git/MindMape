@@ -4,29 +4,26 @@
     "ignore": [
       "firebase.json",
       "**/.*",
-      "**/node_modules/**"
+      "**/node_modules/**",
+      "/js"
     ],
     "rewrites": [
       {
-        "source": "/**",
-        "function": "",
-        "region": "us-central1",
-        "pinTag": true  
+        "source": "**",
+        "function": "mindMAPE"
       }
     ]
   },
   "functions": [
     {
-      "source": "functions",
+      "source": "./",
       "codebase": "default",
       "ignore": [
         "node_modules",
         ".git",
         "firebase-debug.log",
-        "firebase-debug.*.log"
-      ],
-      "predeploy": [
-        "npm --prefix \"$RESOURCE_DIR\" run lint"
+        "firebase-debug.*.log",
+        "views"
       ],
       "runtime": "nodejs18"
     }

@@ -1,6 +1,6 @@
 //Javascript for wysiwyg
 // TinyMCE setup
-{/* <script src="https://cdn.tiny.cloud/1/umrjb6tehn7nr8wpbiq1iozdfexn7c6sk2iieja5gprrz8p8/tinymce/5/tinymce.min.js"></script> */}
+{/* <script src="https://cdn.tiny.cloud/1/umrjb6tehn7nr8wpbiq1iozdfexn7c6sk2iieja5gprrz8p8/tinymce/5/tinymce.min.js" type="application/javascript"></script> */}
 
 tinymce.init({
     selector: 'textarea#full-featured-non-premium',

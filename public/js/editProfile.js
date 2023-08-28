@@ -16,21 +16,23 @@ const phonetd = document.querySelector("#phonetd");
 const dobtd = document.querySelector("#dob");
 const personalDesctd = document.querySelector("#personal");
 
-editbtn.addEventListener("click", function() {
-    tdToTextInput(unametd, "username");
-    tdToTextInput(fnametd, "fname");
-    tdToTextInput(lnametd, "lname");
-    tdToTextInput(emailtd, "email");
-    tdToDateInput(dobtd);
-    tdToGenderInput(gendertd);
-    tdToCountryInput(countrytd);
-    tdToTextInput(phonetd, "phonenum");
-    tdToTextBoxInput(personalDesctd);
-    editbtn.disabled = true;
-});
+if (editbtn) {
+    editbtn.addEventListener("click", function () {
+        tdToTextInput(unametd, "username");
+        tdToTextInput(fnametd, "fname");
+        tdToTextInput(lnametd, "lname");
+        tdToTextInput(emailtd, "email");
+        tdToDateInput(dobtd);
+        tdToGenderInput(gendertd);
+        tdToCountryInput(countrytd);
+        tdToTextInput(phonetd, "phonenum");
+        tdToTextBoxInput(personalDesctd);
+        editbtn.disabled = true;
+    });
+};
 
-changeAvatarBtn.addEventListener("click", function() {
-    if(fileUploadDiv.style.display === "none") {
+changeAvatarBtn.addEventListener("click", function () {
+    if (fileUploadDiv.style.display === "none") {
         fileUploadDiv.style.display = "block";
     }
     changeAvatarBtn.style.display = "none";
@@ -38,13 +40,13 @@ changeAvatarBtn.addEventListener("click", function() {
     cancelChangeBtn.style.display = "block";
 });
 
-cancelChangeBtn.addEventListener("click", function() {
+cancelChangeBtn.addEventListener("click", function () {
     saveAvatarBtn.style.display = "none";
     fileUploadDiv.style.display = "none";
     cancelChangeBtn.style.display = "none";
     changeAvatarBtn.style.display = "block";
 });
-    
+
 function tdToTextInput(tdElement, inputName) {
     tdElement.innerHTML = `<input type="text" id="${tdElement.id}Input" name="${inputName}" value="${tdElement.innerHTML}" class="form-control">`;
 };

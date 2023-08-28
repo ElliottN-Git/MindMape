@@ -5,20 +5,21 @@
 // Setup Express
 const express = require("express");
 const app = express();
-const port = 8080; //8080; //1433; //3000;
+// const port = process.env.PORT || 8080; //1433; //3000;
+// console.log(process.env.PORT);
 // const host = '34.89.61.55'; can be passed to app.listen as 2nd param
 //const host = process.env.INSTANCE_HOST; //'34.89.61.55',
-
-const {onRequest} = require("firebase-functions/v2/https");
+const serveStatic = require('serve-static');
+const { onRequest } = require("firebase-functions/v2/https");
 
 // Setup Handlebars
 const handlebars = require("express-handlebars");
 app.engine("handlebars", handlebars({
     helpers: {
         summary: function (str) {
-            const htmlString= str;
-            const stripedHtml = htmlString.replace(/<img[^>]*>/g,"");
-            const subString = stripedHtml.substring(0,500);
+            const htmlString = str;
+            const stripedHtml = htmlString.replace(/<img[^>]*>/g, "");
+            const subString = stripedHtml.substring(0, 500);
             return subString;
         },
         equal: function (v1, v2) {
@@ -30,10 +31,10 @@ app.engine("handlebars", handlebars({
         or: function () {
             return Array.prototype.slice.call(arguments, 0, -1).some(Boolean);
         },
-        toJSON: function(object) {
+        toJSON: function (object) {
             return JSON.stringify(object);
         },
-        getImage: function(str) {
+        getImage: function (str) {
             const imgTags = str.match(/<img [^>]*src="[^"]*"[^>]*>/gm);
             return imgTags;
 
@@ -46,7 +47,7 @@ app.set("view engine", "handlebars");
 
 // Setup body-parser
 const bodyParser = require("body-parser");
-app.use(bodyParser.urlencoded({extended: false}));
+app.use(bodyParser.urlencoded({ extended: false }));
 
 // Setup cookie-parser
 const cookieParser = require("cookie-parser");
@@ -55,42 +56,46 @@ app.use(cookieParser());
 // Setup express-session
 const session = require("express-session");
 app.use(session({
-   resave: false,
-   saveUninitialized: false,
-   secret: "CS719"
+    resave: false,
+    saveUninitialized: false,
+    secret: "CS719"
 }));
 
 
 // Make the "public" folder available statically
 const path = require("path");
-app.use(express.static(path.join(__dirname, '..', "/public")));
+app.use(serveStatic(path.join(__dirname, "/public")));
 
-app.set('views', path.join(__dirname, '..', "views"));
+app.set('views', path.join(__dirname, "views"));
 
 // Setup routes
-const appRouter = require("../routes/application-routes.js");
+const appRouter = require("./routes/application-routes.js");
 app.use(appRouter);
 
-const loginRouter = require("../routes/login-routes.js");
+const loginRouter = require("./routes/login-routes.js");
 app.use(loginRouter);
 
-const signUpRouter = require("../routes/sign-up.js");
+const signUpRouter = require("./routes/sign-up.js");
 app.use(signUpRouter);
 
-const userProfileRouter = require("../routes/user-profile-page");
+const userProfileRouter = require("./routes/user-profile-page.js");
 app.use(userProfileRouter);
 
-const writeArticle = require("../routes/write-article-routes")
+const writeArticle = require("./routes/write-article-routes.js")
 app.use(writeArticle);
 
-const fullArticle = require("../routes/fullArticleView")
+const fullArticle = require("./routes/fullArticleView.js")
 app.use(fullArticle);
 
 // Start the server running.
-// app.listen(port, function () { //host can be passed in as 2nd param
-//     console.log(`App listening on port ${port}!`);
+// let server = app.listen(8080, function () { //host can be passed in as 2nd param
+//     console.log(`App listening on port ${server.address().port}`); //${port}!`);
 // });
 
-exports.mindMAPE = onRequest(app);
+// console.log(server);
 
-// module.exports = app;
+// app.get('/hello', (req, res) => {
+//     res.send('Hello, Firebase Express!');
+//   });
+
+exports.mindMAPE = onRequest(app);

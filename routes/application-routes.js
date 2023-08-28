@@ -34,7 +34,6 @@ router.get("/", async function(req, res) {
             message: "Please log in"
         }
     }
-    
     res.render("home", context);
 });
 
