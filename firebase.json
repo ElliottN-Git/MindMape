@@ -22,8 +22,7 @@
         "node_modules",
         ".git",
         "firebase-debug.log",
-        "firebase-debug.*.log",
-        "views"
+        "firebase-debug.*.log"
       ],
       "runtime": "nodejs18"
     }

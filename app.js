@@ -64,9 +64,9 @@ app.use(session({
 
 // Make the "public" folder available statically
 const path = require("path");
-app.use(serveStatic(path.join(__dirname, "/public/")));
+app.use(serveStatic(path.join(__dirname, "public")));
 
-app.set('views', path.join(__dirname, "/views/"));
+app.set('views', path.join(__dirname, 'views'));
 
 // Setup routes
 const appRouter = require("./routes/application-routes.js");
